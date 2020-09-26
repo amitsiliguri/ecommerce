@@ -7,15 +7,20 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="flex-shrink-0 flex items-center">
-                            <a href="/dashboard">
+                            <a href="/admin/dashboard">
                                 <jet-application-mark class="block h-9 w-auto" />
                             </a>
                         </div>
 
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <jet-nav-link href="/dashboard" :active="$page.currentRouteName == 'dashboard'">
+                            <jet-nav-link href="/admin/dashboard" :active="$page.currentRouteName == 'dashboard'">
                                 Dashboard
+                            </jet-nav-link>
+                        </div>
+												<div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <jet-nav-link href="/admin/catalog/category" :active="$page.currentRouteName == 'catalog.category'">
+                                Catalog Category
                             </jet-nav-link>
                         </div>
                     </div>
@@ -36,7 +41,7 @@
                                         Manage Account
                                     </div>
 
-                                    <jet-dropdown-link href="/user/profile">
+                                    <jet-dropdown-link href="/admin/user/profile">
                                         Profile
                                     </jet-dropdown-link>
 
