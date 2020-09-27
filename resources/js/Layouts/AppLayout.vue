@@ -1,18 +1,12 @@
 <template>
   <div class="flex">
-		<div class="flex-initial h-screen text-gray-100 bg-gray-900 w-20 text-center">
-			<span class="mdi mdi-view-dashboard text-3xl"></span>
-			<p class="text-xs">Dashboard</p>
-
-	  </div>
-	  <div class="flex-initial h-screen overflow-y-scroll flex-grow">
+		<DashboardMenu/>
+	  <div class="h-screen overflow-y-scroll flex-grow">
 			<!-- Page Heading -->
 			<header class="bg-white w-full p-4 shadow">
 					<slot name="header"></slot>
 					<form @submit.prevent="logout">
-							<jet-dropdown-link as="button">
-									Logout
-							</jet-dropdown-link>
+							<button type="submit" name="button">Logout</button>
 					</form>
 			</header>
 
@@ -29,21 +23,16 @@
 </template>
 
 <script>
-    import JetApplicationLogo from './../Jetstream/ApplicationLogo'
-    import JetApplicationMark from './../Jetstream/ApplicationMark'
-    import JetDropdown from './../Jetstream/Dropdown'
-    import JetDropdownLink from './../Jetstream/DropdownLink'
-    import JetNavLink from './../Jetstream/NavLink'
-    import JetResponsiveNavLink from './../Jetstream/ResponsiveNavLink'
-
+    import DashboardMenu from './Component/Menu'
+		import JetButton from './Component/Menu'
     export default {
         components: {
-            JetApplicationLogo,
-            JetApplicationMark,
-            JetDropdown,
-            JetDropdownLink,
-            JetNavLink,
-            JetResponsiveNavLink,
+            DashboardMenu,
+            JetButton
+            // JetDropdown,
+            // JetDropdownLink,
+            // JetNavLink,
+            // JetResponsiveNavLink,
         },
 
         data() {

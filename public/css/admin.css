@@ -22880,3 +22880,15 @@
   }
 }
 
+.customflex {
+  display: flex;
+}
+
+.customflex .dashboardmenu {
+  width: 70px;
+}
+
+.customflex .maincontent {
+  flex-grow: 1;
+}
+

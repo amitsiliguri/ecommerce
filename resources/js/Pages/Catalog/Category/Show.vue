@@ -6,9 +6,10 @@
             </h2>
         </template>
         <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-								hello
-            </div>
+					<div class="grid grid-cols-3 gap-4">
+						<div class="col-span-1 p-3">1</div>
+						<div class="col-span-2 p-3">2</div>
+					</div>
         </div>
     </app-layout>
 </template>
