@@ -6,13 +6,13 @@ import { InertiaApp } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
 import PortalVue from 'portal-vue';
 
-import Draggable from 'vuedraggable';
+// import Draggable from 'vuedraggable';
 
 Vue.use(InertiaApp);
 Vue.use(InertiaForm);
 Vue.use(PortalVue);
 
-Vue.use(Draggable);
+// Vue.use(Draggable);
 
 const app = document.getElementById('app');
 

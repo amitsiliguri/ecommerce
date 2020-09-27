@@ -39,13 +39,13 @@
 										icon : 'mdi-application-settings',
 										children : [
 											{
-												name : 'Categories',
+												name : 'Category',
 												type : 'link',
-												link : '/admin/catalog/categories',
-												routename : 'catalog.categories'
+												link : '/admin/catalog/category',
+												routename : 'catalog.category'
 											},
 											{
-												name : 'Products',
+												name : 'Product',
 												type : 'link',
 												link : '/admin/catalog/products',
 												routename : 'catalog.products'

@@ -6,31 +6,17 @@
             </h2>
         </template>
 
-        <div>
-          
-                <update-profile-information-form
-                            :name="$page.user.name"
-                            :email="$page.user.email" />
+				<update-profile-information-form :name="$page.user.name" :email="$page.user.email" />
+				<jet-section-border />
+				<update-password-form />
+				<jet-section-border/>
+				<template v-if="$page.jetstream.canManageTwoFactorAuthentication">
+						 <two-factor-authentication-form/>
+				</template>
+				<jet-section-border/>
+				<logout-other-browser-sessions-form :sessions="sessions"/>
+				<jet-section-border/>
 
-                <jet-section-border />
-
-                <update-password-form class="mt-10 sm:mt-0" />
-
-                <div v-if="$page.jetstream.canManageTwoFactorAuthentication">
-                    <jet-section-border />
-
-                    <two-factor-authentication-form class="mt-10 sm:mt-0" />
-                </div>
-
-                <jet-section-border />
-
-                <logout-other-browser-sessions-form :sessions="sessions" class="mt-10 sm:mt-0" />
-
-                <jet-section-border />
-
-                <delete-user-form class="mt-10 sm:mt-0" />
-
-        </div>
     </app-layout>
 </template>
 

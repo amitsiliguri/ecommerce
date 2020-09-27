@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
 		<DashboardMenu/>
-	  <div class="h-screen overflow-y-scroll flex-grow">
+	  <div class="h-screen overflow-y-scroll main-content">
 			<!-- Page Heading -->
 			<header class="bg-white w-full p-4 shadow">
 					<slot name="header"></slot>
@@ -11,7 +11,7 @@
 			</header>
 
 			<!-- Page Content -->
-			<main>
+			<main class="p-4">
 					<slot></slot>
 			</main>
 
@@ -64,3 +64,10 @@
         }
     }
 </script>
+
+
+<style media="screen" scoped>
+	.main-content{
+		width: 100%;
+	}
+</style>
