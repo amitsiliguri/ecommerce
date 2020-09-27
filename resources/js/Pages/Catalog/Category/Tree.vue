@@ -1,7 +1,9 @@
 <template>
   <draggable class="dragArea" tag="ul" :list="tasks" :group="{ name: 'g1' }">
     <li v-for="el in tasks" :key="el.name">
-      <p>{{ el.name }}</p>
+			<div class="shadow overflow-hidden rounded-md p-4">
+				{{ el.name }}
+			</div>
       <nested-draggable :tasks="el.tasks" />
     </li>
   </draggable>
@@ -21,9 +23,14 @@ export default {
   name: "nested-draggable"
 };
 </script>
-<style scoped>
+
+
+<style scoped lang="scss">
 .dragArea {
-  min-height: 50px;
-  outline: 1px dashed;
+	li{
+		ul{
+			margin-left: 25px
+		}
+	}
 }
 </style>

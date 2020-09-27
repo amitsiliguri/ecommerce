@@ -7,9 +7,6 @@
         </template>
         <div>
 					<div class="grid grid-cols-3 gap-4">
-						<div class="md:col-span-2 col-span-3 p-3">
-							<NestedDraggable :tasks="list"/>
-						</div>
 						<div class="md:col-span-1 col-span-3 p-3">
 							<Form>
 								<template #form>
@@ -35,6 +32,9 @@
 			            </jet-button>
 								</template>
 							</Form>
+						</div>
+						<div class="md:col-span-2 col-span-3 p-3">
+							<NestedDraggable :tasks="list"/>
 						</div>
 					</div>
         </div>
