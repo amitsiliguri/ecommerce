@@ -26,12 +26,16 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
+        'status',
         'title',
+        'slug',
         'description',
         'banner',
         'meta_title',
         'meta_description',
-        'meta_image'
+        'meta_image',
+        'parent_id',
+        'sort_order'
     ];
 
 }

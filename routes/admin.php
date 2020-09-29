@@ -3,7 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\DashboardController;
+// catalog
+
+// category
 use App\Http\Controllers\Admin\Catalog\Category\ShowController as CatalogCategoryShow;
+use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
+use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
+
 
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -104,10 +110,13 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
     // User & Profile...
-    Route::get('/user/profile', [UserProfileController::class, 'show'])->name('profile.show');
-    Route::delete('/user/other-browser-sessions', [OtherBrowserSessionsController::class, 'destroy'])->name('other-browser-sessions.destroy');
-    Route::delete('/user', [CurrentUserController::class, 'destroy'])->name('current-user.destroy');
-    Route::delete('/user/profile-photo', [ProfilePhotoController::class, 'destroy'])->name('current-user-photo.destroy');
+    Route::prefix('user')->group(function () {
+      Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
+      Route::delete('/other-browser-sessions', [OtherBrowserSessionsController::class, 'destroy'])->name('other-browser-sessions.destroy');
+      Route::delete('/', [CurrentUserController::class, 'destroy'])->name('current-user.destroy');
+      Route::delete('/profile-photo', [ProfilePhotoController::class, 'destroy'])->name('current-user-photo.destroy');
+    });
+
     // API...
     if (Jetstream::hasApiFeatures()) {
         Route::get('/user/api-tokens', [ApiTokenController::class, 'index'])->name('api-tokens.index');
@@ -131,8 +140,11 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
     //Catalog
     Route::prefix('catalog')->name('catalog.')->group(function () {
       //Category
-      Route::get('/category', [CatalogCategoryShow::class, 'show'])->name('category');
+      Route::prefix('category')->name('category.')->group(function () {
+        Route::get('/', [CatalogCategoryShow::class, 'show'])->name('index');
+        Route::post('/store', [CatalogCategoryCreate::class, 'store'])->name('store');
+        Route::get('/tree', [CatalogCategoryTree::class, 'tree'])->name('tree');
+      });
     });
-
 
 });

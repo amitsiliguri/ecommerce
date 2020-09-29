@@ -3091,7 +3091,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_Input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../../Jetstream/Input */ "./resources/js/Jetstream/Input.vue");
 /* harmony import */ var _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../../Jetstream/InputError */ "./resources/js/Jetstream/InputError.vue");
 /* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../../Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
-/* harmony import */ var _Tree__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Tree */ "./resources/js/Pages/Catalog/Category/Tree.vue");
+/* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../../../Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
+/* harmony import */ var _Tree__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Tree */ "./resources/js/Pages/Catalog/Category/Tree.vue");
 //
 //
 //
@@ -3135,6 +3136,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -3154,27 +3210,93 @@ __webpack_require__.r(__webpack_exports__);
     JetInput: _Jetstream_Input__WEBPACK_IMPORTED_MODULE_5__["default"],
     JetInputError: _Jetstream_InputError__WEBPACK_IMPORTED_MODULE_6__["default"],
     JetLabel: _Jetstream_Label__WEBPACK_IMPORTED_MODULE_7__["default"],
-    NestedDraggable: _Tree__WEBPACK_IMPORTED_MODULE_8__["default"]
+    NestedDraggable: _Tree__WEBPACK_IMPORTED_MODULE_9__["default"],
+    JetSecondaryButton: _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
   data: function data() {
     return {
-      list: [{
-        name: "task 1",
-        tasks: [{
-          name: "task 2",
-          tasks: []
-        }]
+      form: this.$inertia.form({
+        id: null,
+        status: true,
+        title: '',
+        slug: '',
+        description: '',
+        banner: null,
+        meta_title: '',
+        meta_description: '',
+        meta_image: null
       }, {
-        name: "task 3",
-        tasks: [{
-          name: "task 4",
-          tasks: []
-        }]
-      }, {
-        name: "task 5",
-        tasks: []
-      }]
+        bag: 'saveCategory',
+        resetOnSuccess: true
+      }),
+      bannerPreview: null,
+      metaImagePreview: null,
+      list: []
     };
+  },
+  mounted: function mounted() {
+    // console.log("hello");
+    this.getTree();
+  },
+  methods: {
+    uploadPhoto: function uploadPhoto(type) {
+      var _this = this;
+
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        if (type == 'banner') {
+          _this.bannerPreview = e.target.result;
+        } else if (type == 'meta_image') {
+          _this.metaImagePreview = e.target.result;
+        }
+      };
+
+      if (type == 'banner') {
+        reader.readAsDataURL(this.$refs.banner.files[0]);
+      } else if (type == 'meta_image') {
+        reader.readAsDataURL(this.$refs.meta_image.files[0]);
+      }
+    },
+    selectNewPhoto: function selectNewPhoto(type) {
+      if (type == 'banner') {
+        this.$refs.banner.click();
+      } else if (type == 'meta_image') {
+        this.$refs.meta_image.click();
+      }
+    },
+    saveCategory: function saveCategory() {
+      var _this2 = this;
+
+      var self = this;
+
+      if (this.$refs.banner) {
+        this.form.banner = this.$refs.banner.files[0];
+      }
+
+      if (this.$refs.meta_image) {
+        this.form.meta_image = this.$refs.meta_image.files[0];
+      }
+
+      this.form.post('/admin/catalog/category/store', {
+        preserveScroll: true
+      }).then(function () {
+        _this2.bannerPreview = null;
+        _this2.metaImagePreview = null;
+        _this2.$refs.banner.files[0] = null;
+        _this2.$refs.meta_image.files[0] = null;
+
+        _this2.getTree();
+      });
+    },
+    getTree: function getTree() {
+      var _this3 = this;
+
+      return axios.get('/admin/catalog/category/tree').then(function (response) {
+        _this3.list = response.data;
+        console.log(_this3.list);
+      });
+    }
   }
 });
 
@@ -3191,6 +3313,11 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3883,8 +4010,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_Label__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../Jetstream/Label */ "./resources/js/Jetstream/Label.vue");
 /* harmony import */ var _Jetstream_ActionMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../Jetstream/ActionMessage */ "./resources/js/Jetstream/ActionMessage.vue");
 /* harmony import */ var _Jetstream_SecondaryButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../Jetstream/SecondaryButton */ "./resources/js/Jetstream/SecondaryButton.vue");
-//
-//
 //
 //
 //
@@ -26704,33 +26829,156 @@ var render = function() {
     [
       _vm._v(" "),
       _c("div", [
-        _c("div", { staticClass: "grid grid-cols-3 gap-4" }, [
+        _c("div", { staticClass: "grid grid-cols-4 gap-4" }, [
           _c(
             "div",
-            { staticClass: "md:col-span-1 col-span-3 p-3" },
+            { staticClass: "md:col-span-2 col-span-4 p-3" },
             [
               _c("Form", {
+                on: { submitted: _vm.saveCategory },
                 scopedSlots: _vm._u([
                   {
                     key: "form",
                     fn: function() {
                       return [
+                        _c("div", { staticClass: "my-2" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.status,
+                                expression: "form.status"
+                              }
+                            ],
+                            attrs: { type: "checkbox", id: "category_status" },
+                            domProps: {
+                              checked: Array.isArray(_vm.form.status)
+                                ? _vm._i(_vm.form.status, null) > -1
+                                : _vm.form.status
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.form.status,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "status",
+                                        $$a.concat([$$v])
+                                      )
+                                  } else {
+                                    $$i > -1 &&
+                                      _vm.$set(
+                                        _vm.form,
+                                        "status",
+                                        $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1))
+                                      )
+                                  }
+                                } else {
+                                  _vm.$set(_vm.form, "status", $$c)
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "text-gray-500",
+                              attrs: { for: "category_status" }
+                            },
+                            [_vm._v(" Status")]
+                          ),
+                          _c("br")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "my-2" },
+                          [
+                            _c("input", {
+                              ref: "banner",
+                              staticClass: "hidden",
+                              attrs: { type: "file" },
+                              on: {
+                                change: function($event) {
+                                  return _vm.uploadPhoto("banner")
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-label", {
+                              attrs: { for: "photo", value: "Banner" }
+                            }),
+                            _vm._v(" "),
+                            _vm.bannerPreview
+                              ? _c("img", {
+                                  staticClass: "block w-full my-2",
+                                  attrs: {
+                                    src: _vm.bannerPreview,
+                                    alt: "Current Profile Photo"
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "jet-secondary-button",
+                              {
+                                staticClass: "block w-full my-2 text-center",
+                                attrs: { type: "button" },
+                                nativeOn: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.selectNewPhoto("banner")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n\t\t\t                    Select A Banner\n\t\t\t                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("jet-input-error", {
+                              staticClass: "mt-2",
+                              attrs: { message: _vm.form.error("banner") }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
                         _c(
                           "div",
                           { staticClass: "my-2" },
                           [
                             _c("jet-label", {
-                              attrs: { for: "category_name", value: "Name" }
+                              attrs: { for: "category_name", value: "Title" }
                             }),
                             _vm._v(" "),
                             _c("jet-input", {
-                              ref: "category_name",
                               staticClass: "mt-1 block w-full",
-                              attrs: {
-                                id: "category_name",
-                                type: "text",
-                                autocomplete: "Name"
+                              attrs: { id: "category_name", type: "text" },
+                              model: {
+                                value: _vm.form.title,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "title", $$v)
+                                },
+                                expression: "form.title"
                               }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-input-error", {
+                              staticClass: "mt-2",
+                              attrs: { message: _vm.form.error("title") }
                             })
                           ],
                           1
@@ -26746,13 +26994,201 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _c("jet-input", {
-                              ref: "category_slug",
                               staticClass: "mt-1 block w-full",
-                              attrs: {
-                                id: "category_slug",
-                                type: "text",
-                                autocomplete: "Slug"
+                              attrs: { id: "category_slug", type: "text" },
+                              model: {
+                                value: _vm.form.slug,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "slug", $$v)
+                                },
+                                expression: "form.slug"
                               }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-input-error", {
+                              staticClass: "mt-2",
+                              attrs: { message: _vm.form.error("slug") }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "my-2" },
+                          [
+                            _c("jet-label", {
+                              staticClass: "mt-3",
+                              attrs: {
+                                for: "category_description",
+                                value: "Description"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("textarea", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.description,
+                                  expression: "form.description"
+                                }
+                              ],
+                              staticClass:
+                                "mt-1 block w-full form-input rounded-md shadow-sm",
+                              attrs: { id: "category_description", rows: "10" },
+                              domProps: { value: _vm.form.description },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "description",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-input-error", {
+                              staticClass: "mt-2",
+                              attrs: { message: _vm.form.error("description") }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "my-2" },
+                          [
+                            _c("jet-label", {
+                              staticClass: "mt-3",
+                              attrs: { for: "meta_title", value: "Meta Title" }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-input", {
+                              staticClass: "mt-1 block w-full",
+                              attrs: { id: "meta_title", type: "text" },
+                              model: {
+                                value: _vm.form.meta_title,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "meta_title", $$v)
+                                },
+                                expression: "form.meta_title"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-input-error", {
+                              staticClass: "mt-2",
+                              attrs: { message: _vm.form.error("meta_title") }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "my-2" },
+                          [
+                            _c("jet-label", {
+                              staticClass: "mt-3",
+                              attrs: {
+                                for: "meta_description",
+                                value: "Meta Title"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("textarea", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.meta_description,
+                                  expression: "form.meta_description"
+                                }
+                              ],
+                              staticClass:
+                                "mt-1 block w-full form-input rounded-md shadow-sm",
+                              attrs: { id: "meta_description", rows: "5" },
+                              domProps: { value: _vm.form.meta_description },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "meta_description",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-input-error", {
+                              staticClass: "mt-2",
+                              attrs: {
+                                message: _vm.form.error("meta_description")
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "my-2" },
+                          [
+                            _c("input", {
+                              ref: "meta_image",
+                              staticClass: "hidden",
+                              attrs: { type: "file" },
+                              on: {
+                                change: function($event) {
+                                  return _vm.uploadPhoto("meta_image")
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("jet-label", {
+                              attrs: { for: "meta_image", value: "Meta Image" }
+                            }),
+                            _vm._v(" "),
+                            _vm.metaImagePreview
+                              ? _c("img", {
+                                  staticClass: "block w-full my-2",
+                                  attrs: {
+                                    src: _vm.metaImagePreview,
+                                    alt: "meta image"
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "jet-secondary-button",
+                              {
+                                staticClass: "block w-full my-2 text-center",
+                                attrs: { type: "button" },
+                                nativeOn: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.selectNewPhoto("meta_image")
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n\t\t\t                    Select A Meta Photo\n\t\t\t                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("jet-input-error", {
+                              staticClass: "mt-2",
+                              attrs: { message: _vm.form.error("meta_image") }
                             })
                           ],
                           1
@@ -26765,31 +27201,63 @@ var render = function() {
                     key: "actions",
                     fn: function() {
                       return [
-                        _c("jet-action-message", { staticClass: "mr-3" }, [
-                          _vm._v(
-                            "\n\t\t\t                Saved.\n\t\t\t            "
-                          )
-                        ]),
+                        _c(
+                          "jet-action-message",
+                          {
+                            staticClass: "mr-3",
+                            attrs: { on: _vm.form.recentlySuccessful }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t                Category Saved.\n\t\t\t            "
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
-                        _c("jet-button", [
-                          _vm._v(
-                            "\n\t\t\t                Save\n\t\t\t            "
-                          )
-                        ])
+                        _c(
+                          "jet-button",
+                          {
+                            class: { "opacity-25": _vm.form.processing },
+                            attrs: { disabled: _vm.form.processing }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t                Save\n\t\t\t            "
+                            )
+                          ]
+                        )
                       ]
                     },
                     proxy: true
                   }
                 ])
-              })
+              }),
+              _vm._v(" "),
+              _c(
+                "ul",
+                _vm._l(_vm.form.errors(), function(error) {
+                  return _c("li", [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t\t\t    " +
+                        _vm._s(error) +
+                        "\n\t\t\t\t\t\t\t\t"
+                    )
+                  ])
+                }),
+                0
+              )
             ],
             1
           ),
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "md:col-span-2 col-span-3 p-3" },
-            [_c("NestedDraggable", { attrs: { tasks: _vm.list } })],
+            { staticClass: "md:col-span-2 col-span-4 p-3" },
+            [
+              _vm.list.length > 0
+                ? _c("NestedDraggable", { attrs: { tasks: _vm.list } })
+                : _vm._e()
+            ],
             1
           )
         ])
@@ -26828,13 +27296,25 @@ var render = function() {
     _vm._l(_vm.tasks, function(el) {
       return _c(
         "li",
-        { key: el.name },
+        { key: el.id },
         [
-          _c("div", { staticClass: "shadow overflow-hidden rounded-md p-4" }, [
-            _vm._v("\n\t\t\t\t" + _vm._s(el.name) + "\n\t\t\t")
-          ]),
+          _c(
+            "div",
+            { staticClass: "shadow overflow-hidden rounded-md p-4 flex" },
+            [
+              _c("span", { staticClass: "mdi mdi-menu mr-4" }),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(el.title))]),
+              _vm._v(" "),
+              _c("span", { staticClass: "flex-grow" }),
+              _vm._v(" "),
+              _c("span", { staticClass: "mdi mdi-pencil" }),
+              _vm._v(" "),
+              _c("span", { staticClass: "mdi mdi-delete ml-4" })
+            ]
+          ),
           _vm._v(" "),
-          _c("nested-draggable", { attrs: { tasks: el.tasks } })
+          _c("nested-draggable", { attrs: { tasks: el.children } })
         ],
         1
       )
