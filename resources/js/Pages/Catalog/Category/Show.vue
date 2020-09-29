@@ -6,9 +6,14 @@
             </h2>
         </template>
         <div>
-					<div class="grid grid-cols-4 gap-4">
-						<div class="md:col-span-2 col-span-4 p-3">
-							<Form @submitted="saveCategory">
+					<div class="grid grid-cols-3 gap-4">
+						<div class="md:col-span-1 col-span-3 p-3">
+							<jet-secondary-button class="mb-3" type="button" @click.native="updateTreeOrder()" :disabled="disabled" :class="{ 'opacity-25': disabled }">	Update Tree	</jet-secondary-button>
+							<span>{{listUpdatedMsg}}</span>
+							<NestedDraggable v-if="list.length > 0" :tasks="list"/>
+						</div>
+						<div class="md:col-span-2 col-span-3 p-3">
+							<Form @submitted="saveCategory" ref="categoryForm">
 								<template #form>
 
 									<div class="my-2">
@@ -71,13 +76,8 @@
 			            </div>
 								</template>
 								<template #actions>
-									<jet-action-message :on="form.recentlySuccessful" class="mr-3">
-			                Category Saved.
-			            </jet-action-message>
-
-			            <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-			                Save
-			            </jet-button>
+									<jet-action-message :on="form.recentlySuccessful" class="mr-3"> Category Saved. </jet-action-message>
+			            <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing"> Save </jet-button>
 								</template>
 							</Form>
 							<ul>
@@ -87,9 +87,7 @@
 							</ul>
 
 						</div>
-						<div class="md:col-span-2 col-span-4 p-3">
-							<NestedDraggable v-if="list.length > 0" :tasks="list"/>
-						</div>
+
 					</div>
         </div>
     </app-layout>
@@ -137,7 +135,9 @@
 						}),
 						bannerPreview: null,
 						metaImagePreview: null,
-			      list: []
+			      list: [],
+						disabled : false,
+						listUpdatedMsg : ''
 			    };
   			},
 				mounted () {
@@ -180,18 +180,28 @@
 						}).then(() => {
 								this.bannerPreview = null
 								this.metaImagePreview = null
-								this.$refs.banner.files[0] = null
-								this.$refs.meta_image.files[0] = null
 								this.getTree()
 						});
 					},
-					getTree() {
-						return axios.get('/admin/catalog/category/tree')
+					async getTree() {
+						return await axios.get('/admin/catalog/category/tree')
 							.then(response => {
 									this.list = response.data
-									console.log(this.list);
 							})
 					},
+					updateTreeOrder() {
+						this.disabled = true
+						axios.post('/admin/catalog/category/tree/reorder', this.list )
+						.then((response) => {
+							if (response.data.success) {
+								this.listUpdatedMsg = "Categories Reorderd."
+							}
+						}).catch((error) => {
+							this.listUpdatedMsg = "Unable to Reorder Categories."
+						}).finally(() => {
+							this.disabled = false
+						})
+					}
 				}
     }
 </script>

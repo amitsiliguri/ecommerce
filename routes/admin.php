@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Catalog\Category\ShowController as CatalogCategoryShow;
 use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
 use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
+use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
+
 
 
 use Laravel\Fortify\Features;
@@ -136,7 +138,6 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
         Route::put('/teams/{team}/members/{user}', [TeamMemberController::class, 'update'])->name('team-members.update');
         Route::delete('/teams/{team}/members/{user}', [TeamMemberController::class, 'destroy'])->name('team-members.destroy');
     }
-
     //Catalog
     Route::prefix('catalog')->name('catalog.')->group(function () {
       //Category
@@ -144,7 +145,7 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
         Route::get('/', [CatalogCategoryShow::class, 'show'])->name('index');
         Route::post('/store', [CatalogCategoryCreate::class, 'store'])->name('store');
         Route::get('/tree', [CatalogCategoryTree::class, 'tree'])->name('tree');
+        Route::post('/tree/reorder', [CatalogCategoryTreeReorder::class, 'reorder'])->name('tree.reorder');
       });
     });
-
 });
