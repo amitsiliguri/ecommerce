@@ -1,51 +1,61 @@
 <template>
-  <draggable class="dragArea" tag="ul" :list="tasks" :group="{ name: 'g1' }">
-    <li v-for="el in tasks" :key="el.id">
-			<div class="shadow overflow-hidden rounded-md p-4 flex">
-				<span class="mdi mdi-menu mr-4"></span>
-				<span>{{ el.title }}</span>
-				<span class="flex-grow"></span>
-				<inertia-link :href="setEditUrl(el.id)">
-          <span class="mdi mdi-pencil"></span>
-        </inertia-link>
-				<span class="mdi mdi-delete ml-4" @click="deleteItem(el)"></span>
-			</div>
-      <nested-draggable :tasks="el.children"/>
-    </li>
-  </draggable>
+	<div>
+		<jet-secondary-button class="mb-3" type="button" @click.native="updateTreeOrder()" :disabled="disabled" :class="{ 'opacity-25': disabled }">	Update Tree	</jet-secondary-button>
+		<span>{{listUpdatedMsg}}</span>
+		<dragable-tree v-if="list.length > 0" :tasks="list"/>
+	</div>
 </template>
 
-<script>
-	import draggable from 'vuedraggable';
-	export default {
-	  props: {
-	    tasks: {
-	      required: true,
-	      type: Array
-	    }
-	  },
-	  components: {
-	    draggable
-	  },
-	  name: "nested-draggable",
-		methods : {
-			setEditUrl(id){
-				return '/admin/catalog/category/edit/' + id
+<script type="text/javascript">
+	import JetSecondaryButton from './../../../Jetstream/SecondaryButton'
+	import DragableTree from "./../../../Component/Tree"
+	  export default {
+			components: {
+					JetSecondaryButton,
+					DragableTree
 			},
-			deleteItem(item) {
-				console.log("delete event add here");
+			data() {
+				return {
+					list: [],
+					disabled : false,
+					listUpdatedMsg : ''
+				};
+			},
+			watch : {
+				listUpdatedMsg: function (val, oldVal) {
+					if (val != '') {
+						setTimeout(() => {
+							this.clearMessage()
+						}, 3000)
+					}
+				},
+			},
+			mounted () {
+				this.getTree()
+			},
+			methods:{
+				async getTree() {
+					return await axios.get('/admin/catalog/category/tree')
+						.then((response) => {
+								this.list = response.data
+						})
+				},
+				clearMessage(){
+					this.listUpdatedMsg = ''
+				},
+				updateTreeOrder() {
+					this.disabled = true
+					axios.post('/admin/catalog/category/tree/reorder', this.list )
+					.then((response) => {
+						if (response.data.success) {
+							this.listUpdatedMsg = "Categories Reorderd."
+						}
+					}).catch((error) => {
+						this.listUpdatedMsg = "Unable to Reorder Categories."
+					}).finally(() => {
+						this.disabled = false
+					})
+				}
 			}
 		}
-	};
 </script>
-
-
-<style scoped lang="scss">
-	.dragArea {
-		li{
-			ul{
-				margin-left: 25px;
-			}
-		}
-	}
-</style>

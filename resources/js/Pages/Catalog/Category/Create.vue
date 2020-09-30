@@ -8,19 +8,17 @@
         <div>
 					<div class="grid grid-cols-3 gap-4">
 						<div class="md:col-span-1 col-span-3 p-3">
-							<jet-secondary-button class="mb-3" type="button" @click.native="updateTreeOrder()" :disabled="disabled" :class="{ 'opacity-25': disabled }">	Update Tree	</jet-secondary-button>
-							<span>{{listUpdatedMsg}}</span>
-							<NestedDraggable v-if="list.length > 0" :tasks="list"/>
+							<!-- <jet-secondary-button class="mb-3" type="button" @click.native="updateTreeOrder()" :disabled="disabled" :class="{ 'opacity-25': disabled }">	Update Tree	</jet-secondary-button> -->
+							<!-- <span>{{listUpdatedMsg}}</span> -->
+							<category-tree/>
 						</div>
 						<div class="md:col-span-2 col-span-3 p-3">
 							<Form @submitted="saveCategory" ref="categoryForm">
 								<template #form>
-
 									<div class="my-2">
 										<input type="checkbox" id="category_status" v-model="form.status">
 										<label for="category_status" class="text-gray-500"> Status</label><br>
 			            </div>
-
 									<div class="my-2">
 			                <!-- Profile Photo File Input -->
 			                <input type="file" class="hidden" ref="banner" @change="uploadPhoto('banner')">
@@ -77,7 +75,7 @@
 								</template>
 								<template #actions>
 									<jet-action-message :on="form.recentlySuccessful" class="mr-3"> Category Saved. </jet-action-message>
-			            <jet-button @click.native="clearForm()" class="mr-4"> Clear </jet-button>
+			            <jet-secondary-button @click.native="clearForm()" class="mr-4"> Clear </jet-secondary-button>
 									<jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing"> Save </jet-button>
 								</template>
 							</Form>
@@ -104,7 +102,7 @@
     import JetInputError from './../../../Jetstream/InputError'
     import JetLabel from './../../../Jetstream/Label'
 		import JetSecondaryButton from './../../../Jetstream/SecondaryButton'
-		import NestedDraggable from "./Tree";
+		import CategoryTree from "./Tree";
     export default {
         components: {
             AppLayout,
@@ -115,7 +113,7 @@
             JetInput,
             JetInputError,
             JetLabel,
-						NestedDraggable,
+						CategoryTree,
 						JetSecondaryButton,
         },
 				data() {
@@ -135,27 +133,9 @@
 						}),
 						bannerPreview: null,
 						metaImagePreview: null,
-			      list: [],
-						disabled : false,
-						listUpdatedMsg : ''
 			    };
   			},
-				watch : {
-					listUpdatedMsg: function (val, oldVal) {
-			      if (val != '') {
-			      	setTimeout(() => {
-								this.clearMessage()
-							}, 3000)
-			      }
-			    },
-				},
-				mounted () {
-					this.getTree()
-				},
 				methods:{
-					clearMessage(){
-						this.listUpdatedMsg = ''
-					},
 					uploadPhoto(type){
 						const reader = new FileReader();
 						reader.onload = (e) => {
@@ -191,27 +171,7 @@
 						}).then(() => {
 								this.bannerPreview = null
 								this.metaImagePreview = null
-								this.getTree()
 						});
-					},
-					async getTree() {
-						return await axios.get('/admin/catalog/category/tree')
-							.then((response) => {
-									this.list = response.data
-							})
-					},
-					updateTreeOrder() {
-						this.disabled = true
-						axios.post('/admin/catalog/category/tree/reorder', this.list )
-						.then((response) => {
-							if (response.data.success) {
-								this.listUpdatedMsg = "Categories Reorderd."
-							}
-						}).catch((error) => {
-							this.listUpdatedMsg = "Unable to Reorder Categories."
-						}).finally(() => {
-							this.disabled = false
-						})
 					},
 					clearForm() {
 						this.form.id = null
@@ -226,7 +186,6 @@
 						this.bannerPreview = null
 						this.metaImagePreview = null
 					}
-
 				}
     }
 </script>
