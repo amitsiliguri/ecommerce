@@ -77,7 +77,8 @@
 								</template>
 								<template #actions>
 									<jet-action-message :on="form.recentlySuccessful" class="mr-3"> Category Saved. </jet-action-message>
-			            <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing"> Save </jet-button>
+			            <jet-button @click.native="clearForm()" class="mr-4"> Clear </jet-button>
+									<jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing"> Save </jet-button>
 								</template>
 							</Form>
 							<ul>
@@ -120,7 +121,6 @@
 				data() {
     			return {
 						form: this.$inertia.form({
-								id : null,
 								status: true,
 								title: '',
 								slug: '',
@@ -140,11 +140,22 @@
 						listUpdatedMsg : ''
 			    };
   			},
+				watch : {
+					listUpdatedMsg: function (val, oldVal) {
+			      if (val != '') {
+			      	setTimeout(() => {
+								this.clearMessage()
+							}, 3000)
+			      }
+			    },
+				},
 				mounted () {
-					// console.log("hello");
 					this.getTree()
 				},
 				methods:{
+					clearMessage(){
+						this.listUpdatedMsg = ''
+					},
 					uploadPhoto(type){
 						const reader = new FileReader();
 						reader.onload = (e) => {
@@ -176,7 +187,7 @@
 								this.form.meta_image = this.$refs.meta_image.files[0]
 						}
 						this.form.post('/admin/catalog/category/store', {
-								preserveScroll: true
+								preserveScroll: false
 						}).then(() => {
 								this.bannerPreview = null
 								this.metaImagePreview = null
@@ -185,7 +196,7 @@
 					},
 					async getTree() {
 						return await axios.get('/admin/catalog/category/tree')
-							.then(response => {
+							.then((response) => {
 									this.list = response.data
 							})
 					},
@@ -201,7 +212,21 @@
 						}).finally(() => {
 							this.disabled = false
 						})
+					},
+					clearForm() {
+						this.form.id = null
+						this.form.status = true
+						this.form.title = ''
+						this.form.slug = ''
+						this.form.description = ''
+						this.form.meta_title = ''
+						this.form.meta_description = ''
+						this.form.banner = null
+						this.form.meta_image = null
+						this.bannerPreview = null
+						this.metaImagePreview = null
 					}
+
 				}
     }
 </script>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Catalog\Category\ShowController as CatalogCategor
 use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
 use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
 use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
+use App\Http\Controllers\Admin\Catalog\Category\UpdateController as CatalogCategoryUpdate;
 
 
 
@@ -142,10 +143,15 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
     Route::prefix('catalog')->name('catalog.')->group(function () {
       //Category
       Route::prefix('category')->name('category.')->group(function () {
-        Route::get('/', [CatalogCategoryShow::class, 'show'])->name('index');
+        Route::get('/', [CatalogCategoryShow::class, 'create'])->name('index');
+        Route::prefix('tree')->name('tree.')->group(function () {
+          Route::get('/', [CatalogCategoryTree::class, 'tree'])->name('index');
+          Route::post('/reorder', [CatalogCategoryTreeReorder::class, 'reorder'])->name('reorder');
+        });
         Route::post('/store', [CatalogCategoryCreate::class, 'store'])->name('store');
-        Route::get('/tree', [CatalogCategoryTree::class, 'tree'])->name('tree');
-        Route::post('/tree/reorder', [CatalogCategoryTreeReorder::class, 'reorder'])->name('tree.reorder');
+        Route::get('/edit/{id}', [CatalogCategoryShow::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [CatalogCategoryUpdate::class, 'update'])->name('update');
+
       });
     });
 });

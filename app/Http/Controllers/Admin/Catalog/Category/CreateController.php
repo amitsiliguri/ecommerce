@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin\Catalog\Category;
 
 use App\Http\Controllers\Controller;
-// use App\Http\Requests\CatalogCategory;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ImageUploadController;
 use App\Models\Catalog\Category;
-
+use Inertia\Inertia;
 class CreateController extends Controller
 {
   protected $featuredImageStorePath = 'public/catalog/category/featured';
@@ -63,10 +63,7 @@ class CreateController extends Controller
 
     $catalogCategory->save();
 
-    // return redirect()->back();
-    return $request->wantsJson()
-                ? new JsonResponse('', 200)
-                : back()->with('status', 'new-category-created');
+    return redirect()->route('catalog.category.index')->with('status', 'New category created');
   }
 
 

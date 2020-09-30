@@ -5,10 +5,12 @@
 				<span class="mdi mdi-menu mr-4"></span>
 				<span>{{ el.title }}</span>
 				<span class="flex-grow"></span>
-				<span class="mdi mdi-pencil"></span>
-				<span class="mdi mdi-delete ml-4"></span>
+				<inertia-link :href="setEditUrl(el.id)">
+          <span class="mdi mdi-pencil"></span>
+        </inertia-link>
+				<span class="mdi mdi-delete ml-4" @click="deleteItem(el)"></span>
 			</div>
-      <nested-draggable :tasks="el.children" />
+      <nested-draggable :tasks="el.children"/>
     </li>
   </draggable>
 </template>
@@ -25,7 +27,15 @@
 	  components: {
 	    draggable
 	  },
-	  name: "nested-draggable"
+	  name: "nested-draggable",
+		methods : {
+			setEditUrl(id){
+				return '/admin/catalog/category/edit/' + id
+			},
+			deleteItem(item) {
+				console.log("delete event add here");
+			}
+		}
 	};
 </script>
 

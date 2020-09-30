@@ -8,8 +8,13 @@ use Inertia\Inertia;
 
 class ShowController extends Controller
 {
-  public function show()
+  public function create()
   {
-    return Inertia::render('Catalog/Category/Show');
+    return Inertia::render('Catalog/Category/Create');
+  }
+
+  public function edit()
+  {
+    return Inertia::render('Catalog/Category/Update');
   }
 }
