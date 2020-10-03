@@ -22880,15 +22880,11 @@
   }
 }
 
-.customflex {
-  display: flex;
+a {
+  text-decoration: none;
 }
 
-.customflex .dashboardmenu {
-  width: 70px;
-}
-
-.customflex .maincontent {
-  flex-grow: 1;
+#inspire .v-toolbar__title {
+  padding-left: 13px;
 }
 

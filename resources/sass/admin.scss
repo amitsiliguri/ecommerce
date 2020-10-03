@@ -1,11 +1,9 @@
 @import '~@mdi/font/scss/materialdesignicons.scss';
-
-.customflex{
-  display: flex;
-  .dashboardmenu{
-    width: 70px;
-  }
-  .maincontent{
-    flex-grow: 1;
+a {
+  text-decoration: none;
+}
+#inspire {
+  .v-toolbar__title{
+    padding-left: 13px;
   }
 }

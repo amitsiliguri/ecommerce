@@ -7,8 +7,5 @@ use Illuminate\Http\Request;
 
 class DeleteController extends Controller
 {
-  public function destroy($id)
-  {
-      //
-  }
+    //
 }

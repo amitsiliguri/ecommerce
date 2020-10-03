@@ -16,7 +16,7 @@ return [
     */
 
     'stack' => 'inertia',
-
+    
     /*
     |--------------------------------------------------------------------------
     | Features
@@ -30,7 +30,7 @@ return [
 
     'features' => [
         Features::profilePhotos(),
-        // Features::api(),
+        Features::api(),
         // Features::teams(),
     ],
 

@@ -1,81 +1,62 @@
 <template>
-    <jet-form-section @submitted="updatePassword">
-        <template #title>
-            Update Password
-        </template>
-
-        <template #description>
-            Ensure your account is using a long, random password to stay secure.
-        </template>
-
-        <template #form>
-            <div class="col-span-6 sm:col-span-4">
-                <jet-label for="current_password" value="Current Password" />
-                <jet-input id="current_password" type="password" class="mt-1 block w-full" v-model="form.current_password" ref="current_password" autocomplete="current-password" />
-                <jet-input-error :message="form.error('current_password')" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <jet-label for="password" value="New Password" />
-                <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" autocomplete="new-password" />
-                <jet-input-error :message="form.error('password')" class="mt-2" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-4">
-                <jet-label for="password_confirmation" value="Confirm Password" />
-                <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" autocomplete="new-password" />
-                <jet-input-error :message="form.error('password_confirmation')" class="mt-2" />
-            </div>
-        </template>
-
-        <template #actions>
-            <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-                Saved.
-            </jet-action-message>
-
-            <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
-            </jet-button>
-        </template>
-    </jet-form-section>
+	<v-form ref="passwordUpdateForm" v-model="valid" lazy-validation @submit.prevent="updatePassword">
+			<v-card outlined>
+				<v-card-title>
+		      Update Password
+		    </v-card-title>
+				<v-card-subtitle class="pb-0">
+		      Ensure your account is using a long, random password to stay secure.
+		    </v-card-subtitle>
+				<v-card-text class="text--primary">
+					<v-text-field v-model="form.current_password" :rules="currentPasswordrules" :counter="20" :error-messages="form.error('current_password')" label="Current Password" type="password" outlined dense required></v-text-field>
+					<v-text-field v-model="form.password" :counter="20" :rules="newPasswordrules" :error-messages="form.error('password')" label="New Password" type="password" outlined dense required></v-text-field>
+					<v-text-field v-model="form.password_confirmation" :rules="confirmPasswordrules" :counter="20" :error-messages="form.error('password_confirmation')" label="Confirm Password" type="password" outlined dense required></v-text-field>
+		    </v-card-text>
+				<v-card-actions>
+					<v-btn :disabled="!valid || form.processing" color="primary" type="submit">
+						Update {{valid}}
+					</v-btn>
+					<span v-show="form.recentlySuccessful" class="ml-4"> Updated. </span>
+		    </v-card-actions>
+			</v-card>
+	</v-form>
 </template>
 
 <script>
-    import JetActionMessage from './../../Jetstream/ActionMessage'
-    import JetButton from './../../Jetstream/Button'
-    import JetFormSection from './../../Jetstream/FormSection'
-    import JetInput from './../../Jetstream/Input'
-    import JetInputError from './../../Jetstream/InputError'
-    import JetLabel from './../../Jetstream/Label'
-
     export default {
-        components: {
-            JetActionMessage,
-            JetButton,
-            JetFormSection,
-            JetInput,
-            JetInputError,
-            JetLabel,
-        },
-
         data() {
             return {
-                form: this.$inertia.form({
-                    current_password: '',
-                    password: '',
-                    password_confirmation: '',
-                }, {
-                    bag: 'updatePassword',
-                }),
+							valid: true,
+              form: this.$inertia.form({
+                  current_password: '',
+                  password: '',
+                  password_confirmation: '',
+              }, {
+                  bag: 'updatePassword',
+              }),
+							currentPasswordrules: [
+				        value => !!value || 'Required.',
+				        value => (value || '').length <= 20 || 'Max 20 characters',
+								value => (value || '').length >= 8 || 'Min 8 characters',
+				      ],
+							newPasswordrules: [
+				        value => !!value || 'Required.',
+				        value => (value || '').length <= 20 || 'Max 20 characters',
+								value => (value || '').length >= 8 || 'Min 8 characters',
+				      ],
+							confirmPasswordrules: [
+				        value => !!value || 'Required.',
+				        value => (value || '').length <= 20 || 'Max 20 characters',
+								value => (value || '').length >= 8 || 'Min 8 characters',
+				      ],
             }
         },
-
         methods: {
             updatePassword() {
-                this.form.put('/user/password', {
+                this.form.put('/admin/user/password', {
                     preserveScroll: true
                 }).then(() => {
-                    this.$refs.current_password.focus()
+										this.$refs.passwordUpdateForm.resetValidation()
                 })
             },
         },

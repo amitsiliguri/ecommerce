@@ -98,7 +98,7 @@
             },
 
             deleteUser() {
-                this.form.post('/user', {
+                this.form.post('/admin/user', {
                     preserveScroll: true
                 }).then(response => {
                     if (! this.form.hasErrors()) {

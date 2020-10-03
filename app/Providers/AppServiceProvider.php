@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Session;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -13,7 +16,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+      Inertia::share(array_filter([
+          'message' => function () {
+              return [
+                  'success' => Session::get('success'),
+                  'status' => Session::get('status'),
+                  'error' => Session::get('error'),
+              ];
+          },
+      ]));
     }
 
     /**

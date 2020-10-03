@@ -6,11 +6,11 @@ use App\Http\Controllers\Admin\DashboardController;
 // catalog
 
 // category
-use App\Http\Controllers\Admin\Catalog\Category\ShowController as CatalogCategoryShow;
-use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
-use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
-use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
-use App\Http\Controllers\Admin\Catalog\Category\UpdateController as CatalogCategoryUpdate;
+// use App\Http\Controllers\Admin\Catalog\Category\ShowController as CatalogCategoryShow;
+// use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
+// use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
+// use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
+// use App\Http\Controllers\Admin\Catalog\Category\UpdateController as CatalogCategoryUpdate;
 
 
 
@@ -112,46 +112,20 @@ Route::group(['middleware' => config('fortify.middleware', ['guest:web'])], func
 Route::group(['middleware' => ['auth:web', 'verified']], function () {
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
-    // User & Profile...
-    Route::prefix('user')->group(function () {
-      Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
-      Route::delete('/other-browser-sessions', [OtherBrowserSessionsController::class, 'destroy'])->name('other-browser-sessions.destroy');
-      Route::delete('/', [CurrentUserController::class, 'destroy'])->name('current-user.destroy');
-      Route::delete('/profile-photo', [ProfilePhotoController::class, 'destroy'])->name('current-user-photo.destroy');
-    });
 
-    // API...
-    if (Jetstream::hasApiFeatures()) {
-        Route::get('/user/api-tokens', [ApiTokenController::class, 'index'])->name('api-tokens.index');
-        Route::post('/user/api-tokens', [ApiTokenController::class, 'store'])->name('api-tokens.store');
-        Route::put('/user/api-tokens/{token}', [ApiTokenController::class, 'update'])->name('api-tokens.update');
-        Route::delete('/user/api-tokens/{token}', [ApiTokenController::class, 'destroy'])->name('api-tokens.destroy');
-    }
-    // Teams...
-    if (Jetstream::hasTeamFeatures()) {
-        Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
-        Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
-        Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
-        Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
-        Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
-        Route::put('/current-team', [CurrentTeamController::class, 'update'])->name('current-team.update');
-        Route::post('/teams/{team}/members', [TeamMemberController::class, 'store'])->name('team-members.store');
-        Route::put('/teams/{team}/members/{user}', [TeamMemberController::class, 'update'])->name('team-members.update');
-        Route::delete('/teams/{team}/members/{user}', [TeamMemberController::class, 'destroy'])->name('team-members.destroy');
-    }
     //Catalog
-    Route::prefix('catalog')->name('catalog.')->group(function () {
-      //Category
-      Route::prefix('category')->name('category.')->group(function () {
-        Route::get('/', [CatalogCategoryShow::class, 'create'])->name('index');
-        Route::prefix('tree')->name('tree.')->group(function () {
-          Route::get('/', [CatalogCategoryTree::class, 'tree'])->name('index');
-          Route::post('/reorder', [CatalogCategoryTreeReorder::class, 'reorder'])->name('reorder');
-        });
-        Route::post('/store', [CatalogCategoryCreate::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [CatalogCategoryShow::class, 'edit'])->name('edit');
-        Route::put('/update/{id}', [CatalogCategoryUpdate::class, 'update'])->name('update');
-
-      });
-    });
+    // Route::prefix('catalog')->name('catalog.')->group(function () {
+    //   //Category
+    //   Route::prefix('category')->name('category.')->group(function () {
+    //     Route::get('/', [CatalogCategoryShow::class, 'create'])->name('index');
+    //     Route::prefix('tree')->name('tree.')->group(function () {
+    //       Route::get('/', [CatalogCategoryTree::class, 'tree'])->name('index');
+    //       Route::post('/reorder', [CatalogCategoryTreeReorder::class, 'reorder'])->name('reorder');
+    //     });
+    //     Route::post('/store', [CatalogCategoryCreate::class, 'store'])->name('store');
+    //     Route::get('/edit/{id}', [CatalogCategoryShow::class, 'edit'])->name('edit');
+    //     Route::put('/update/{id}', [CatalogCategoryUpdate::class, 'update'])->name('update');
+    //
+    //   });
+    // });
 });
