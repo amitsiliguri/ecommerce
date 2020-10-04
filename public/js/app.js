@@ -26695,7 +26695,7 @@ var render = function() {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "5" } },
+            { attrs: { cols: "12", sm: "4" } },
             [
               _c("categorytree", {
                 ref: "categoryTree",
@@ -26707,7 +26707,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "7" } },
+            { attrs: { cols: "12", sm: "8" } },
             [
               _c(
                 "v-form",
@@ -27018,7 +27018,7 @@ var render = function() {
         [
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "5" } },
+            { attrs: { cols: "12", sm: "4" } },
             [
               _c("categorytree", {
                 ref: "categoryTree",
@@ -27030,7 +27030,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-col",
-            { attrs: { cols: "12", sm: "7" } },
+            { attrs: { cols: "12", sm: "8" } },
             [
               _c(
                 "v-form",
@@ -27349,7 +27349,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.listUpdatedMsg))]),
+      _c("p", [_vm._v(_vm._s(_vm.listUpdatedMsg))]),
       _vm._v(" "),
       _vm.list.length > 0
         ? _c("dragable-tree", { attrs: { tasks: _vm.list } })

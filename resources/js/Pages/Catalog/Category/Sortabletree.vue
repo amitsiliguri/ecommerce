@@ -6,7 +6,7 @@
 		<inertia-link href="/admin/catalog/category/create" v-if="type == 'edit'" class="link-button">
 			Create New
 		</inertia-link>
-		<span>{{listUpdatedMsg}}</span>
+		<p>{{listUpdatedMsg}}</p>
 		<dragable-tree v-if="list.length > 0" :tasks="list"/>
 		<span v-else>loading...</span>
 	</div>

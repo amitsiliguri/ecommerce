@@ -2,10 +2,10 @@
     <app-layout>
         <template #header>Create Categories</template>
 				<v-row>
-		      <v-col cols="12" sm="5">
+		      <v-col cols="12" sm="4">
 		        <categorytree ref="categoryTree" type="create"/>
 		      </v-col>
-					<v-col cols="12" sm="7">
+					<v-col cols="12" sm="8">
 						<v-form ref="createCategoryForm" v-model="valid" @submit.prevent="createCategory">
 							<v-expansion-panels accordion focusable multiple v-model="panel" outlined>
 						    <v-expansion-panel active>
