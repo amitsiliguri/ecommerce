@@ -1,12 +1,12 @@
 <template>
     <app-layout>
-        <template #header>Create Categories</template>
+        <template #header>Edit Categories</template>
 				<v-row>
 		      <v-col cols="12" sm="5">
-		        <categorytree ref="categoryTree" type="create"/>
+		        <categorytree ref="categoryTree" type="edit"/>
 		      </v-col>
 					<v-col cols="12" sm="7">
-						<v-form ref="createCategoryForm" v-model="valid" @submit.prevent="createCategory">
+						<v-form ref="editCategoryForm" v-model="valid" @submit.prevent="editCategory">
 							<v-expansion-panels accordion focusable multiple v-model="panel" outlined>
 						    <v-expansion-panel active>
 						      <v-expansion-panel-header>
@@ -32,7 +32,7 @@
 						    </v-expansion-panel>
 						  </v-expansion-panels>
 							<v-btn color="primary" type="submit" class="my-4" :disabled="!valid || categoryForm.processing">
-								Create
+								Update
 							</v-btn>
 						</v-form>
 		      </v-col>
@@ -48,26 +48,30 @@
             AppLayout,
 						categorytree
         },
+				props: {
+			    category: Object,
+			  },
 				data() {
 					return {
 						panel: [0,1],
 						valid : false,
 						categoryForm: this.$inertia.form({
-							status : true,
-							title : '',
-							banner : null,
-							description : '',
-							slug : '',
-							meta_title : '',
-							meta_description : '',
-							meta_image : null
+								'_method': 'PUT',
+								status: this.category.status,
+								title: this.category.title,
+								slug: '',
+								description : this.category.description,
+								banner : null,
+								meta_title : this.category.meta_title,
+								meta_description : this.category.meta_description,
+								meta_image : null
 						}, {
-								bag: 'createCatalogCategoryForm',
-								resetOnSuccess: true,
+								bag: 'saveCategory',
+								resetOnSuccess: false,
 						}),
-						bannerPreview: null,
-						metaImagePreview: null,
-						sluginput : '',
+						bannerPreview: this.category.banner,
+						metaImagePreview: this.category.meta_image,
+						sluginput : this.category.slug,
 						titleRule: [
 							value => !!value || 'Required.',
 							value => (value || '').length <= 60 || 'Max 60 characters',
@@ -87,13 +91,13 @@
 					}
 				},
 				methods: {
-            createCategory() {
+            editCategory() {
 								this.categoryForm.slug = this.savedSlug
-                this.categoryForm.post('/admin/catalog/category/store', {
+								let url = '/admin/catalog/category/update/' + this.category.id
+                this.categoryForm.post(url, {
                     preserveScroll: true
                 }).then(() => {
-									this.sluginput = ''
-									this.$refs.createCategoryForm.resetValidation()
+									this.$refs.editCategoryForm.resetValidation()
 									this.$refs.categoryTree.getTree()
                 })
             },

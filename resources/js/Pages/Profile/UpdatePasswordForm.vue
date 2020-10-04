@@ -14,7 +14,7 @@
 		    </v-card-text>
 				<v-card-actions>
 					<v-btn :disabled="!valid || form.processing" color="primary" type="submit">
-						Update {{valid}}
+						Update
 					</v-btn>
 					<span v-show="form.recentlySuccessful" class="ml-4"> Updated. </span>
 		    </v-card-actions>
