@@ -61,12 +61,16 @@
 						</v-list-item-content>
 					</template>
 					<!-- category -->
-					<v-list-item link>
-						<v-list-item-title>Categories</v-list-item-title>
-						<v-list-item-icon>
-							<v-icon>mdi-file-tree</v-icon>
-						</v-list-item-icon>
-					</v-list-item>
+						<v-list-item link>
+							<v-list-item-title>
+								<inertia-link href="/admin/catalog/category/create">
+									Categories
+								</inertia-link>
+							</v-list-item-title>
+							<v-list-item-icon>
+								<v-icon>mdi-file-tree</v-icon>
+							</v-list-item-icon>
+						</v-list-item>
 					<!-- product -->
 					<v-list-item link>
 						<v-list-item-title>Products</v-list-item-title>

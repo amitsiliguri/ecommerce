@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 // catalog
 
 // category
-// use App\Http\Controllers\Admin\Catalog\Category\ShowController as CatalogCategoryShow;
+use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
 // use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
 // use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
 // use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
@@ -114,18 +114,18 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 
     //Catalog
-    // Route::prefix('catalog')->name('catalog.')->group(function () {
-    //   //Category
-    //   Route::prefix('category')->name('category.')->group(function () {
-    //     Route::get('/', [CatalogCategoryShow::class, 'create'])->name('index');
-    //     Route::prefix('tree')->name('tree.')->group(function () {
-    //       Route::get('/', [CatalogCategoryTree::class, 'tree'])->name('index');
-    //       Route::post('/reorder', [CatalogCategoryTreeReorder::class, 'reorder'])->name('reorder');
-    //     });
-    //     Route::post('/store', [CatalogCategoryCreate::class, 'store'])->name('store');
-    //     Route::get('/edit/{id}', [CatalogCategoryShow::class, 'edit'])->name('edit');
-    //     Route::put('/update/{id}', [CatalogCategoryUpdate::class, 'update'])->name('update');
-    //
-    //   });
-    // });
+    Route::prefix('catalog')->name('catalog.')->group(function () {
+      //Category
+      Route::prefix('category')->name('category.')->group(function () {
+        Route::get('/create', [CatalogCategoryCreate::class, 'create'])->name('create');
+        // Route::prefix('tree')->name('tree.')->group(function () {
+        //   Route::get('/', [CatalogCategoryTree::class, 'tree'])->name('index');
+        //   Route::post('/reorder', [CatalogCategoryTreeReorder::class, 'reorder'])->name('reorder');
+        // });
+        // Route::post('/store', [CatalogCategoryCreate::class, 'store'])->name('store');
+        // Route::get('/edit/{id}', [CatalogCategoryShow::class, 'edit'])->name('edit');
+        // Route::put('/update/{id}', [CatalogCategoryUpdate::class, 'update'])->name('update');
+
+      });
+    });
 });
