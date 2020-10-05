@@ -17,7 +17,7 @@
 
 <script>
     import AppLayout from './../../Layouts/AppLayout'
-    import DeleteUserForm from './DeleteUserForm'
+    // import DeleteUserForm from './DeleteUserForm'
     import LogoutOtherBrowserSessionsForm from './LogoutOtherBrowserSessionsForm'
     import TwoFactorAuthenticationForm from './TwoFactorAuthenticationForm'
     import UpdatePasswordForm from './UpdatePasswordForm'
@@ -27,7 +27,7 @@
         props: ['sessions'],
         components: {
             AppLayout,
-            DeleteUserForm,
+            // DeleteUserForm,
             LogoutOtherBrowserSessionsForm,
             TwoFactorAuthenticationForm,
             UpdatePasswordForm,

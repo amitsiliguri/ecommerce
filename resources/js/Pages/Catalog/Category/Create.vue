@@ -15,7 +15,8 @@
 						      <v-expansion-panel-content>
 										<v-switch v-model="categoryForm.status" :label="statusLable"></v-switch>
 										<v-text-field :rules="titleRule" :counter="60" label="Title" outlined dense required v-model="categoryForm.title" :error-messages="categoryForm.error('title')"></v-text-field>
-										<v-file-input label="Banner" accept="image/png, image/jpeg, image/jpg" outlined dense v-model="categoryForm.banner" :error-messages="categoryForm.error('banner')"></v-file-input>
+										<v-file-input label="Banner" accept="image/png, image/jpeg, image/jpg" outlined dense v-model="categoryForm.banner" :error-messages="categoryForm.error('banner')" @change="featuredImagePreview"></v-file-input>
+										<v-img v-if="bannerPreview" max-height="350" max-width="750" :src="bannerPreview" class="mb-6"></v-img>
 										<v-textarea outlined :counter="300" label="Description" v-model="categoryForm.description" :error-messages="categoryForm.error('description')"></v-textarea>
 						      </v-expansion-panel-content>
 						    </v-expansion-panel>
@@ -26,7 +27,8 @@
 						      <v-expansion-panel-content>
 										<v-text-field :rules="titleRule" :counter="60" label="Slug" class="mt-4" v-model="sluginput" :hint="savedSlug" outlined dense required :error-messages="categoryForm.error('slug')"></v-text-field>
 										<v-text-field :counter="50" label="Meta Title" outlined dense required v-model="categoryForm.meta_title" :error-messages="categoryForm.error('meta_title')"></v-text-field>
-										<v-file-input label="Meta Image" accept="image/png, image/jpeg, image/jpg" outlined dense v-model="categoryForm.meta_image" :error-messages="categoryForm.error('meta_image')"></v-file-input>
+										<v-file-input label="Meta Image" accept="image/png, image/jpeg, image/jpg" outlined dense v-model="categoryForm.meta_image" :error-messages="categoryForm.error('meta_image')" @change="categoryMetaImagePreview"></v-file-input>
+										<v-img v-if="metaImagePreview" max-height="662" max-width="1000" :src="metaImagePreview" class="mb-6"></v-img>
 										<v-textarea outlined :counter="170" label="Meta Description" v-model="categoryForm.meta_description" :error-messages="categoryForm.error('meta_description')"></v-textarea>
 						      </v-expansion-panel-content>
 						    </v-expansion-panel>
@@ -93,10 +95,28 @@
                     preserveScroll: true
                 }).then(() => {
 									this.sluginput = ''
+									this.metaImagePreview = null
+									this.bannerPreview = null
 									this.$refs.createCategoryForm.resetValidation()
 									this.$refs.categoryTree.getTree()
                 })
             },
+						featuredImagePreview (){
+							if (this.categoryForm.banner != null) {
+								const file = this.categoryForm.banner
+	      				this.bannerPreview = URL.createObjectURL(file)
+							}else {
+								this.bannerPreview = null
+							}
+						},
+						categoryMetaImagePreview (){
+							if (this.categoryForm.meta_image != null) {
+								const file = this.categoryForm.meta_image
+	      				this.metaImagePreview = URL.createObjectURL(file)
+							}else {
+								this.metaImagePreview = null
+							}
+						}
         },
     }
 </script>

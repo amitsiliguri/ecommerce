@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\Validator;
 
 class UpdateController extends Controller
 {
+
+  protected $featuredImageStorePath = 'public/catalog/category/featured';
+  protected $featuredImageRetrivePath = '/storage/catalog/category/featured/';
+  protected $metaImageStorePath = 'public/catalog/category/meta';
+  protected $metaImageRetrivePath = '/storage/catalog/category/meta/';
+  protected $_imageUploadController;
+
+  public function __construct(ImageUploadController $imageUploadController)
+  {
+    $this->_imageUploadController = $imageUploadController;
+  }
+  
   public function update(Request $request, $id)
   {
     //validation
