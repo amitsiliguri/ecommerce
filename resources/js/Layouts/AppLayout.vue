@@ -78,6 +78,20 @@
 							<v-icon>mdi-basket</v-icon>
 						</v-list-item-icon>
 					</v-list-item>
+					<!-- product attribute set-->
+					<v-list-item link>
+						<v-list-item-title>
+							<inertia-link href="/admin/catalog/product/attribute/set">
+								Product Attribute Set
+							</inertia-link>
+						</v-list-item-title>
+					</v-list-item>
+					<!-- product attributes-->
+					<v-list-item link>
+						<v-list-item-title>
+								Product Attributes
+						</v-list-item-title>
+					</v-list-item>
 				</v-list-group>
       </v-list>
 		</v-navigation-drawer>

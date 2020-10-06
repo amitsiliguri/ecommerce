@@ -13,11 +13,16 @@ class TreeController extends Controller
   {
     $new = array();
     $Categories = Category::orderBy('sort_order', 'ASC')->get()->toArray();
-    foreach ($Categories as $Category){
-      $Category['children'] = [];
-      $new[$Category['parent_id']][] = $Category;
+    if (sizeof($Categories) > 0) {
+      foreach ($Categories as $Category){
+        $Category['children'] = [];
+        $new[$Category['parent_id']][] = $Category;
+      }
+      return $this->createTree($new, $new[0]);
+    }else {
+      return [];
     }
-    return $this->createTree($new, $new[0]);
+
   }
 
   private function createTree(&$Categories, $parents){

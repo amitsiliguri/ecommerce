@@ -8,7 +8,7 @@
 		</inertia-link>
 		<p>{{listUpdatedMsg}}</p>
 		<dragable-tree v-if="list.length > 0" :tasks="list"/>
-		<span v-else>loading...</span>
+		<span v-else>{{status}}</span>
 	</div>
 </template>
 
@@ -25,7 +25,8 @@
 				return {
 					list: [],
 					disabled : false,
-					listUpdatedMsg : ''
+					listUpdatedMsg : '',
+					status : ''
 				};
 			},
 			watch : {
@@ -42,9 +43,14 @@
 			},
 			methods:{
 				async getTree() {
+					this.status = 'loading...'
 					return await axios.get('/admin/catalog/category/tree')
 						.then((response) => {
+							if (response.data != []) {
+								this.status = 'Empty Category'
+							}else {
 								this.list = response.data
+							}
 						})
 				},
 				clearMessage(){

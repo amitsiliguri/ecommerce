@@ -12,7 +12,10 @@ use App\Http\Controllers\Admin\Catalog\Category\EditController as CatalogCategor
 use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
 use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
 use App\Http\Controllers\Admin\Catalog\Category\UpdateController as CatalogCategoryUpdate;
-
+// Product
+// Product Attribute
+// Product Attribute Set
+use App\Http\Controllers\Admin\Catalog\Product\AttributeSet\IndexController as CatalogProductAttributeSetIndex;
 
 
 use Laravel\Fortify\Features;
@@ -126,7 +129,16 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
         Route::post('/store', [CatalogCategoryStore::class, 'store'])->name('store');
         Route::get('/edit/{id}', [CatalogCategoryEdit::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [CatalogCategoryUpdate::class, 'update'])->name('update');
-
+      });
+      //Products
+      Route::prefix('product')->name('product.')->group(function () {
+        //attribute
+        Route::prefix('attribute')->name('attribute.')->group(function () {
+          //set
+          Route::prefix('set')->name('set.')->group(function () {
+            Route::get('/', [CatalogProductAttributeSetIndex::class, 'index'])->name('index');
+          });
+        });
       });
     });
 });
