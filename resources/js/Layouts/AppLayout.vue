@@ -61,29 +61,27 @@
 						</v-list-item-content>
 					</template>
 					<!-- category -->
-						<v-list-item link>
+						<v-list-item link @click="visit('/admin/catalog/category/create')">
 							<v-list-item-title>
-								<inertia-link href="/admin/catalog/category/create">
-									Categories
-								</inertia-link>
+								Categories
 							</v-list-item-title>
 							<v-list-item-icon>
 								<v-icon>mdi-file-tree</v-icon>
 							</v-list-item-icon>
 						</v-list-item>
 					<!-- product -->
-					<v-list-item link>
-						<v-list-item-title>Products</v-list-item-title>
+					<v-list-item link @click="visit('/admin/catalog/product')">
+						<v-list-item-title>
+								Products
+						</v-list-item-title>
 						<v-list-item-icon>
 							<v-icon>mdi-basket</v-icon>
 						</v-list-item-icon>
 					</v-list-item>
 					<!-- product attribute set-->
-					<v-list-item link>
+					<v-list-item link @click="visit('/admin/catalog/product/attribute/set')">
 						<v-list-item-title>
-							<inertia-link href="/admin/catalog/product/attribute/set">
-								Product Attribute Set
-							</inertia-link>
+							Product Attribute Set
 						</v-list-item-title>
 					</v-list-item>
 					<!-- product attributes-->
@@ -121,6 +119,9 @@
 							window.location = '/';
 					})
 			},
+			visit(url){
+				this.$inertia.replace(url);
+			}
 		}
   }
 </script>

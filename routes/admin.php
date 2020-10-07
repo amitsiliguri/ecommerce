@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategor
 use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
 use App\Http\Controllers\Admin\Catalog\Category\UpdateController as CatalogCategoryUpdate;
 // Product
+use App\Http\Controllers\Admin\Catalog\Product\IndexController as CatalogProductIndex;
 // Product Attribute
 // Product Attribute Set
 use App\Http\Controllers\Admin\Catalog\Product\AttributeSet\IndexController as CatalogProductAttributeSetIndex;
@@ -132,6 +133,8 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
       });
       //Products
       Route::prefix('product')->name('product.')->group(function () {
+        Route::get('/', [CatalogProductIndex::class, 'index'])->name('index');
+
         //attribute
         Route::prefix('attribute')->name('attribute.')->group(function () {
           //set
