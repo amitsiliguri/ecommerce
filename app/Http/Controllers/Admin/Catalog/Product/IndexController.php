@@ -13,4 +13,10 @@ class IndexController extends Controller
   {
     return Inertia::render('Catalog/Product/Index');
   }
+
+
+  public function paginatedProductData()
+  {
+    // code...
+  }
 }
