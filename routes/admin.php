@@ -134,12 +134,13 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
       //Products
       Route::prefix('product')->name('product.')->group(function () {
         Route::get('/', [CatalogProductIndex::class, 'index'])->name('index');
-
+          Route::get('/paginated/data', [CatalogProductIndex::class, 'paginatedProductData'])->name('paginated.data');
         //attribute
         Route::prefix('attribute')->name('attribute.')->group(function () {
           //set
           Route::prefix('set')->name('set.')->group(function () {
             Route::get('/', [CatalogProductAttributeSetIndex::class, 'index'])->name('index');
+
           });
         });
       });

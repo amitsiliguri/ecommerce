@@ -5,14 +5,16 @@
 
 		<v-data-table
 			v-model="selected"
-			item-key="name"
+			item-key="sku"
     	show-select
       :headers="headers"
-      :items="desserts"
+      :items="categories"
       :options.sync="options"
-      :server-items-length="totalDesserts"
+      :server-items-length="totalCategories"
       :loading="loading"
       class="elevation-1"
+			height="440"
+			loader-height="2"
 			:footer-props="{
 				'items-per-page-options':[10, 20, 30, 50, 100]
 			}"
@@ -28,6 +30,29 @@
 				</v-btn>
 			</v-toolbar>
 		</template>
+
+		<template v-slot:item.status="{ item }">
+      <v-chip dark v-if="item.status == 1"> Enable </v-chip>
+			<v-chip dark v-else> Disable </v-chip>
+    </template>
+
+		<template v-slot:item.images="{ item }">
+			<template v-for="image in item.images">
+				<v-img v-if="image.type == 0" max-height="70" max-width="60" :src="setImage(image.image)" class="my-2"></v-img>
+			</template>
+    </template>
+
+		<template v-slot:item.prices="{ item }">
+			<template v-for="price in item.prices">
+				<span style="display:block"> Qty : {{price.quantity}} - Price :{{price.base_price}} </span>
+			</template>
+    </template>
+
+		<template v-slot:item.inventories="{ item }">
+			<template v-for="inventory in item.inventories">
+				<span style="display:block"> Qty : {{inventory.quantity}} - Source :{{inventory.source_id}} </span>
+			</template>
+    </template>
 
 		<template v-slot:item.actions="{ item }">
 		  <v-icon small class="mr-2">
@@ -53,8 +78,8 @@
 			data () {
 	      return {
 					selected: [],
-					totalDesserts: 0,
-	        desserts: [],
+					totalCategories: 0,
+	        categories: [],
 	        loading: true,
 	        options: {
 					  page: 1,
@@ -63,24 +88,21 @@
 					  mustSort: false
 					},
 	        headers: [
-	          { text: 'Dessert (100g serving)', sortable: false,  value: 'name' },
-	          { text: 'Calories', value: 'calories' },
-	          { text: 'Fat (g)', value: 'fat' },
-	          { text: 'Carbs (g)', value: 'carbs' },
-	          { text: 'Protein (g)', value: 'protein' },
-	          { text: 'Iron (%)', value: 'iron' },
+						{ text: 'image', sortable: false, value: 'images' },
+	          { text: 'SKU', sortable: false,  value: 'sku' },
+	          { text: 'Title', value: 'title' },
+	          { text: 'Status', value: 'status' },
+	          { text: 'Price (Default)', sortable: false, value: 'prices' },
+	          { text: 'Inventory (Total)', sortable: false, value: 'inventories' },
 						{ text: 'Actions', value: 'actions', sortable: false },
 	        ],
 	      }
     	},
 			watch: {
 	      options: {
-	        handler () {
-	          this.getDataFromApi()
-	            .then(data => {
-	              this.desserts = data.items
-	              this.totalDesserts = data.total
-	            })
+	        handler: function (newVal, oldVal) {
+						let query = '?page=' + newVal.page + '&itemsPerPage=' + newVal.itemsPerPage
+	          this.getCategories(query)
 	        },
 	        deep: true,
 	      },
@@ -90,528 +112,22 @@
 				this.options.itemsPerPage = 10
 	    },
 	    methods: {
-	      getDataFromApi () {
-	        this.loading = true
-	        return new Promise((resolve, reject) => {
-	          const { sortBy, sortDesc, page, itemsPerPage } = this.options
-
-	          let items = this.getDesserts()
-	          const total = items.length
-
-	          if (sortBy.length === 1 && sortDesc.length === 1) {
-	            items = items.sort((a, b) => {
-	              const sortA = a[sortBy[0]]
-	              const sortB = b[sortBy[0]]
-
-	              if (sortDesc[0]) {
-	                if (sortA < sortB) return 1
-	                if (sortA > sortB) return -1
-	                return 0
-	              } else {
-	                if (sortA < sortB) return -1
-	                if (sortA > sortB) return 1
-	                return 0
-	              }
-	            })
-	          }
-
-	          if (itemsPerPage > 0) {
-	            items = items.slice((page - 1) * itemsPerPage, page * itemsPerPage)
-	          }
-
-	          setTimeout(() => {
-	            this.loading = false
-	            resolve({
-	              items,
-	              total,
-	            })
-	          }, 1000)
-	        })
-	      },
-	      getDesserts () {
-	        return [
-	          {
-	            name: 'Frozen Yogurt',
-	            calories: 159,
-	            fat: 6.0,
-	            carbs: 24,
-	            protein: 4.0,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Ice cream sandwich',
-	            calories: 237,
-	            fat: 9.0,
-	            carbs: 37,
-	            protein: 4.3,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Eclair',
-	            calories: 262,
-	            fat: 16.0,
-	            carbs: 23,
-	            protein: 6.0,
-	            iron: '7%',
-	          },
-	          {
-	            name: 'Cupcake',
-	            calories: 305,
-	            fat: 3.7,
-	            carbs: 67,
-	            protein: 4.3,
-	            iron: '8%',
-	          },
-	          {
-	            name: 'Gingerbread',
-	            calories: 356,
-	            fat: 16.0,
-	            carbs: 49,
-	            protein: 3.9,
-	            iron: '16%',
-	          },
-	          {
-	            name: 'Jelly bean',
-	            calories: 375,
-	            fat: 0.0,
-	            carbs: 94,
-	            protein: 0.0,
-	            iron: '0%',
-	          },
-	          {
-	            name: 'Lollipop',
-	            calories: 392,
-	            fat: 0.2,
-	            carbs: 98,
-	            protein: 0,
-	            iron: '2%',
-	          },
-	          {
-	            name: 'Honeycomb',
-	            calories: 408,
-	            fat: 3.2,
-	            carbs: 87,
-	            protein: 6.5,
-	            iron: '45%',
-	          },
-	          {
-	            name: 'Donut',
-	            calories: 452,
-	            fat: 25.0,
-	            carbs: 51,
-	            protein: 4.9,
-	            iron: '22%',
-	          },
-	          {
-	            name: 'KitKat',
-	            calories: 518,
-	            fat: 26.0,
-	            carbs: 65,
-	            protein: 7,
-	            iron: '6%',
-	          },
-						{
-	            name: 'Frozen Yogurt',
-	            calories: 159,
-	            fat: 6.0,
-	            carbs: 24,
-	            protein: 4.0,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Ice cream sandwich',
-	            calories: 237,
-	            fat: 9.0,
-	            carbs: 37,
-	            protein: 4.3,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Eclair',
-	            calories: 262,
-	            fat: 16.0,
-	            carbs: 23,
-	            protein: 6.0,
-	            iron: '7%',
-	          },
-	          {
-	            name: 'Cupcake',
-	            calories: 305,
-	            fat: 3.7,
-	            carbs: 67,
-	            protein: 4.3,
-	            iron: '8%',
-	          },
-	          {
-	            name: 'Gingerbread',
-	            calories: 356,
-	            fat: 16.0,
-	            carbs: 49,
-	            protein: 3.9,
-	            iron: '16%',
-	          },
-	          {
-	            name: 'Jelly bean',
-	            calories: 375,
-	            fat: 0.0,
-	            carbs: 94,
-	            protein: 0.0,
-	            iron: '0%',
-	          },
-	          {
-	            name: 'Lollipop',
-	            calories: 392,
-	            fat: 0.2,
-	            carbs: 98,
-	            protein: 0,
-	            iron: '2%',
-	          },
-	          {
-	            name: 'Honeycomb',
-	            calories: 408,
-	            fat: 3.2,
-	            carbs: 87,
-	            protein: 6.5,
-	            iron: '45%',
-	          },
-	          {
-	            name: 'Donut',
-	            calories: 452,
-	            fat: 25.0,
-	            carbs: 51,
-	            protein: 4.9,
-	            iron: '22%',
-	          },
-	          {
-	            name: 'KitKat',
-	            calories: 518,
-	            fat: 26.0,
-	            carbs: 65,
-	            protein: 7,
-	            iron: '6%',
-	          },
-						{
-	            name: 'Frozen Yogurt',
-	            calories: 159,
-	            fat: 6.0,
-	            carbs: 24,
-	            protein: 4.0,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Ice cream sandwich',
-	            calories: 237,
-	            fat: 9.0,
-	            carbs: 37,
-	            protein: 4.3,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Eclair',
-	            calories: 262,
-	            fat: 16.0,
-	            carbs: 23,
-	            protein: 6.0,
-	            iron: '7%',
-	          },
-	          {
-	            name: 'Cupcake',
-	            calories: 305,
-	            fat: 3.7,
-	            carbs: 67,
-	            protein: 4.3,
-	            iron: '8%',
-	          },
-	          {
-	            name: 'Gingerbread',
-	            calories: 356,
-	            fat: 16.0,
-	            carbs: 49,
-	            protein: 3.9,
-	            iron: '16%',
-	          },
-	          {
-	            name: 'Jelly bean',
-	            calories: 375,
-	            fat: 0.0,
-	            carbs: 94,
-	            protein: 0.0,
-	            iron: '0%',
-	          },
-	          {
-	            name: 'Lollipop',
-	            calories: 392,
-	            fat: 0.2,
-	            carbs: 98,
-	            protein: 0,
-	            iron: '2%',
-	          },
-	          {
-	            name: 'Honeycomb',
-	            calories: 408,
-	            fat: 3.2,
-	            carbs: 87,
-	            protein: 6.5,
-	            iron: '45%',
-	          },
-	          {
-	            name: 'Donut',
-	            calories: 452,
-	            fat: 25.0,
-	            carbs: 51,
-	            protein: 4.9,
-	            iron: '22%',
-	          },
-	          {
-	            name: 'KitKat',
-	            calories: 518,
-	            fat: 26.0,
-	            carbs: 65,
-	            protein: 7,
-	            iron: '6%',
-	          },
-						{
-	            name: 'Frozen Yogurt',
-	            calories: 159,
-	            fat: 6.0,
-	            carbs: 24,
-	            protein: 4.0,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Ice cream sandwich',
-	            calories: 237,
-	            fat: 9.0,
-	            carbs: 37,
-	            protein: 4.3,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Eclair',
-	            calories: 262,
-	            fat: 16.0,
-	            carbs: 23,
-	            protein: 6.0,
-	            iron: '7%',
-	          },
-	          {
-	            name: 'Cupcake',
-	            calories: 305,
-	            fat: 3.7,
-	            carbs: 67,
-	            protein: 4.3,
-	            iron: '8%',
-	          },
-	          {
-	            name: 'Gingerbread',
-	            calories: 356,
-	            fat: 16.0,
-	            carbs: 49,
-	            protein: 3.9,
-	            iron: '16%',
-	          },
-	          {
-	            name: 'Jelly bean',
-	            calories: 375,
-	            fat: 0.0,
-	            carbs: 94,
-	            protein: 0.0,
-	            iron: '0%',
-	          },
-	          {
-	            name: 'Lollipop',
-	            calories: 392,
-	            fat: 0.2,
-	            carbs: 98,
-	            protein: 0,
-	            iron: '2%',
-	          },
-	          {
-	            name: 'Honeycomb',
-	            calories: 408,
-	            fat: 3.2,
-	            carbs: 87,
-	            protein: 6.5,
-	            iron: '45%',
-	          },
-	          {
-	            name: 'Donut',
-	            calories: 452,
-	            fat: 25.0,
-	            carbs: 51,
-	            protein: 4.9,
-	            iron: '22%',
-	          },
-	          {
-	            name: 'KitKat',
-	            calories: 518,
-	            fat: 26.0,
-	            carbs: 65,
-	            protein: 7,
-	            iron: '6%',
-	          },
-						{
-	            name: 'Frozen Yogurt',
-	            calories: 159,
-	            fat: 6.0,
-	            carbs: 24,
-	            protein: 4.0,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Ice cream sandwich',
-	            calories: 237,
-	            fat: 9.0,
-	            carbs: 37,
-	            protein: 4.3,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Eclair',
-	            calories: 262,
-	            fat: 16.0,
-	            carbs: 23,
-	            protein: 6.0,
-	            iron: '7%',
-	          },
-	          {
-	            name: 'Cupcake',
-	            calories: 305,
-	            fat: 3.7,
-	            carbs: 67,
-	            protein: 4.3,
-	            iron: '8%',
-	          },
-	          {
-	            name: 'Gingerbread',
-	            calories: 356,
-	            fat: 16.0,
-	            carbs: 49,
-	            protein: 3.9,
-	            iron: '16%',
-	          },
-	          {
-	            name: 'Jelly bean',
-	            calories: 375,
-	            fat: 0.0,
-	            carbs: 94,
-	            protein: 0.0,
-	            iron: '0%',
-	          },
-	          {
-	            name: 'Lollipop',
-	            calories: 392,
-	            fat: 0.2,
-	            carbs: 98,
-	            protein: 0,
-	            iron: '2%',
-	          },
-	          {
-	            name: 'Honeycomb',
-	            calories: 408,
-	            fat: 3.2,
-	            carbs: 87,
-	            protein: 6.5,
-	            iron: '45%',
-	          },
-	          {
-	            name: 'Donut',
-	            calories: 452,
-	            fat: 25.0,
-	            carbs: 51,
-	            protein: 4.9,
-	            iron: '22%',
-	          },
-	          {
-	            name: 'KitKat',
-	            calories: 518,
-	            fat: 26.0,
-	            carbs: 65,
-	            protein: 7,
-	            iron: '6%',
-	          },
-						{
-	            name: 'Frozen Yogurt',
-	            calories: 159,
-	            fat: 6.0,
-	            carbs: 24,
-	            protein: 4.0,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Ice cream sandwich',
-	            calories: 237,
-	            fat: 9.0,
-	            carbs: 37,
-	            protein: 4.3,
-	            iron: '1%',
-	          },
-	          {
-	            name: 'Eclair',
-	            calories: 262,
-	            fat: 16.0,
-	            carbs: 23,
-	            protein: 6.0,
-	            iron: '7%',
-	          },
-	          {
-	            name: 'Cupcake',
-	            calories: 305,
-	            fat: 3.7,
-	            carbs: 67,
-	            protein: 4.3,
-	            iron: '8%',
-	          },
-	          {
-	            name: 'Gingerbread',
-	            calories: 356,
-	            fat: 16.0,
-	            carbs: 49,
-	            protein: 3.9,
-	            iron: '16%',
-	          },
-	          {
-	            name: 'Jelly bean',
-	            calories: 375,
-	            fat: 0.0,
-	            carbs: 94,
-	            protein: 0.0,
-	            iron: '0%',
-	          },
-	          {
-	            name: 'Lollipop',
-	            calories: 392,
-	            fat: 0.2,
-	            carbs: 98,
-	            protein: 0,
-	            iron: '2%',
-	          },
-	          {
-	            name: 'Honeycomb',
-	            calories: 408,
-	            fat: 3.2,
-	            carbs: 87,
-	            protein: 6.5,
-	            iron: '45%',
-	          },
-	          {
-	            name: 'Donut',
-	            calories: 452,
-	            fat: 25.0,
-	            carbs: 51,
-	            protein: 4.9,
-	            iron: '22%',
-	          },
-	          {
-	            name: 'KitKat',
-	            calories: 518,
-	            fat: 26.0,
-	            carbs: 65,
-	            protein: 7,
-	            iron: '6%',
-	          },
-	        ]
-	      },
+				async getCategories(query){
+					this.loading = true
+					let url = '/admin/catalog/product/paginated/data' + query
+					await axios.get(url)
+					.then(response => {
+						this.categories = response.data.data
+						this.totalCategories = response.data.total
+					})
+			    .catch(error => {
+			      console.log(error)
+			    });
+					this.loading = false
+				},
+				setImage(image){
+					return '/image/product/small/' + image
+				}
 	    },
     }
 </script>
