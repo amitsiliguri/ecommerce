@@ -2,7 +2,6 @@
 	<app-layout>
 		<template #header>Products</template>
 
-
 		<v-data-table
 			v-model="selected"
 			item-key="sku"
@@ -16,52 +15,50 @@
 			height="440"
 			loader-height="2"
 			:footer-props="{
-				'items-per-page-options':[10, 20, 30, 50, 100]
+				'items-per-page-options':[5, 10, 20, 30, 50, 100]
 			}"
     >
 
-		<template v-slot:top>
-			<v-toolbar flat >
-				<v-toolbar-title>Products</v-toolbar-title>
-				<v-divider class="mx-4" inset vertical></v-divider>
-				<v-spacer></v-spacer>
-				<v-btn color="primary" depressed dark class="mb-2">
-					Add New Item
-				</v-btn>
-			</v-toolbar>
-		</template>
-
-		<template v-slot:item.status="{ item }">
-      <v-chip dark v-if="item.status == 1"> Enable </v-chip>
-			<v-chip dark v-else> Disable </v-chip>
-    </template>
-
-		<template v-slot:item.images="{ item }">
-			<template v-for="image in item.images">
-				<v-img v-if="image.type == 0" max-height="70" max-width="60" :src="setImage(image.image)" class="my-2"></v-img>
+			<template v-slot:top>
+				<v-toolbar flat >
+					<v-toolbar-title>Products</v-toolbar-title>
+					<v-divider class="mx-4" inset vertical></v-divider>
+					<v-spacer></v-spacer>
+					<v-btn color="primary" depressed dark class="mb-2" @click="createNewProduct()">
+						Add New Item
+					</v-btn>
+				</v-toolbar>
 			</template>
-    </template>
 
-		<template v-slot:item.prices="{ item }">
-			<template v-for="price in item.prices">
-				<span style="display:block"> Qty : {{price.quantity}} - Price :{{price.base_price}} </span>
+			<template v-slot:item.status="{ item }">
+	      <v-chip small color="primary" v-if="item.status == 1"> Enable </v-chip>
+				<v-chip small color="pink" v-else> Disable </v-chip>
+	    </template>
+
+			<template v-slot:item.images="{ item }">
+				<template v-for="image in item.images">
+					<v-img max-height="70" max-width="60" :src="setImage(image.image)" class="my-2"></v-img>
+				</template>
+	    </template>
+
+			<template v-slot:item.prices="{ item }">
+				<template v-for="price in item.prices">
+					<span style="display:block" v-if="price.quantity == 1"> {{price.base_price | currencyFormat}} </span>
+				</template>
+	    </template>
+
+			<template v-slot:item.inventories="{ item }">
+				{{totalInventory(item.inventories)}}
+	    </template>
+
+			<template v-slot:item.actions="{ item }">
+			  <v-icon small class="mr-2">
+			    mdi-pencil
+			  </v-icon>
+			  <v-icon small>
+			    mdi-delete
+			  </v-icon>
 			</template>
-    </template>
-
-		<template v-slot:item.inventories="{ item }">
-			<template v-for="inventory in item.inventories">
-				<span style="display:block"> Qty : {{inventory.quantity}} - Source :{{inventory.source_id}} </span>
-			</template>
-    </template>
-
-		<template v-slot:item.actions="{ item }">
-		  <v-icon small class="mr-2">
-		    mdi-pencil
-		  </v-icon>
-		  <v-icon small>
-		    mdi-delete
-		  </v-icon>
-		</template>
 		</v-data-table>
 
 	</app-layout>
@@ -71,7 +68,9 @@
 
 <script>
     import AppLayout from './../../../Layouts/AppLayout'
+		import Currency from './../../../Mixins/Currency'
     export default {
+			mixins: [Currency],
       components: {
         AppLayout
       },
@@ -88,11 +87,11 @@
 					  mustSort: false
 					},
 	        headers: [
-						{ text: 'image', sortable: false, value: 'images' },
-	          { text: 'SKU', sortable: false,  value: 'sku' },
-	          { text: 'Title', value: 'title' },
+						{ text: 'Image', sortable: false, value: 'images' },
+	          { text: 'SKU', value: 'sku' },
+	          { text: 'Title', sortable: false, value: 'title' },
 	          { text: 'Status', value: 'status' },
-	          { text: 'Price (Default)', sortable: false, value: 'prices' },
+	          { text: 'Base Price (Default)', sortable: false, value: 'prices' },
 	          { text: 'Inventory (Total)', sortable: false, value: 'inventories' },
 						{ text: 'Actions', value: 'actions', sortable: false },
 	        ],
@@ -101,6 +100,10 @@
 			watch: {
 	      options: {
 	        handler: function (newVal, oldVal) {
+						let url = new URL(window.location.href)
+				    url.searchParams.set('page', newVal.page)
+						url.searchParams.set('itemsPerPage', newVal.itemsPerPage)
+				    history.pushState(null, document.title, url.toString())
 						let query = '?page=' + newVal.page + '&itemsPerPage=' + newVal.itemsPerPage
 	          this.getCategories(query)
 	        },
@@ -108,8 +111,9 @@
 	      },
 	    },
 	    mounted () {
-				this.options.page = 1
-				this.options.itemsPerPage = 10
+				let url = new URL(window.location.href)
+				this.options.page = (url.searchParams.get('page')) ? url.searchParams.get('page') : 1
+				this.options.itemsPerPage = (url.searchParams.get('itemsPerPage')) ? url.searchParams.get('itemsPerPage') : 5
 	    },
 	    methods: {
 				async getCategories(query){
@@ -127,7 +131,18 @@
 				},
 				setImage(image){
 					return '/image/product/small/' + image
+				},
+				totalInventory(inventories){
+					let total = 0
+					inventories.forEach(inventory => {
+						total += inventory.quantity
+					});
+					return total
+				},
+				createNewProduct(){
+					this.$inertia.replace('/admin/catalog/product/create');
 				}
+
 	    },
     }
 </script>

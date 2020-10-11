@@ -21,7 +21,23 @@ class IndexController extends Controller
   {
     $inputs = $request->all();
     $itemsPerPage = (array_key_exists("itemsPerPage",$inputs)) ? $inputs['itemsPerPage'] : 10 ;
-    $products = Product::with('prices')->with('inventories')->with('images')->paginate($itemsPerPage);
+    $products = Product::with(
+      [
+        "prices" => function($q) {
+           $q->where('quantity', '=', 1);
+         }
+      ])
+      ->with('inventories')
+      ->with(
+      [
+        "images" => function($q) {
+          $q->where('type', '=', 0);
+        }
+      ])
+      ->paginate($itemsPerPage);
+
+
+
     return $products;
   }
 

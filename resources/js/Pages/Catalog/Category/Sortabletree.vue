@@ -46,11 +46,7 @@
 					this.status = 'loading...'
 					return await axios.get('/admin/catalog/category/tree')
 						.then((response) => {
-							if (response.data != []) {
-								this.status = 'Empty Category'
-							}else {
-								this.list = response.data
-							}
+							this.list = response.data
 						})
 				},
 				clearMessage(){

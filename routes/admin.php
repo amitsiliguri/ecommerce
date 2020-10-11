@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCate
 use App\Http\Controllers\Admin\Catalog\Category\UpdateController as CatalogCategoryUpdate;
 // Product
 use App\Http\Controllers\Admin\Catalog\Product\IndexController as CatalogProductIndex;
+use App\Http\Controllers\Admin\Catalog\Product\CreateController as CatalogProductCreate;
 // Product Attribute
 // Product Attribute Set
 use App\Http\Controllers\Admin\Catalog\Product\AttributeSet\IndexController as CatalogProductAttributeSetIndex;
@@ -134,7 +135,8 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
       //Products
       Route::prefix('product')->name('product.')->group(function () {
         Route::get('/', [CatalogProductIndex::class, 'index'])->name('index');
-          Route::get('/paginated/data', [CatalogProductIndex::class, 'paginatedProductData'])->name('paginated.data');
+        Route::get('/create', [CatalogProductCreate::class, 'create'])->name('create');
+        Route::get('/paginated/data', [CatalogProductIndex::class, 'paginatedProductData'])->name('paginated.data');
         //attribute
         Route::prefix('attribute')->name('attribute.')->group(function () {
           //set
