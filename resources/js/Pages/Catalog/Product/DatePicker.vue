@@ -14,7 +14,7 @@
 <script>
   export default {
     data: () => ({
-			date : null,
+			date : new Date().toISOString().substr(0, 10),
       modal: false,
     }),
 		props: {
@@ -27,12 +27,12 @@
 					required: true
 				}
     },
-		mounted () {
-			this.date = this.propdate
-		},
     watch: {
         date () {
             this.$emit('dateevent', this.date);
+        },
+				propdate () {
+            this.date = this.propdate
         }
     }
 

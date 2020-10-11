@@ -3269,6 +3269,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -3299,8 +3301,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           quantity: 1,
           base_price: 0,
           special_price: 0,
-          offer_start_date: new Date().toISOString().substr(0, 10),
-          offer_end_date: new Date().toISOString().substr(0, 10)
+          offer_start_date: '',
+          offer_end_date: ''
         }],
         inventories: [],
         images: [{
@@ -3438,7 +3440,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      date: null,
+      date: new Date().toISOString().substr(0, 10),
       modal: false
     };
   },
@@ -3452,12 +3454,12 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
-  mounted: function mounted() {
-    this.date = this.propdate;
-  },
   watch: {
     date: function date() {
       this.$emit('dateevent', this.date);
+    },
+    propdate: function propdate() {
+      this.date = this.propdate;
     }
   }
 });

@@ -81,6 +81,8 @@
 					</v-col>
 				</v-row>
 
+
+
 				<v-row>
 					<v-col cols="2">
 						<h3>Inventory</h3>
@@ -200,8 +202,8 @@
 								quantity : 1,
 								base_price : 0,
 								special_price : 0,
-								offer_start_date : new Date().toISOString().substr(0, 10),
-								offer_end_date : new Date().toISOString().substr(0, 10),
+								offer_start_date : '',
+								offer_end_date :'',
 							}
 						],
 						inventories : [],
