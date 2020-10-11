@@ -3088,8 +3088,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _Mixins_Currency__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../Mixins/Currency */ "./resources/js/Mixins/Currency.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Mixins_Currency__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../Mixins/Currency */ "./resources/js/Mixins/Currency.js");
+/* harmony import */ var _DatePicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DatePicker */ "./resources/js/Pages/Catalog/Product/DatePicker.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3227,18 +3236,229 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_Mixins_Currency__WEBPACK_IMPORTED_MODULE_1__["default"]],
+  mixins: [_Mixins_Currency__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
-    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__["default"],
+    DatePicker: _DatePicker__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
-      items: ['Foo', 'Bar', 'Fizz', 'Buzz', 'fgfg', 'dbbd', 'bqbq', 'jafwye', 'hgpryxm'],
-      value: []
+      source: [],
+      selected_source: [],
+      categories: [],
+      selected_categories: [],
+      //productForm
+      productForm: this.$inertia.form({
+        status: true,
+        sku: '',
+        title: '',
+        small_description: null,
+        description: '',
+        slug: '',
+        meta_title: '',
+        meta_description: '',
+        meta_image: null,
+        prices: [{
+          quantity: 1,
+          base_price: 0,
+          special_price: 0,
+          offer_start_date: new Date().toISOString().substr(0, 10),
+          offer_end_date: new Date().toISOString().substr(0, 10)
+        }],
+        inventories: [],
+        images: [{
+          type: 0,
+          image: null
+        }, {
+          type: 1,
+          image: null
+        }, {
+          type: 2,
+          image: null
+        }]
+      }, {
+        bag: 'createCatalogProductForm',
+        resetOnSuccess: true
+      })
     };
+  },
+  mounted: function mounted() {
+    this.getInventorySource();
+    this.getTree();
+  },
+  watch: {
+    selected_source: function selected_source(newVal, oldVal) {
+      if (newVal.length > oldVal.length) {
+        var def = _.difference(newVal, oldVal);
+
+        var value = this.source.find(function (elem) {
+          return elem.id === def[0];
+        });
+        this.productForm.inventories.push({
+          source_id: value.id,
+          source_title: value.title,
+          quantity: 0
+        });
+      } else {
+        var _def = _.difference(oldVal, newVal);
+
+        _.remove(this.productForm.inventories, {
+          source_id: _def[0]
+        });
+      }
+
+      console.log(this.productForm.inventories);
+    }
+  },
+  methods: {
+    getTree: function getTree() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/admin/catalog/category/tree').then(function (response) {
+                  _this.categories = response.data;
+                });
+
+              case 2:
+                return _context.abrupt("return", _context.sent);
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    getInventorySource: function getInventorySource() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.get('/admin/catalog/inventory/list').then(function (response) {
+                  _this2.source = response.data.sources;
+                });
+
+              case 2:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    addNewPrice: function addNewPrice() {
+      this.productForm.prices.push({
+        quantity: 1,
+        base_price: 0,
+        special_price: 0,
+        offer_start_date: new Date().toISOString().substr(0, 10),
+        offer_end_date: new Date().toISOString().substr(0, 10)
+      });
+    },
+    removePrice: function removePrice(index) {
+      this.productForm.prices.splice(index, 1);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      date: null,
+      modal: false
+    };
+  },
+  props: {
+    propdate: {
+      type: String,
+      required: true
+    },
+    label: {
+      type: String,
+      required: true
+    }
+  },
+  mounted: function mounted() {
+    this.date = this.propdate;
+  },
+  watch: {
+    date: function date() {
+      this.$emit('dateevent', this.date);
+    }
   }
 });
 
@@ -27068,94 +27288,17 @@ var render = function() {
                       _vm._v(" "),
                       _c("v-spacer"),
                       _vm._v(" "),
-                      _c("v-btn", { attrs: { depressed: "" } }, [
-                        _vm._v(" Add more prices ")
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", md: "2" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Qty",
-                          placeholder: "Puoduct Quantity",
-                          outlined: "",
-                          dense: "",
-                          required: ""
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", sm: "3" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Base Price",
-                          placeholder: "Puoduct MRP",
-                          outlined: "",
-                          dense: "",
-                          required: ""
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", sm: "3" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Offer Price",
-                          placeholder: "Special Price",
-                          outlined: "",
-                          dense: "",
-                          required: ""
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", sm: "3" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Offer period",
-                          placeholder: "Date range",
-                          outlined: "",
-                          dense: "",
-                          required: ""
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", sm: "1" } },
-                    [
                       _c(
                         "v-btn",
-                        { attrs: { icon: "", color: "primary" } },
-                        [
-                          _c("v-icon", { attrs: { dark: "" } }, [
-                            _vm._v(" mdi-close ")
-                          ])
-                        ],
-                        1
+                        {
+                          attrs: { depressed: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.addNewPrice()
+                            }
+                          }
+                        },
+                        [_vm._v(" Add more prices ")]
                       )
                     ],
                     1
@@ -27163,6 +27306,154 @@ var render = function() {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _vm._l(_vm.productForm.prices, function(price, index) {
+                return _vm.productForm.prices.length > 0
+                  ? _c(
+                      "v-row",
+                      { key: index },
+                      [
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "3" } },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                label: "Qty",
+                                placeholder: "Puoduct Quantity",
+                                outlined: "",
+                                dense: "",
+                                required: ""
+                              },
+                              model: {
+                                value: price.quantity,
+                                callback: function($$v) {
+                                  _vm.$set(price, "quantity", $$v)
+                                },
+                                expression: "price.quantity"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "2" } },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                label: "Base Price",
+                                placeholder: "Puoduct MRP",
+                                outlined: "",
+                                dense: "",
+                                required: ""
+                              },
+                              model: {
+                                value: price.base_price,
+                                callback: function($$v) {
+                                  _vm.$set(price, "base_price", $$v)
+                                },
+                                expression: "price.base_price"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "2" } },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                label: "Offer Price",
+                                placeholder: "Special Price",
+                                outlined: "",
+                                dense: "",
+                                required: ""
+                              },
+                              model: {
+                                value: price.special_price,
+                                callback: function($$v) {
+                                  _vm.$set(price, "special_price", $$v)
+                                },
+                                expression: "price.special_price"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "2" } },
+                          [
+                            _c("date-picker", {
+                              attrs: {
+                                label: "Offer start date",
+                                propdate: price.offer_start_date
+                              },
+                              on: {
+                                dateevent: function(newdate) {
+                                  price.offer_start_date = newdate
+                                }
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "2" } },
+                          [
+                            _c("date-picker", {
+                              attrs: {
+                                label: "Offer end date",
+                                propdate: price.offer_end_date
+                              },
+                              on: {
+                                dateevent: function(newdate) {
+                                  price.offer_end_date = newdate
+                                }
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "1" } },
+                          [
+                            index != 0
+                              ? _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { icon: "", color: "primary" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removePrice(index)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("v-icon", { attrs: { dark: "" } }, [
+                                      _vm._v(" mdi-close ")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              }),
               _vm._v(" "),
               _c(
                 "v-row",
@@ -27179,8 +27470,10 @@ var render = function() {
                     [
                       _c("v-select", {
                         attrs: {
-                          items: _vm.items,
+                          items: _vm.source,
                           "menu-props": { maxHeight: "250" },
+                          "item-text": "title",
+                          "item-value": "id",
                           label: "Sources",
                           multiple: "",
                           dense: "",
@@ -27200,7 +27493,7 @@ var render = function() {
                                       [
                                         _vm._v(
                                           "\n\t\t\t\t          " +
-                                            _vm._s(_vm.value.length) +
+                                            _vm._s(_vm.selected_source.length) +
                                             " Source selected\n\t\t\t\t        "
                                         )
                                       ]
@@ -27211,46 +27504,11 @@ var render = function() {
                           }
                         ]),
                         model: {
-                          value: _vm.value,
+                          value: _vm.selected_source,
                           callback: function($$v) {
-                            _vm.value = $$v
+                            _vm.selected_source = $$v
                           },
-                          expression: "value"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", md: "6" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Source",
-                          placeholder: "Inventory source",
-                          readonly: "",
-                          outlined: "",
-                          dense: "",
-                          required: ""
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12", sm: "6" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          label: "Stock",
-                          placeholder: "Puoduct Stock",
-                          outlined: "",
-                          dense: "",
-                          required: ""
+                          expression: "selected_source"
                         }
                       })
                     ],
@@ -27259,6 +27517,68 @@ var render = function() {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _vm._l(_vm.productForm.inventories, function(inventory, index) {
+                return _vm.productForm.inventories.length > 0
+                  ? _c(
+                      "v-row",
+                      { key: index },
+                      [
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", md: "6" } },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                label: "Source",
+                                placeholder: "Inventory source",
+                                readonly: "",
+                                outlined: "",
+                                dense: "",
+                                required: ""
+                              },
+                              model: {
+                                value: inventory.source_title,
+                                callback: function($$v) {
+                                  _vm.$set(inventory, "source_title", $$v)
+                                },
+                                expression: "inventory.source_title"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12", sm: "6" } },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                label: "Stock",
+                                placeholder: "Puoduct Stock",
+                                type: "number",
+                                min: "0",
+                                outlined: "",
+                                dense: "",
+                                required: ""
+                              },
+                              model: {
+                                value: inventory.quantity,
+                                callback: function($$v) {
+                                  _vm.$set(inventory, "quantity", $$v)
+                                },
+                                expression: "inventory.quantity"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              }),
               _vm._v(" "),
               _c(
                 "v-row",
@@ -27323,6 +27643,80 @@ var render = function() {
               _c(
                 "v-row",
                 [
+                  _c("v-col", { attrs: { cols: "12" } }, [
+                    _c("h3", [_vm._v("Product Categories")])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", md: "4" } },
+                    [
+                      _c("v-treeview", {
+                        attrs: {
+                          items: _vm.categories,
+                          "selection-type": "independent",
+                          "selected-color": "purple",
+                          selectable: "",
+                          "return-object": "",
+                          "open-all": ""
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "label",
+                            fn: function(ref) {
+                              var item = ref.item
+                              var open = ref.open
+                              return [
+                                _vm._v(
+                                  "\n\t\t\t\t\t\t\t\t" +
+                                    _vm._s(item.title) +
+                                    "\n\t\t\t\t\t    "
+                                )
+                              ]
+                            }
+                          }
+                        ]),
+                        model: {
+                          value: _vm.selected_categories,
+                          callback: function($$v) {
+                            _vm.selected_categories = $$v
+                          },
+                          expression: "selected_categories"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", md: "8" } },
+                    [
+                      !_vm.selected_categories.length
+                        ? [
+                            _vm._v(
+                              "\n\t\t          No nodes selected.\n\t\t        "
+                            )
+                          ]
+                        : _vm._l(_vm.selected_categories, function(node) {
+                            return _c("div", { key: node.id }, [
+                              _vm._v(
+                                "\n\t\t            " +
+                                  _vm._s(node.title) +
+                                  "\n\t\t          "
+                              )
+                            ])
+                          })
+                    ],
+                    2
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                [
                   _c(
                     "v-col",
                     { attrs: { cols: "12" } },
@@ -27339,7 +27733,137 @@ var render = function() {
                 1
               )
             ],
-            1
+            2
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=template&id=7b26685b&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=template&id=7b26685b& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      ref: "dialog",
+      attrs: { "return-value": _vm.date, persistent: "", width: "290px" },
+      on: {
+        "update:returnValue": function($event) {
+          _vm.date = $event
+        },
+        "update:return-value": function($event) {
+          _vm.date = $event
+        }
+      },
+      scopedSlots: _vm._u([
+        {
+          key: "activator",
+          fn: function(ref) {
+            var on = ref.on
+            var attrs = ref.attrs
+            return [
+              _c(
+                "v-text-field",
+                _vm._g(
+                  _vm._b(
+                    {
+                      attrs: {
+                        label: _vm.label,
+                        "prepend-icon": "mdi-calendar",
+                        readonly: "",
+                        outlined: "",
+                        dense: ""
+                      },
+                      model: {
+                        value: _vm.date,
+                        callback: function($$v) {
+                          _vm.date = $$v
+                        },
+                        expression: "date"
+                      }
+                    },
+                    "v-text-field",
+                    attrs,
+                    false
+                  ),
+                  on
+                )
+              )
+            ]
+          }
+        }
+      ]),
+      model: {
+        value: _vm.modal,
+        callback: function($$v) {
+          _vm.modal = $$v
+        },
+        expression: "modal"
+      }
+    },
+    [
+      _vm._v(" "),
+      _c(
+        "v-date-picker",
+        {
+          attrs: { scrollable: "" },
+          model: {
+            value: _vm.date,
+            callback: function($$v) {
+              _vm.date = $$v
+            },
+            expression: "date"
+          }
+        },
+        [
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { text: "", color: "primary" },
+              on: {
+                click: function($event) {
+                  _vm.modal = false
+                }
+              }
+            },
+            [_vm._v("\tCancel ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { text: "", color: "primary" },
+              on: {
+                click: function($event) {
+                  return _vm.$refs.dialog.save(_vm.date)
+                }
+              }
+            },
+            [_vm._v("\tOK ")]
           )
         ],
         1
@@ -87307,6 +87831,8 @@ var map = {
 	"./Catalog/Product/Attribute/Set/Index.vue": "./resources/js/Pages/Catalog/Product/Attribute/Set/Index.vue",
 	"./Catalog/Product/Create": "./resources/js/Pages/Catalog/Product/Create.vue",
 	"./Catalog/Product/Create.vue": "./resources/js/Pages/Catalog/Product/Create.vue",
+	"./Catalog/Product/DatePicker": "./resources/js/Pages/Catalog/Product/DatePicker.vue",
+	"./Catalog/Product/DatePicker.vue": "./resources/js/Pages/Catalog/Product/DatePicker.vue",
 	"./Catalog/Product/Index": "./resources/js/Pages/Catalog/Product/Index.vue",
 	"./Catalog/Product/Index.vue": "./resources/js/Pages/Catalog/Product/Index.vue",
 	"./Dashboard": "./resources/js/Pages/Dashboard.vue",
@@ -87843,6 +88369,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_99d6ca0a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_99d6ca0a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Catalog/Product/DatePicker.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/Pages/Catalog/Product/DatePicker.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DatePicker_vue_vue_type_template_id_7b26685b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DatePicker.vue?vue&type=template&id=7b26685b& */ "./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=template&id=7b26685b&");
+/* harmony import */ var _DatePicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DatePicker.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DatePicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DatePicker_vue_vue_type_template_id_7b26685b___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DatePicker_vue_vue_type_template_id_7b26685b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Catalog/Product/DatePicker.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DatePicker.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=template&id=7b26685b&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=template&id=7b26685b& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_template_id_7b26685b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DatePicker.vue?vue&type=template&id=7b26685b& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Catalog/Product/DatePicker.vue?vue&type=template&id=7b26685b&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_template_id_7b26685b___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DatePicker_vue_vue_type_template_id_7b26685b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

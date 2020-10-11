@@ -5,19 +5,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 // catalog
 
-// category
+// catalog category
 use App\Http\Controllers\Admin\Catalog\Category\CreateController as CatalogCategoryCreate;
 use App\Http\Controllers\Admin\Catalog\Category\StoreController as CatalogCategoryStore;
 use App\Http\Controllers\Admin\Catalog\Category\EditController as CatalogCategoryEdit;
 use App\Http\Controllers\Admin\Catalog\Category\TreeController as CatalogCategoryTree;
 use App\Http\Controllers\Admin\Catalog\Category\ReorderController as CatalogCategoryTreeReorder;
 use App\Http\Controllers\Admin\Catalog\Category\UpdateController as CatalogCategoryUpdate;
-// Product
+// catalog Product
 use App\Http\Controllers\Admin\Catalog\Product\IndexController as CatalogProductIndex;
 use App\Http\Controllers\Admin\Catalog\Product\CreateController as CatalogProductCreate;
-// Product Attribute
-// Product Attribute Set
+// catalog Product Attribute
+// catalog Product Attribute Set
 use App\Http\Controllers\Admin\Catalog\Product\AttributeSet\IndexController as CatalogProductAttributeSetIndex;
+// catalog inventory
+use App\Http\Controllers\Admin\Catalog\Inventory\Source\IndexController as CatalogInventorySourceIndex;
+
 
 
 use Laravel\Fortify\Features;
@@ -145,6 +148,10 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
 
           });
         });
+      });
+      //Inventory
+      Route::prefix('inventory')->name('inventory.')->group(function () {
+        Route::get('/list', [CatalogInventorySourceIndex::class, 'getAllInventorySourceList'])->name('list');
       });
     });
 });
