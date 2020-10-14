@@ -15,8 +15,9 @@
 			height="440"
 			loader-height="2"
 			:footer-props="{
-				'items-per-page-options':[5, 10, 20, 30, 50, 100]
+				'items-per-page-options':itemsPerPageOptions
 			}"
+			:items-per-page="options.itemsPerPage"
     >
 
 			<template v-slot:top>
@@ -69,8 +70,9 @@
 <script>
     import AppLayout from './../../../Layouts/AppLayout'
 		import Currency from './../../../Mixins/Currency'
+		import ClosestInArray from './../../../Mixins/ClosestInArray'
     export default {
-			mixins: [Currency],
+			mixins: [Currency, ClosestInArray],
       components: {
         AppLayout
       },
@@ -82,10 +84,11 @@
 	        loading: true,
 	        options: {
 					  page: 1,
-					  itemsPerPage: 10,
+					  itemsPerPage: 5,
 					  multiSort: false,
 					  mustSort: false
 					},
+					itemsPerPageOptions:[5, 10, 20, 30, 50, 100],
 	        headers: [
 						{ text: 'Image', sortable: false, value: 'images' },
 	          { text: 'SKU', value: 'sku' },
@@ -112,8 +115,12 @@
 	    },
 	    mounted () {
 				let url = new URL(window.location.href)
-				this.options.page = (url.searchParams.get('page')) ? url.searchParams.get('page') : 1
-				this.options.itemsPerPage = (url.searchParams.get('itemsPerPage')) ? url.searchParams.get('itemsPerPage') : 5
+				if (url.searchParams.get('page')) {
+					this.options.page = url.searchParams.get('page')
+				}
+				if (url.searchParams.get('itemsPerPage')) {
+					this.options.itemsPerPage = this.findClosest( this.itemsPerPageOptions , url.searchParams.get('itemsPerPage') )  // ClosestInArray mixin
+				}
 	    },
 	    methods: {
 				async getCategories(query){
