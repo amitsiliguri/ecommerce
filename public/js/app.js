@@ -2108,6 +2108,19 @@ __webpack_require__.r(__webpack_exports__);
       text: ''
     };
   },
+  props: {
+    message: {
+      type: Object,
+      required: true
+    },
+    errors: {
+      type: Object,
+      required: true
+    }
+  },
+  created: function created() {
+    this.showMessage();
+  },
   watch: {
     '$page.errors': {
       handler: function handler(after, before) {
@@ -2119,19 +2132,24 @@ __webpack_require__.r(__webpack_exports__);
       deep: true
     },
     '$page.message': {
-      handler: function handler(after, before) {
-        if (after.error) {
-          this.text = after.error;
-          this.snackbar = true;
-        } else if (after.success) {
-          this.text = after.success;
-          this.snackbar = true;
-        } else if (after.status) {
-          this.text = after.status;
-          this.snackbar = true;
-        }
+      handler: function handler() {
+        this.showMessage();
       },
       deep: true
+    }
+  },
+  methods: {
+    showMessage: function showMessage() {
+      if (this.message.error) {
+        this.text = this.message.error;
+        this.snackbar = true;
+      } else if (this.message.success) {
+        this.text = this.message.success;
+        this.snackbar = true;
+      } else if (this.message.status) {
+        this.text = this.message.status;
+        this.snackbar = true;
+      }
     }
   }
 });
@@ -3455,6 +3473,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     createProduct: function createProduct() {
+      this.productForm.post('/admin/catalog/product/store', {
+        preserveScroll: true
+      }).then(function () {
+        console.log("hit");
+      });
       console.log(this.productForm);
     }
   }
@@ -25780,7 +25803,9 @@ var render = function() {
       _vm._v(" "),
       _c("v-main", [_c("v-container", [_vm._t("default")], 2)], 1),
       _vm._v(" "),
-      _c("toast")
+      _c("toast", {
+        attrs: { message: _vm.$page.message, errors: _vm.$page.errors }
+      })
     ],
     1
   )

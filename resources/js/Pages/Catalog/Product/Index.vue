@@ -149,7 +149,6 @@
 				createNewProduct(){
 					this.$inertia.replace('/admin/catalog/product/create');
 				}
-
 	    },
     }
 </script>

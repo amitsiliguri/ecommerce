@@ -16,6 +16,19 @@
       snackbar: false,
 			text : ''
     }),
+		props: {
+        message: {
+            type: Object,
+            required: true
+        },
+				errors: {
+					type: Object,
+					required: true
+				}
+    },
+		created () {
+			this.showMessage()
+		},
 		watch: {
 			'$page.errors': {
 	      handler: function (after, before) {
@@ -27,20 +40,25 @@
 	      deep: true,
 	    },
 	    '$page.message': {
-	      handler: function (after, before) {
-						if (after.error) {
-							this.text = after.error
-							this.snackbar = true
-						} else if(after.success){
-							this.text = after.success
-							this.snackbar = true
-						} else if(after.status){
-							this.text = after.status
-							this.snackbar = true
-						}
+	      handler: function () {
+					this.showMessage()
 	      },
 	      deep: true,
 	    },
 	  },
+		methods : {
+			showMessage() {
+				if (this.message.error) {
+					this.text = this.message.error
+					this.snackbar = true
+				} else if(this.message.success){
+					this.text = this.message.success
+					this.snackbar = true
+				} else if(this.message.status){
+					this.text = this.message.status
+					this.snackbar = true
+				}
+			}
+		}
   }
 </script>

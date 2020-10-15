@@ -100,7 +100,7 @@
 			</v-container>
 		</v-main>
 
-		<toast/>
+		<toast :message="$page.message" :errors="$page.errors"/>
 
 	</v-app>
 </template>

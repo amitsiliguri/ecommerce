@@ -299,6 +299,11 @@
 					}
 				},
 				createProduct(){
+					this.productForm.post('/admin/catalog/product/store', {
+							preserveScroll: true
+					}).then(() => {
+						console.log("hit");
+					})
 					console.log(this.productForm);
 				}
 			}
