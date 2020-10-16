@@ -3329,7 +3329,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       source: [],
       selected_source: [],
       categories: [],
-      selected_categories: [],
       //productForm
       productForm: this.$inertia.form({
         status: true,
@@ -3358,7 +3357,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, {
           type: 2,
           image: null
-        }]
+        }],
+        categories: []
       }, {
         bag: 'createCatalogProductForm',
         resetOnSuccess: true
@@ -3578,6 +3578,10 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       required: false,
       "default": 'Image'
+    },
+    errormessages: {
+      type: String,
+      required: false
     }
   },
   data: function data() {
@@ -3808,6 +3812,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     createNewProduct: function createNewProduct() {
       this.$inertia.replace('/admin/catalog/product/create');
+    },
+    massDelete: function massDelete() {
+      var items = this.selected.length;
+      var ids = [];
+
+      if (items > 0) {
+        this.selected.forEach(function (item) {
+          ids.push(item.id);
+        });
+
+        if (confirm('Are you sure you want to delete items?')) {
+          var deleteUrl = '/admin/catalog/product/delete/' + ids.toString();
+          this.$inertia["delete"](deleteUrl);
+        }
+      } else {
+        alert("No item selcted!");
+      }
     }
   }
 });
@@ -27358,6 +27379,9 @@ var render = function() {
                                 attrs: {
                                   label: "SKU",
                                   placeholder: "Stock Keeping unit",
+                                  "error-messages": _vm.productForm.error(
+                                    "sku"
+                                  ),
                                   dense: "",
                                   outlined: ""
                                 },
@@ -27381,6 +27405,9 @@ var render = function() {
                                 attrs: {
                                   label: "Title",
                                   placeholder: "Product title",
+                                  "error-messages": _vm.productForm.error(
+                                    "title"
+                                  ),
                                   dense: "",
                                   outlined: ""
                                 },
@@ -27405,6 +27432,9 @@ var render = function() {
                                   outlined: "",
                                   counter: 300,
                                   label: "Small Description",
+                                  "error-messages": _vm.productForm.error(
+                                    "small_description"
+                                  ),
                                   dense: "",
                                   rows: "4",
                                   clearable: "",
@@ -27435,6 +27465,9 @@ var render = function() {
                                   outlined: "",
                                   counter: 300,
                                   label: "Description",
+                                  "error-messages": _vm.productForm.error(
+                                    "description"
+                                  ),
                                   dense: "",
                                   rows: "8",
                                   clearable: "",
@@ -27480,6 +27513,9 @@ var render = function() {
                                 attrs: {
                                   counter: 60,
                                   label: "Slug",
+                                  "error-messages": _vm.productForm.error(
+                                    "slug"
+                                  ),
                                   placeholder: "Puoduct unique slug",
                                   outlined: "",
                                   dense: "",
@@ -27505,6 +27541,9 @@ var render = function() {
                                 attrs: {
                                   label: "Meta Title",
                                   placeholder: "SEO Title",
+                                  "error-messages": _vm.productForm.error(
+                                    "meta_title"
+                                  ),
                                   dense: "",
                                   outlined: ""
                                 },
@@ -27527,7 +27566,10 @@ var render = function() {
                         "v-row",
                         [
                           _c("image-upload", {
-                            attrs: { labelprops: "Meta Image" },
+                            attrs: {
+                              labelprops: "Meta Image",
+                              errormessages: _vm.productForm.error("meta_image")
+                            },
                             on: {
                               imageevent: function(newimage) {
                                 _vm.productForm.meta_image = newimage
@@ -27544,6 +27586,9 @@ var render = function() {
                                   outlined: "",
                                   counter: 170,
                                   label: "Meta Description",
+                                  "error-messages": _vm.productForm.error(
+                                    "meta_description"
+                                  ),
                                   dense: "",
                                   rows: "3",
                                   clearable: "",
@@ -27621,6 +27666,9 @@ var render = function() {
                                       attrs: {
                                         label: "Qty",
                                         placeholder: "Puoduct Quantity",
+                                        "error-messages": _vm.productForm.error(
+                                          "prices." + index + ".quantity"
+                                        ),
                                         outlined: "",
                                         dense: "",
                                         required: ""
@@ -27645,6 +27693,9 @@ var render = function() {
                                       attrs: {
                                         label: "Base Price",
                                         placeholder: "Puoduct MRP",
+                                        "error-messages": _vm.productForm.error(
+                                          "prices." + index + ".base_price"
+                                        ),
                                         outlined: "",
                                         dense: "",
                                         required: ""
@@ -27669,6 +27720,9 @@ var render = function() {
                                       attrs: {
                                         label: "Offer Price",
                                         placeholder: "Special Price",
+                                        "error-messages": _vm.productForm.error(
+                                          "prices." + index + ".special_price"
+                                        ),
                                         outlined: "",
                                         dense: "",
                                         required: ""
@@ -27880,6 +27934,9 @@ var render = function() {
                                       attrs: {
                                         label: "Stock",
                                         placeholder: "Puoduct Stock",
+                                        "error-messages": _vm.productForm.error(
+                                          "inventories." + index + ".quantity"
+                                        ),
                                         type: "number",
                                         min: "0",
                                         outlined: "",
@@ -27927,6 +27984,9 @@ var render = function() {
                                     mdprops: 4,
                                     lgprops: 4,
                                     xlprops: 4,
+                                    errormessages: _vm.productForm.error(
+                                      "images." + index + ".image"
+                                    ),
                                     labelprops: _vm.imageLabel(image.type)
                                   },
                                   on: {
@@ -27984,11 +28044,11 @@ var render = function() {
                                   }
                                 ]),
                                 model: {
-                                  value: _vm.selected_categories,
+                                  value: _vm.productForm.categories,
                                   callback: function($$v) {
-                                    _vm.selected_categories = $$v
+                                    _vm.$set(_vm.productForm, "categories", $$v)
                                   },
-                                  expression: "selected_categories"
+                                  expression: "productForm.categories"
                                 }
                               })
                             ],
@@ -27999,16 +28059,17 @@ var render = function() {
                             "v-col",
                             { attrs: { cols: "12", md: "8" } },
                             [
-                              !_vm.selected_categories.length
+                              !_vm.productForm.categories.length
                                 ? [
                                     _vm._v(
                                       "\n\t\t\t\t\t\t\t No nodes selected.\n\t\t\t\t\t\t "
                                     )
                                   ]
-                                : _vm._l(_vm.selected_categories, function(
-                                    node
+                                : _vm._l(_vm.productForm.categories, function(
+                                    node,
+                                    index
                                   ) {
-                                    return _c("div", { key: node.id }, [
+                                    return _c("div", { key: index }, [
                                       _vm._v(
                                         "\n\t\t\t\t\t\t\t\t " +
                                           _vm._s(node.title) +
@@ -28248,6 +28309,7 @@ var render = function() {
         attrs: {
           label: _vm.labelprops,
           accept: "image/png, image/jpeg, image/jpg",
+          "error-messages": _vm.errormessages,
           outlined: "",
           dense: ""
         },
@@ -28348,6 +28410,24 @@ var render = function() {
                       attrs: { inset: "", vertical: "" }
                     }),
                     _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { icon: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.massDelete()
+                          }
+                        }
+                      },
+                      [
+                        _c("v-icon", { attrs: { small: "" } }, [
+                          _vm._v(" mdi-delete ")
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
                     _c("v-spacer"),
                     _vm._v(" "),
                     _c(
@@ -28397,7 +28477,7 @@ var render = function() {
                       attrs: {
                         "max-height": "70",
                         "max-width": "60",
-                        src: _vm.setImage(image.image)
+                        src: image.image
                       }
                     })
                   ]
@@ -28448,10 +28528,6 @@ var render = function() {
               return [
                 _c("v-icon", { staticClass: "mr-2", attrs: { small: "" } }, [
                   _vm._v("\n\t\t\t    mdi-pencil\n\t\t\t  ")
-                ]),
-                _vm._v(" "),
-                _c("v-icon", { attrs: { small: "" } }, [
-                  _vm._v("\n\t\t\t    mdi-delete\n\t\t\t  ")
                 ])
               ]
             }

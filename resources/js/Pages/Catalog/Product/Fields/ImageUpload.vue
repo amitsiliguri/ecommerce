@@ -1,6 +1,6 @@
 <template>
 	<v-col cols="12" :sm="smprops" :md="mdprops" :lg="lgprops" :xl="xlprops">
-		<v-file-input :label="labelprops" v-model="image" accept="image/png, image/jpeg, image/jpg" outlined dense></v-file-input>
+		<v-file-input :label="labelprops" v-model="image" accept="image/png, image/jpeg, image/jpg" :error-messages="errormessages" outlined dense></v-file-input>
 		<v-img v-if="imagePreview" max-height="350" max-width="1200" :src="imagePreview"></v-img>
 	</v-col>
 </template>
@@ -32,6 +32,10 @@
 					type: String,
 					required: false,
 					default: 'Image'
+				},
+				errormessages: {
+					type: String,
+					required: false,
 				}
     },
 		data: () => ({

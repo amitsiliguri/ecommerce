@@ -14,9 +14,7 @@ class ImageUploadController extends Controller
       $extension = $image->getClientOriginalExtension();
       $newFileNameToStore = $fileName . '_' . time() . '.' . $extension;
       $storePath = $image->storeAs($storePath, $newFileNameToStore);
-      return $newFileNameToStore;
-    }else {
-      return $retrivePath . '/noImage.png';
+      return $retrivePath . $newFileNameToStore;
     }
   }
 }

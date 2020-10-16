@@ -28,16 +28,16 @@
 								<v-switch label="Enable" v-model="productForm.status"></v-switch>
 							</v-col>
 							<v-col cols="12" sm="6" md="5">
-								<v-text-field label="SKU" placeholder="Stock Keeping unit" v-model="productForm.sku" dense outlined></v-text-field>
+								<v-text-field label="SKU" placeholder="Stock Keeping unit" v-model="productForm.sku" :error-messages="productForm.error('sku')" dense outlined></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="6" md="5">
-								<v-text-field label="Title" placeholder="Product title" v-model="productForm.title" dense outlined></v-text-field>
+								<v-text-field label="Title" placeholder="Product title" v-model="productForm.title" :error-messages="productForm.error('title')" dense outlined></v-text-field>
 							</v-col>
 							<v-col cols="12">
-								<v-textarea outlined :counter="300" label="Small Description" v-model="productForm.small_description" dense rows="4" clearable clear-icon="mdi-close-circle"></v-textarea>
+								<v-textarea outlined :counter="300" label="Small Description" v-model="productForm.small_description" :error-messages="productForm.error('small_description')" dense rows="4" clearable clear-icon="mdi-close-circle"></v-textarea>
 							</v-col>
 							<v-col cols="12">
-								<v-textarea outlined :counter="300" label="Description" v-model="productForm.description" dense rows="8" clearable clear-icon="mdi-close-circle"></v-textarea>
+								<v-textarea outlined :counter="300" label="Description" v-model="productForm.description" :error-messages="productForm.error('description')" dense rows="8" clearable clear-icon="mdi-close-circle"></v-textarea>
 							</v-col>
 		        </v-row>
 		      </v-tab-item>
@@ -48,16 +48,16 @@
 								<h3>SEO</h3>
 							</v-col>
 							<v-col cols="12" sm="6">
-								<v-text-field :counter="60" label="Slug" v-model="productForm.slug" placeholder="Puoduct unique slug" outlined dense required></v-text-field>
+								<v-text-field :counter="60" label="Slug" v-model="productForm.slug" :error-messages="productForm.error('slug')" placeholder="Puoduct unique slug" outlined dense required></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="6">
-								<v-text-field label="Meta Title" placeholder="SEO Title" v-model="productForm.meta_title" dense outlined></v-text-field>
+								<v-text-field label="Meta Title" placeholder="SEO Title" v-model="productForm.meta_title" :error-messages="productForm.error('meta_title')" dense outlined></v-text-field>
 							</v-col>
 		        </v-row>
 						<v-row>
-							<image-upload labelprops="Meta Image" @imageevent="(newimage) => {productForm.meta_image = newimage}"/>
+							<image-upload labelprops="Meta Image" @imageevent="(newimage) => {productForm.meta_image = newimage}" :errormessages="productForm.error('meta_image')"/>
 							<v-col cols="12">
-								<v-textarea outlined :counter="170" label="Meta Description" v-model="productForm.meta_description" dense rows="3" clearable clear-icon="mdi-close-circle"></v-textarea>
+								<v-textarea outlined :counter="170" label="Meta Description" v-model="productForm.meta_description" :error-messages="productForm.error('meta_description')" dense rows="3" clearable clear-icon="mdi-close-circle"></v-textarea>
 							</v-col>
 		        </v-row>
 					</v-tab-item>
@@ -73,13 +73,13 @@
 						</v-row>
 						<v-row v-if="productForm.prices.length > 0"  v-for="(price,index) in productForm.prices" :key="index">
 							<v-col cols="12" sm="3">
-								<v-text-field label="Qty" placeholder="Puoduct Quantity" v-model="price.quantity" outlined dense required></v-text-field>
+								<v-text-field label="Qty" placeholder="Puoduct Quantity" v-model="price.quantity" :error-messages="productForm.error('prices.' + index + '.quantity')" outlined dense required></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="2">
-								<v-text-field label="Base Price" placeholder="Puoduct MRP" v-model="price.base_price" outlined dense required></v-text-field>
+								<v-text-field label="Base Price" placeholder="Puoduct MRP" v-model="price.base_price" :error-messages="productForm.error('prices.' + index + '.base_price')" outlined dense required></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="2">
-								<v-text-field label="Offer Price" placeholder="Special Price" v-model="price.special_price" outlined dense required></v-text-field>
+								<v-text-field label="Offer Price" placeholder="Special Price" v-model="price.special_price" :error-messages="productForm.error('prices.' + index + '.special_price')" outlined dense required></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="2">
 								<date-picker label="Offer start date" :propdate="price.offer_start_date" @dateevent="(newdate) => {price.offer_start_date = newdate}"/>
@@ -117,7 +117,7 @@
 								<v-text-field label="Source" v-model="inventory.source_title" placeholder="Inventory source" readonly outlined dense required></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="6">
-								<v-text-field label="Stock" placeholder="Puoduct Stock" v-model="inventory.quantity" type="number" min="0" outlined dense required></v-text-field>
+								<v-text-field label="Stock" placeholder="Puoduct Stock" v-model="inventory.quantity" :error-messages="productForm.error('inventories.' + index + '.quantity')" type="number" min="0" outlined dense required></v-text-field>
 							</v-col>
 						</v-row>
 					</v-tab-item>
@@ -130,7 +130,7 @@
 								<h3>Images</h3>
 							</v-col>
 							<template v-if="productForm.images.length > 0">
-								<image-upload :mdprops="4" :lgprops="4" :xlprops="4" v-for="(image,index) in productForm.images" :labelprops="imageLabel(image.type)" :key="index" @imageevent="(newimage) => {image.image = newimage}"/>
+								<image-upload :mdprops="4" :lgprops="4" :xlprops="4" v-for="(image,index) in productForm.images" :errormessages="productForm.error('images.' + index + '.image')"  :labelprops="imageLabel(image.type)" :key="index" @imageevent="(newimage) => {image.image = newimage}"/>
 							</template>
 						</v-row>
 					</v-tab-item>
@@ -143,18 +143,18 @@
 							 <h3>Product Categories</h3>
 						 </v-col>
 						 <v-col cols="12" md="4">
-							 <v-treeview v-model="selected_categories" :items="categories" selection-type="independent" selected-color="purple" selectable return-object open-all>
+							 <v-treeview v-model="productForm.categories" :items="categories" selection-type="independent" selected-color="purple" selectable return-object open-all>
 								 <template v-slot:label="{ item, open }">
 									 {{item.title}}
 								 </template>
 							 </v-treeview>
 						 </v-col>
 						 <v-col cols="12" md="8">
-							 <template v-if="!selected_categories.length">
+							 <template v-if="!productForm.categories.length">
 								 No nodes selected.
 							 </template>
 							 <template v-else>
-								 <div v-for="node in selected_categories" :key="node.id">
+								 <div v-for="(node,index) in productForm.categories" :key="index">
 									 {{ node.title }}
 								 </div>
 							 </template>
@@ -210,7 +210,6 @@
 					source : [],
 					selected_source :[],
 					categories: [],
-					selected_categories : [],
 					//productForm
 					productForm: this.$inertia.form({
 						status : true,
@@ -232,7 +231,12 @@
 							}
 						],
 						inventories : [],
-						images : [ { type : 0,	image : null },	{	type : 1,	image : null },	{	type : 2,	image : null } ],
+						images : [
+							{ type : 0,	image : null },
+							{	type : 1,	image : null },
+							{	type : 2,	image : null }
+						],
+						categories: []
 					}, {
 							bag: 'createCatalogProductForm',
 							resetOnSuccess: true,
@@ -248,7 +252,11 @@
 					if (newVal.length > oldVal.length) {
 						let def = _.difference(newVal,oldVal);
 						let value = this.source.find(elem => elem.id === def[0]);
-						this.productForm.inventories.push( {	source_id : value.id,	source_title : value.title,	quantity : 0 } );
+						this.productForm.inventories.push( {
+							source_id : value.id,
+							source_title : value.title,
+							quantity : 0
+						} );
 					} else {
 						let def = _.difference(oldVal,newVal);
 						_.remove(this.productForm.inventories, {source_id: def[0]});

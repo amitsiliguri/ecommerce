@@ -24,6 +24,9 @@
 				<v-toolbar flat >
 					<v-toolbar-title>Products</v-toolbar-title>
 					<v-divider class="mx-4" inset vertical></v-divider>
+					<v-btn icon @click="massDelete()">
+						<v-icon small> mdi-delete </v-icon>
+					</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn color="primary" depressed dark class="mb-2" @click="createNewProduct()">
 						Add New Item
@@ -38,7 +41,7 @@
 
 			<template v-slot:item.images="{ item }">
 				<template v-for="image in item.images">
-					<v-img max-height="70" max-width="60" :src="setImage(image.image)" class="my-2"></v-img>
+					<v-img max-height="70" max-width="60" :src="image.image" class="my-2"></v-img>
 				</template>
 	    </template>
 
@@ -55,9 +58,6 @@
 			<template v-slot:item.actions="{ item }">
 			  <v-icon small class="mr-2">
 			    mdi-pencil
-			  </v-icon>
-			  <v-icon small>
-			    mdi-delete
 			  </v-icon>
 			</template>
 		</v-data-table>
@@ -148,6 +148,23 @@
 				},
 				createNewProduct(){
 					this.$inertia.replace('/admin/catalog/product/create');
+				},
+				massDelete(){
+					let items = this.selected.length
+					let ids = []
+					if (items > 0) {
+
+						this.selected.forEach(function(item) {
+							ids.push(item.id)
+						})
+						if (confirm('Are you sure you want to delete items?')) {
+							let deleteUrl = '/admin/catalog/product/delete/' + ids.toString()
+							this.$inertia.delete(deleteUrl)
+						}
+					} else {
+						alert("No item selcted!");
+					}
+
 				}
 	    },
     }

@@ -34,6 +34,7 @@ class IndexController extends Controller
           $q->where('type', '=', 0);
         }
       ])
+      ->orderBy('id', 'desc')
       ->paginate($itemsPerPage);
 
 
