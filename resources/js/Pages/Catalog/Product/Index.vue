@@ -56,7 +56,7 @@
 	    </template>
 
 			<template v-slot:item.actions="{ item }">
-			  <v-icon small class="mr-2">
+			  <v-icon small class="mr-2" @click="editProduct(item.id)">
 			    mdi-pencil
 			  </v-icon>
 			</template>
@@ -148,6 +148,9 @@
 				},
 				createNewProduct(){
 					this.$inertia.replace('/admin/catalog/product/create');
+				},
+				editProduct(id){
+					this.$inertia.replace(`/admin/catalog/product/edit/${id}`);
 				},
 				massDelete(){
 					let items = this.selected.length

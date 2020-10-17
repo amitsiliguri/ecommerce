@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\Catalog\Product\IndexController as CatalogProduct
 use App\Http\Controllers\Admin\Catalog\Product\CreateController as CatalogProductCreate;
 use App\Http\Controllers\Admin\Catalog\Product\StoreController as CatalogProductStore;
 use App\Http\Controllers\Admin\Catalog\Product\DeleteController as CatalogProductDelete;
+use App\Http\Controllers\Admin\Catalog\Product\EditController as CatalogProductEdit;
 // catalog Product Attribute
 // catalog Product Attribute Set
 use App\Http\Controllers\Admin\Catalog\Product\AttributeSet\IndexController as CatalogProductAttributeSetIndex;
@@ -143,7 +144,8 @@ Route::group(['middleware' => ['auth:web', 'verified']], function () {
         Route::get('/create', [CatalogProductCreate::class, 'create'])->name('create');
         Route::get('/paginated/data', [CatalogProductIndex::class, 'paginatedProductData'])->name('paginated.data');
         Route::post('/store', [CatalogProductStore::class, 'store'])->name('store');
-        Route::delete('/delete/{id}', [CatalogProductDelete::class, 'delete'])->name('delete');
+        Route::delete('/delete/{ids}', [CatalogProductDelete::class, 'delete'])->name('delete');
+        Route::get('/edit/{id}', [CatalogProductEdit::class, 'edit'])->name('edit');
         //attribute
         Route::prefix('attribute')->name('attribute.')->group(function () {
           //set
