@@ -18,27 +18,30 @@
       modal: false,
     }),
 		props: {
-        propdate: {
-            type: String,
-            required: true
-        },
-				label: {
-					type: String,
-					required: true
-				},
-				errormessages: {
-					type: String,
-					required: false
-				}
+			propdate: {
+				type: String,
+				required: true
+			},
+			label: {
+				type: String,
+				required: true
+			},
+			errormessages: {
+				type: String,
+				required: false
+			}
     },
     watch: {
         date () {
             this.$emit('dateevent', this.date);
         },
-				propdate () {
+		propdate () {
             this.date = this.propdate
         }
-    }
+	},
+	created : function () {
+		this.date = this.propdate
+	}
 
   }
 </script>

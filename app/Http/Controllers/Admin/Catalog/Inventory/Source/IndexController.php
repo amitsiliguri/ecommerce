@@ -12,9 +12,6 @@ class IndexController extends Controller
 
     public function getAllInventorySourceList()
     {
-      return response()->json([
-          'success' => true,
-          'sources' => Source::all(),
-      ]);
+      return Source::all();
     }
 }

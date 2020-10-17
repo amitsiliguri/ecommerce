@@ -31,15 +31,15 @@
         props: ['name', 'email'],
         data() {
             return {
-								valid: true,
-								nameRules: [
-					        v => !!v || 'Name is required',
-					        v => (v && v.length <= 20) || 'Name must be less than 20 characters',
-					      ],
-								emailRules: [
-					        v => !!v || 'E-mail is required',
-					        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-					      ],
+				valid: true,
+				nameRules: [
+					v => !!v || 'Name is required',
+					v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+				],
+				emailRules: [
+					v => !!v || 'E-mail is required',
+					v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+				],
                 form: this.$inertia.form({
                     '_method': 'PUT',
                     name: this.name,
@@ -60,17 +60,17 @@
                 }).then(response => {
                     if (! this.form.hasErrors()) {
                         this.form.photo = null
-												this.photoPreview = null
+						this.photoPreview = null
                     }
                 });
             },
             updatePhotoPreview() {
-							if (this.form.photo != null) {
-								const file = this.form.photo
-	      				this.photoPreview = URL.createObjectURL(file)
-							}else {
-								this.photoPreview = null
-							}
+				if (this.form.photo != null) {
+					const file = this.form.photo
+					this.photoPreview = URL.createObjectURL(file)
+				}else {
+					this.photoPreview = null
+				}
             },
             deletePhoto() {
                 this.$inertia.delete('/admin/user/profile-photo', {

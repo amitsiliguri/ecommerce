@@ -12,7 +12,7 @@ class TreeController extends Controller
   public function tree()
   {
     $new = array();
-    $Categories = Category::orderBy('sort_order', 'ASC')->get()->toArray();
+    $Categories = Category::orderBy('sort_order', 'ASC')->select('id', 'title', 'parent_id')->get()->toArray();
     if (sizeof($Categories) > 0) {
       foreach ($Categories as $Category){
         $Category['children'] = [];

@@ -3106,18 +3106,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _Mixins_Currency__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../Mixins/Currency */ "./resources/js/Mixins/Currency.js");
-/* harmony import */ var _Fields_DatePicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Fields/DatePicker */ "./resources/js/Pages/Catalog/Product/Fields/DatePicker.vue");
-/* harmony import */ var _Fields_ImageUpload__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Fields/ImageUpload */ "./resources/js/Pages/Catalog/Product/Fields/ImageUpload.vue");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Mixins_Currency__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../Mixins/Currency */ "./resources/js/Mixins/Currency.js");
+/* harmony import */ var _Fields_DatePicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Fields/DatePicker */ "./resources/js/Pages/Catalog/Product/Fields/DatePicker.vue");
+/* harmony import */ var _Fields_ImageUpload__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Fields/ImageUpload */ "./resources/js/Pages/Catalog/Product/Fields/ImageUpload.vue");
 //
 //
 //
@@ -3316,19 +3308,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mixins: [_Mixins_Currency__WEBPACK_IMPORTED_MODULE_2__["default"]],
+  mixins: [_Mixins_Currency__WEBPACK_IMPORTED_MODULE_1__["default"]],
   components: {
-    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__["default"],
-    DatePicker: _Fields_DatePicker__WEBPACK_IMPORTED_MODULE_3__["default"],
-    ImageUpload: _Fields_ImageUpload__WEBPACK_IMPORTED_MODULE_4__["default"]
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    DatePicker: _Fields_DatePicker__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ImageUpload: _Fields_ImageUpload__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  props: {
+    categories: {
+      type: Array,
+      required: true
+    },
+    sources: {
+      type: Array,
+      required: true
+    }
   },
   data: function data() {
     return {
       valid: true,
       tab: null,
-      source: [],
       selected_source: [],
-      categories: [],
       selected_categories: [],
       //productForm
       productForm: this.$inertia.form({
@@ -3366,16 +3366,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       })
     };
   },
-  mounted: function mounted() {
-    this.getInventorySource();
-    this.getTree();
-  },
   watch: {
     selected_source: function selected_source(newVal, oldVal) {
       if (newVal.length > oldVal.length) {
         var def = _.difference(newVal, oldVal);
 
-        var value = this.source.find(function (elem) {
+        var value = this.sources.find(function (elem) {
           return elem.id === def[0];
         });
         this.productForm.inventories.push({
@@ -3390,59 +3386,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           source_id: _def[0]
         });
       }
-
-      console.log(this.productForm.inventories);
     }
   },
   methods: {
-    getTree: function getTree() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/admin/catalog/category/tree').then(function (response) {
-                  _this.categories = response.data;
-                });
-
-              case 2:
-                return _context.abrupt("return", _context.sent);
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    getInventorySource: function getInventorySource() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return axios.get('/admin/catalog/inventory/list').then(function (response) {
-                  _this2.source = response.data.sources;
-                });
-
-              case 2:
-                return _context2.abrupt("return", _context2.sent);
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
     addNewPrice: function addNewPrice() {
       this.productForm.prices.push({
         quantity: 1,
@@ -3500,6 +3446,185 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Fields_ImageUpload__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Fields/ImageUpload */ "./resources/js/Pages/Catalog/Product/Fields/ImageUpload.vue");
+/* harmony import */ var _Fields_DatePicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Fields/DatePicker */ "./resources/js/Pages/Catalog/Product/Fields/DatePicker.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3512,12 +3637,146 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"]
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
+    DatePicker: _Fields_DatePicker__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ImageUpload: _Fields_ImageUpload__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
-    product: Object
+    product: {
+      type: Object,
+      required: true
+    },
+    categories: {
+      type: Array,
+      required: true
+    },
+    sources: {
+      type: Array,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      firstTime: true,
+      valid: true,
+      tab: null,
+      selected_source: [],
+      selected_categories: [],
+      productForm: this.$inertia.form({
+        '_method': 'PUT',
+        status: this.product.status,
+        sku: this.product.sku,
+        title: this.product.title,
+        small_description: this.product.small_description,
+        description: this.product.description,
+        slug: this.product.slug,
+        meta_title: this.product.meta_title,
+        meta_description: this.product.meta_description,
+        meta_image: null,
+        prices: this.product.prices,
+        inventories: [],
+        images: [],
+        categories: []
+      }, {
+        bag: 'updateCatalogProductForm',
+        resetOnSuccess: true
+      })
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    // Product Inventory
+    var tempInventory = [];
+    var tempSelectedSources = [];
+    this.product.inventories.forEach(function (inventory, i) {
+      var value = _this.sources.find(function (elem) {
+        return elem.id === inventory.source_id;
+      });
+
+      tempInventory.push({
+        source_id: inventory.source_id,
+        source_title: value.title,
+        quantity: inventory.quantity
+      });
+      tempSelectedSources.push(inventory.source_id);
+    });
+    this.productForm.inventories = tempInventory;
+    this.selected_source = tempSelectedSources; // Product Images
+
+    var tempImage = [];
+    this.product.images.forEach(function (image, i) {
+      tempImage.push({
+        type: image.type,
+        image: null,
+        imageUrl: image.image
+      });
+    });
+    this.productForm.images = tempImage; // Product Categories
+
+    this.selected_categories = this.product.categories;
+  },
+  watch: {
+    selected_source: function selected_source(newVal, oldVal) {
+      if (newVal.length > oldVal.length) {
+        var def = _.difference(newVal, oldVal);
+
+        if (!this.firstTime) {
+          var value = this.sources.find(function (elem) {
+            return elem.id === def[0];
+          });
+          this.productForm.inventories.push({
+            source_id: value.id,
+            source_title: value.title,
+            quantity: 0
+          });
+        } else {
+          this.firstTime = false;
+        }
+      } else {
+        var _def = _.difference(oldVal, newVal);
+
+        _.remove(this.productForm.inventories, {
+          source_id: _def[0]
+        });
+      }
+    }
+  },
+  methods: {
+    addNewPrice: function addNewPrice() {
+      this.productForm.prices.push({
+        quantity: 1,
+        base_price: 0,
+        special_price: 0,
+        offer_start: new Date().toISOString().substr(0, 10),
+        offer_end: new Date().toISOString().substr(0, 10)
+      });
+    },
+    removePrice: function removePrice(index) {
+      this.productForm.prices.splice(index, 1);
+    },
+    imageLabel: function imageLabel(imageType) {
+      switch (imageType) {
+        case 0:
+          return 'Small Image';
+          break;
+
+        case 1:
+          return 'Thumbnail Image';
+          break;
+
+        case 2:
+          return 'Base Image';
+          break;
+
+        default:
+          return 'Extra Image';
+      }
+    }
   }
 });
 
@@ -3573,6 +3832,9 @@ __webpack_require__.r(__webpack_exports__);
     propdate: function propdate() {
       this.date = this.propdate;
     }
+  },
+  created: function created() {
+    this.date = this.propdate;
   }
 });
 
@@ -3587,6 +3849,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -3622,6 +3885,10 @@ __webpack_require__.r(__webpack_exports__);
       "default": 'Image'
     },
     errormessages: {
+      type: String,
+      required: false
+    },
+    serverimage: {
       type: String,
       required: false
     }
@@ -3668,8 +3935,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -3795,7 +4060,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         url.searchParams.set('itemsPerPage', newVal.itemsPerPage);
         history.pushState(null, document.title, url.toString());
         var query = '?page=' + newVal.page + '&itemsPerPage=' + newVal.itemsPerPage;
-        this.getCategories(query);
+        this.getProducts(query);
       },
       deep: true
     }
@@ -3812,7 +4077,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    getCategories: function getCategories(query) {
+    getProducts: function getProducts(query) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -27332,40 +27597,193 @@ var render = function() {
         },
         [
           _c(
-            "v-container",
+            "v-row",
             [
               _c(
-                "v-row",
+                "v-col",
+                { attrs: { cols: "12" } },
                 [
                   _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
-                    [
-                      _c(
-                        "v-tabs",
-                        {
-                          model: {
-                            value: _vm.tab,
-                            callback: function($$v) {
-                              _vm.tab = $$v
-                            },
-                            expression: "tab"
-                          }
+                    "v-tabs",
+                    {
+                      model: {
+                        value: _vm.tab,
+                        callback: function($$v) {
+                          _vm.tab = $$v
                         },
+                        expression: "tab"
+                      }
+                    },
+                    [
+                      _c("v-tab", [_vm._v("General")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("SEO")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Price")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Inventory")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Image")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Category")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Attributes")])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-tabs-items",
+            {
+              model: {
+                value: _vm.tab,
+                callback: function($$v) {
+                  _vm.tab = $$v
+                },
+                expression: "tab"
+              }
+            },
+            [
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("General")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "2" } },
                         [
-                          _c("v-tab", [_vm._v("General")]),
-                          _vm._v(" "),
-                          _c("v-tab", [_vm._v("SEO")]),
-                          _vm._v(" "),
-                          _c("v-tab", [_vm._v("Price")]),
-                          _vm._v(" "),
-                          _c("v-tab", [_vm._v("Inventory")]),
-                          _vm._v(" "),
-                          _c("v-tab", [_vm._v("Image")]),
-                          _vm._v(" "),
-                          _c("v-tab", [_vm._v("Category")]),
-                          _vm._v(" "),
-                          _c("v-tab", [_vm._v("Attributes")])
+                          _c("v-switch", {
+                            attrs: { label: "Enable" },
+                            model: {
+                              value: _vm.productForm.status,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "status", $$v)
+                              },
+                              expression: "productForm.status"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "5" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "SKU",
+                              placeholder: "Stock Keeping unit",
+                              "error-messages": _vm.productForm.error("sku"),
+                              dense: "",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.productForm.sku,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "sku", $$v)
+                              },
+                              expression: "productForm.sku"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "5" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Title",
+                              placeholder: "Product title",
+                              "error-messages": _vm.productForm.error("title"),
+                              dense: "",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.productForm.title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "title", $$v)
+                              },
+                              expression: "productForm.title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              counter: 300,
+                              label: "Small Description",
+                              "error-messages": _vm.productForm.error(
+                                "small_description"
+                              ),
+                              dense: "",
+                              rows: "4",
+                              clearable: "",
+                              "clear-icon": "mdi-close-circle"
+                            },
+                            model: {
+                              value: _vm.productForm.small_description,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.productForm,
+                                  "small_description",
+                                  $$v
+                                )
+                              },
+                              expression: "productForm.small_description"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              counter: 300,
+                              label: "Description",
+                              "error-messages": _vm.productForm.error(
+                                "description"
+                              ),
+                              dense: "",
+                              rows: "8",
+                              clearable: "",
+                              "clear-icon": "mdi-close-circle"
+                            },
+                            model: {
+                              value: _vm.productForm.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "description", $$v)
+                              },
+                              expression: "productForm.description"
+                            }
+                          })
                         ],
                         1
                       )
@@ -27377,282 +27795,146 @@ var render = function() {
               ),
               _vm._v(" "),
               _c(
-                "v-tabs-items",
-                {
-                  model: {
-                    value: _vm.tab,
-                    callback: function($$v) {
-                      _vm.tab = $$v
-                    },
-                    expression: "tab"
-                  }
-                },
+                "v-tab-item",
                 [
                   _c(
-                    "v-tab-item",
+                    "v-row",
                     [
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-col", { attrs: { cols: "12" } }, [
-                            _c("h3", [_vm._v("General")])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", sm: "6", md: "2" } },
-                            [
-                              _c("v-switch", {
-                                attrs: { label: "Enable" },
-                                model: {
-                                  value: _vm.productForm.status,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.productForm, "status", $$v)
-                                  },
-                                  expression: "productForm.status"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", sm: "6", md: "5" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  label: "SKU",
-                                  placeholder: "Stock Keeping unit",
-                                  "error-messages": _vm.productForm.error(
-                                    "sku"
-                                  ),
-                                  dense: "",
-                                  outlined: ""
-                                },
-                                model: {
-                                  value: _vm.productForm.sku,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.productForm, "sku", $$v)
-                                  },
-                                  expression: "productForm.sku"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", sm: "6", md: "5" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  label: "Title",
-                                  placeholder: "Product title",
-                                  "error-messages": _vm.productForm.error(
-                                    "title"
-                                  ),
-                                  dense: "",
-                                  outlined: ""
-                                },
-                                model: {
-                                  value: _vm.productForm.title,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.productForm, "title", $$v)
-                                  },
-                                  expression: "productForm.title"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c("v-textarea", {
-                                attrs: {
-                                  outlined: "",
-                                  counter: 300,
-                                  label: "Small Description",
-                                  "error-messages": _vm.productForm.error(
-                                    "small_description"
-                                  ),
-                                  dense: "",
-                                  rows: "4",
-                                  clearable: "",
-                                  "clear-icon": "mdi-close-circle"
-                                },
-                                model: {
-                                  value: _vm.productForm.small_description,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.productForm,
-                                      "small_description",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "productForm.small_description"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c("v-textarea", {
-                                attrs: {
-                                  outlined: "",
-                                  counter: 300,
-                                  label: "Description",
-                                  "error-messages": _vm.productForm.error(
-                                    "description"
-                                  ),
-                                  dense: "",
-                                  rows: "8",
-                                  clearable: "",
-                                  "clear-icon": "mdi-close-circle"
-                                },
-                                model: {
-                                  value: _vm.productForm.description,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.productForm,
-                                      "description",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "productForm.description"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-col", { attrs: { cols: "12" } }, [
-                            _c("h3", [_vm._v("SEO")])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", sm: "6" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  counter: 60,
-                                  label: "Slug",
-                                  "error-messages": _vm.productForm.error(
-                                    "slug"
-                                  ),
-                                  placeholder: "Puoduct unique slug",
-                                  outlined: "",
-                                  dense: "",
-                                  required: ""
-                                },
-                                model: {
-                                  value: _vm.productForm.slug,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.productForm, "slug", $$v)
-                                  },
-                                  expression: "productForm.slug"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", sm: "6" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  label: "Meta Title",
-                                  placeholder: "SEO Title",
-                                  "error-messages": _vm.productForm.error(
-                                    "meta_title"
-                                  ),
-                                  dense: "",
-                                  outlined: ""
-                                },
-                                model: {
-                                  value: _vm.productForm.meta_title,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.productForm, "meta_title", $$v)
-                                  },
-                                  expression: "productForm.meta_title"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("SEO")])
+                      ]),
                       _vm._v(" "),
                       _c(
-                        "v-row",
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6" } },
                         [
-                          _c("image-upload", {
+                          _c("v-text-field", {
                             attrs: {
-                              labelprops: "Meta Image",
-                              errormessages: _vm.productForm.error("meta_image")
+                              counter: 60,
+                              label: "Slug",
+                              "error-messages": _vm.productForm.error("slug"),
+                              placeholder: "Puoduct unique slug",
+                              outlined: "",
+                              dense: "",
+                              required: ""
                             },
-                            on: {
-                              imageevent: function(newimage) {
-                                _vm.productForm.meta_image = newimage
-                              }
+                            model: {
+                              value: _vm.productForm.slug,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "slug", $$v)
+                              },
+                              expression: "productForm.slug"
                             }
-                          }),
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Meta Title",
+                              placeholder: "SEO Title",
+                              "error-messages": _vm.productForm.error(
+                                "meta_title"
+                              ),
+                              dense: "",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.productForm.meta_title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "meta_title", $$v)
+                              },
+                              expression: "productForm.meta_title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("image-upload", {
+                        attrs: {
+                          labelprops: "Meta Image",
+                          errormessages: _vm.productForm.error("meta_image")
+                        },
+                        on: {
+                          imageevent: function(newimage) {
+                            _vm.productForm.meta_image = newimage
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              counter: 170,
+                              label: "Meta Description",
+                              "error-messages": _vm.productForm.error(
+                                "meta_description"
+                              ),
+                              dense: "",
+                              rows: "3",
+                              clearable: "",
+                              "clear-icon": "mdi-close-circle"
+                            },
+                            model: {
+                              value: _vm.productForm.meta_description,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.productForm,
+                                  "meta_description",
+                                  $$v
+                                )
+                              },
+                              expression: "productForm.meta_description"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "d-inline-flex align-center",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c("h3", [_vm._v("Price")]),
+                          _vm._v(" "),
+                          _c("v-spacer"),
                           _vm._v(" "),
                           _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c("v-textarea", {
-                                attrs: {
-                                  outlined: "",
-                                  counter: 170,
-                                  label: "Meta Description",
-                                  "error-messages": _vm.productForm.error(
-                                    "meta_description"
-                                  ),
-                                  dense: "",
-                                  rows: "3",
-                                  clearable: "",
-                                  "clear-icon": "mdi-close-circle"
-                                },
-                                model: {
-                                  value: _vm.productForm.meta_description,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.productForm,
-                                      "meta_description",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "productForm.meta_description"
+                            "v-btn",
+                            {
+                              attrs: { depressed: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addNewPrice()
                                 }
-                              })
-                            ],
-                            1
+                              }
+                            },
+                            [_vm._v(" Add more prices ")]
                           )
                         ],
                         1
@@ -27661,523 +27943,474 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "d-inline-flex align-center",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c("h3", [_vm._v("Price")]),
-                              _vm._v(" "),
-                              _c("v-spacer"),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { depressed: "" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.addNewPrice()
-                                    }
-                                  }
-                                },
-                                [_vm._v(" Add more prices ")]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _vm._l(_vm.productForm.prices, function(price, index) {
-                        return _vm.productForm.prices.length > 0
-                          ? _c(
-                              "v-row",
-                              { key: index },
+                  _vm.productForm.prices.length > 0
+                    ? _vm._l(_vm.productForm.prices, function(price, index) {
+                        return _c(
+                          "v-row",
+                          { key: index },
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "3" } },
                               [
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", sm: "3" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Qty",
-                                        placeholder: "Puoduct Quantity",
-                                        "error-messages": _vm.productForm.error(
-                                          "prices." + index + ".quantity"
-                                        ),
-                                        outlined: "",
-                                        dense: "",
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: price.quantity,
-                                        callback: function($$v) {
-                                          _vm.$set(price, "quantity", $$v)
-                                        },
-                                        expression: "price.quantity"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", sm: "2" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Base Price",
-                                        placeholder: "Puoduct MRP",
-                                        "error-messages": _vm.productForm.error(
-                                          "prices." + index + ".base_price"
-                                        ),
-                                        outlined: "",
-                                        dense: "",
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: price.base_price,
-                                        callback: function($$v) {
-                                          _vm.$set(price, "base_price", $$v)
-                                        },
-                                        expression: "price.base_price"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", sm: "2" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Offer Price",
-                                        placeholder: "Special Price",
-                                        "error-messages": _vm.productForm.error(
-                                          "prices." + index + ".special_price"
-                                        ),
-                                        outlined: "",
-                                        dense: "",
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: price.special_price,
-                                        callback: function($$v) {
-                                          _vm.$set(price, "special_price", $$v)
-                                        },
-                                        expression: "price.special_price"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", sm: "2" } },
-                                  [
-                                    _c("date-picker", {
-                                      attrs: {
-                                        label: "Offer start date",
-                                        propdate: price.offer_start,
-                                        errormessages: _vm.productForm.error(
-                                          "prices." + index + ".offer_start"
-                                        )
-                                      },
-                                      on: {
-                                        dateevent: function(newdate) {
-                                          price.offer_start = newdate
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", sm: "2" } },
-                                  [
-                                    _c("date-picker", {
-                                      attrs: {
-                                        label: "Offer end date",
-                                        propdate: price.offer_end,
-                                        errormessages: _vm.productForm.error(
-                                          "prices." + index + ".offer_end"
-                                        )
-                                      },
-                                      on: {
-                                        dateevent: function(newdate) {
-                                          price.offer_end = newdate
-                                        }
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", sm: "1" } },
-                                  [
-                                    index != 0
-                                      ? _c(
-                                          "v-btn",
-                                          {
-                                            attrs: {
-                                              icon: "",
-                                              color: "primary"
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.removePrice(index)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { dark: "" } },
-                                              [_vm._v(" mdi-close ")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      : _vm._e()
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          : _vm._e()
-                      })
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-col", { attrs: { cols: "2" } }, [
-                            _c("h3", [_vm._v("Inventory")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-col", { attrs: { cols: "7" } }),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "3" } },
-                            [
-                              _c("v-select", {
-                                attrs: {
-                                  items: _vm.source,
-                                  "menu-props": { maxHeight: "250" },
-                                  "item-text": "title",
-                                  "item-value": "id",
-                                  label: "Sources",
-                                  multiple: "",
-                                  dense: "",
-                                  outlined: ""
-                                },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "selection",
-                                    fn: function(ref) {
-                                      var item = ref.item
-                                      var index = ref.index
-                                      return [
-                                        index === 0
-                                          ? _c(
-                                              "span",
-                                              {
-                                                staticClass:
-                                                  "grey--text caption"
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n\t\t\t\t\t          " +
-                                                    _vm._s(
-                                                      _vm.selected_source.length
-                                                    ) +
-                                                    " Source selected\n\t\t\t\t\t        "
-                                                )
-                                              ]
-                                            )
-                                          : _vm._e()
-                                      ]
-                                    }
-                                  }
-                                ]),
-                                model: {
-                                  value: _vm.selected_source,
-                                  callback: function($$v) {
-                                    _vm.selected_source = $$v
-                                  },
-                                  expression: "selected_source"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _vm._l(_vm.productForm.inventories, function(
-                        inventory,
-                        index
-                      ) {
-                        return _vm.productForm.inventories.length > 0
-                          ? _c(
-                              "v-row",
-                              { key: index },
-                              [
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", md: "6" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Source",
-                                        placeholder: "Inventory source",
-                                        readonly: "",
-                                        outlined: "",
-                                        dense: "",
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: inventory.source_title,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            inventory,
-                                            "source_title",
-                                            $$v
-                                          )
-                                        },
-                                        expression: "inventory.source_title"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  { attrs: { cols: "12", sm: "6" } },
-                                  [
-                                    _c("v-text-field", {
-                                      attrs: {
-                                        label: "Stock",
-                                        placeholder: "Puoduct Stock",
-                                        "error-messages": _vm.productForm.error(
-                                          "inventories." + index + ".quantity"
-                                        ),
-                                        type: "number",
-                                        min: "0",
-                                        outlined: "",
-                                        dense: "",
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: inventory.quantity,
-                                        callback: function($$v) {
-                                          _vm.$set(inventory, "quantity", $$v)
-                                        },
-                                        expression: "inventory.quantity"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          : _vm._e()
-                      })
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-col", { attrs: { cols: "12" } }, [
-                            _c("h3", [_vm._v("Images")])
-                          ]),
-                          _vm._v(" "),
-                          _vm.productForm.images.length > 0
-                            ? _vm._l(_vm.productForm.images, function(
-                                image,
-                                index
-                              ) {
-                                return _c("image-upload", {
-                                  key: index,
+                                _c("v-text-field", {
                                   attrs: {
-                                    mdprops: 4,
-                                    lgprops: 4,
-                                    xlprops: 4,
-                                    errormessages: _vm.productForm.error(
-                                      "images." + index + ".image"
+                                    label: "Qty",
+                                    placeholder: "Puoduct Quantity",
+                                    "error-messages": _vm.productForm.error(
+                                      "prices." + index + ".quantity"
                                     ),
-                                    labelprops: _vm.imageLabel(image.type)
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: price.quantity,
+                                    callback: function($$v) {
+                                      _vm.$set(price, "quantity", $$v)
+                                    },
+                                    expression: "price.quantity"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Base Price",
+                                    placeholder: "Puoduct MRP",
+                                    "error-messages": _vm.productForm.error(
+                                      "prices." + index + ".base_price"
+                                    ),
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: price.base_price,
+                                    callback: function($$v) {
+                                      _vm.$set(price, "base_price", $$v)
+                                    },
+                                    expression: "price.base_price"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Offer Price",
+                                    placeholder: "Special Price",
+                                    "error-messages": _vm.productForm.error(
+                                      "prices." + index + ".special_price"
+                                    ),
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: price.special_price,
+                                    callback: function($$v) {
+                                      _vm.$set(price, "special_price", $$v)
+                                    },
+                                    expression: "price.special_price"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("date-picker", {
+                                  attrs: {
+                                    label: "Offer start date",
+                                    propdate: price.offer_start,
+                                    errormessages: _vm.productForm.error(
+                                      "prices." + index + ".offer_start"
+                                    )
                                   },
                                   on: {
-                                    imageevent: function(newimage) {
-                                      image.image = newimage
+                                    dateevent: function(newdate) {
+                                      price.offer_start = newdate
                                     }
                                   }
                                 })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("date-picker", {
+                                  attrs: {
+                                    label: "Offer end date",
+                                    propdate: price.offer_end,
+                                    errormessages: _vm.productForm.error(
+                                      "prices." + index + ".offer_end"
+                                    )
+                                  },
+                                  on: {
+                                    dateevent: function(newdate) {
+                                      price.offer_end = newdate
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "1" } },
+                              [
+                                index != 0
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "", color: "primary" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removePrice(index)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-icon", { attrs: { dark: "" } }, [
+                                          _vm._v(" mdi-close ")
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      })
+                    : _vm._e()
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "9" } }, [
+                        _c("h3", [_vm._v("Inventory")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "3" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              items: _vm.sources,
+                              "menu-props": { maxHeight: "250" },
+                              "item-text": "title",
+                              "item-value": "id",
+                              label: "Sources",
+                              multiple: "",
+                              dense: "",
+                              outlined: ""
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "selection",
+                                fn: function(ref) {
+                                  var item = ref.item
+                                  var index = ref.index
+                                  return [
+                                    index === 0
+                                      ? _c(
+                                          "span",
+                                          { staticClass: "grey--text caption" },
+                                          [
+                                            _vm._v(
+                                              "\n\t\t\t\t\t\t\t\t\t\t" +
+                                                _vm._s(
+                                                  _vm.selected_source.length
+                                                ) +
+                                                " Source selected\n\t\t\t\t\t\t\t\t\t"
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.selected_source,
+                              callback: function($$v) {
+                                _vm.selected_source = $$v
+                              },
+                              expression: "selected_source"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.productForm.inventories.length > 0
+                    ? _vm._l(_vm.productForm.inventories, function(
+                        inventory,
+                        index
+                      ) {
+                        return _c(
+                          "v-row",
+                          { key: index },
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", md: "6" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Source",
+                                    placeholder: "Inventory source",
+                                    readonly: "",
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: inventory.source_title,
+                                    callback: function($$v) {
+                                      _vm.$set(inventory, "source_title", $$v)
+                                    },
+                                    expression: "inventory.source_title"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "6" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Stock",
+                                    placeholder: "Puoduct Stock",
+                                    "error-messages": _vm.productForm.error(
+                                      "inventories." + index + ".quantity"
+                                    ),
+                                    type: "number",
+                                    min: "0",
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: inventory.quantity,
+                                    callback: function($$v) {
+                                      _vm.$set(inventory, "quantity", $$v)
+                                    },
+                                    expression: "inventory.quantity"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      })
+                    : _vm._e()
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("Images")])
+                      ]),
+                      _vm._v(" "),
+                      _vm.productForm.images.length > 0
+                        ? _vm._l(_vm.productForm.images, function(
+                            image,
+                            index
+                          ) {
+                            return _c("image-upload", {
+                              key: index,
+                              attrs: {
+                                mdprops: 4,
+                                lgprops: 4,
+                                xlprops: 4,
+                                errormessages: _vm.productForm.error(
+                                  "images." + index + ".image"
+                                ),
+                                labelprops: _vm.imageLabel(image.type)
+                              },
+                              on: {
+                                imageevent: function(newimage) {
+                                  image.image = newimage
+                                }
+                              }
+                            })
+                          })
+                        : _vm._e()
+                    ],
+                    2
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("Product Categories")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", md: "4" } },
+                        [
+                          _c("v-treeview", {
+                            attrs: {
+                              items: _vm.categories,
+                              "selection-type": "independent",
+                              "selected-color": "purple",
+                              selectable: "",
+                              "return-object": "",
+                              "open-all": ""
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "label",
+                                fn: function(ref) {
+                                  var item = ref.item
+                                  var open = ref.open
+                                  return [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t\t" +
+                                        _vm._s(item.title) +
+                                        "\n\t\t\t\t\t\t\t\t"
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.selected_categories,
+                              callback: function($$v) {
+                                _vm.selected_categories = $$v
+                              },
+                              expression: "selected_categories"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", md: "8" } },
+                        [
+                          !_vm.selected_categories.length
+                            ? [
+                                _vm._v(
+                                  "\n\t\t\t\t\t\t\t\tNo nodes selected.\n\t\t\t\t\t\t\t"
+                                )
+                              ]
+                            : _vm._l(_vm.selected_categories, function(
+                                node,
+                                index
+                              ) {
+                                return _c("div", { key: index }, [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\t" +
+                                      _vm._s(node.title) +
+                                      "\n\t\t\t\t\t\t\t\t"
+                                  )
+                                ])
                               })
-                            : _vm._e()
                         ],
                         2
                       )
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-col", { attrs: { cols: "12" } }, [
-                            _c("h3", [_vm._v("Product Categories")])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", md: "4" } },
-                            [
-                              _c("v-treeview", {
-                                attrs: {
-                                  items: _vm.categories,
-                                  "selection-type": "independent",
-                                  "selected-color": "purple",
-                                  selectable: "",
-                                  "return-object": "",
-                                  "open-all": ""
-                                },
-                                scopedSlots: _vm._u([
-                                  {
-                                    key: "label",
-                                    fn: function(ref) {
-                                      var item = ref.item
-                                      var open = ref.open
-                                      return [
-                                        _vm._v(
-                                          "\n\t\t\t\t\t\t\t\t " +
-                                            _vm._s(item.title) +
-                                            "\n\t\t\t\t\t\t\t "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ]),
-                                model: {
-                                  value: _vm.selected_categories,
-                                  callback: function($$v) {
-                                    _vm.selected_categories = $$v
-                                  },
-                                  expression: "selected_categories"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", md: "8" } },
-                            [
-                              !_vm.selected_categories.length
-                                ? [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t No nodes selected.\n\t\t\t\t\t\t "
-                                    )
-                                  ]
-                                : _vm._l(_vm.selected_categories, function(
-                                    node,
-                                    index
-                                  ) {
-                                    return _c("div", { key: index }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t " +
-                                          _vm._s(node.title) +
-                                          "\n\t\t\t\t\t\t\t "
-                                      )
-                                    ])
-                                  })
-                            ],
-                            2
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-tab-item",
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-col", { attrs: { cols: "12" } }, [
-                            _c("h3", [_vm._v("Dynamic Attributes")])
-                          ]),
-                          _vm._v(" "),
-                          _c("v-col", { attrs: { cols: "12" } }, [
-                            _vm._v("\n\t\t\t\t\t\thello\n\t\t\t\t\t ")
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
                   )
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
-                "v-row",
+                "v-tab-item",
                 [
                   _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
+                    "v-row",
                     [
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "mr-4",
-                          attrs: { color: "primary", type: "submit" }
-                        },
-                        [_vm._v(" Submit ")]
-                      )
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("Dynamic Attributes")])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _vm._v("\n\t\t\t\t\t\t\thello\n\t\t\t\t\t\t")
+                      ])
                     ],
                     1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mr-4",
+                      attrs: {
+                        color: "primary",
+                        type: "submit",
+                        disabled: _vm.productForm.processing
+                      }
+                    },
+                    [_vm._v(" Submit ")]
                   )
                 ],
                 1
@@ -28227,7 +28460,828 @@ var render = function() {
         }
       ])
     },
-    [_vm._v(" "), _c("pre", [_vm._v("\t\t" + _vm._s(_vm.product) + "\n\t")])]
+    [
+      _vm._v(" "),
+      _c(
+        "v-form",
+        {
+          ref: "productCreateForm",
+          attrs: { "lazy-validation": "" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.createProduct($event)
+            }
+          },
+          model: {
+            value: _vm.valid,
+            callback: function($$v) {
+              _vm.valid = $$v
+            },
+            expression: "valid"
+          }
+        },
+        [
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "12", md: "10" } },
+                [
+                  _c(
+                    "v-tabs",
+                    {
+                      model: {
+                        value: _vm.tab,
+                        callback: function($$v) {
+                          _vm.tab = $$v
+                        },
+                        expression: "tab"
+                      }
+                    },
+                    [
+                      _c("v-tab", [_vm._v("General")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("SEO")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Price")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Inventory")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Image")]),
+                      _vm._v(" "),
+                      _c("v-tab", [_vm._v("Category")])
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "12", md: "2" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mr-4",
+                      attrs: {
+                        color: "primary",
+                        type: "submit",
+                        block: "",
+                        disabled: _vm.productForm.processing
+                      }
+                    },
+                    [_vm._v(" Submit ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-tabs-items",
+            {
+              model: {
+                value: _vm.tab,
+                callback: function($$v) {
+                  _vm.tab = $$v
+                },
+                expression: "tab"
+              }
+            },
+            [
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("General")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "2" } },
+                        [
+                          _c("v-switch", {
+                            attrs: { label: "Enable" },
+                            model: {
+                              value: _vm.productForm.status,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "status", $$v)
+                              },
+                              expression: "productForm.status"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6", md: "5" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "SKU",
+                              placeholder: "Stock Keeping unit",
+                              "error-messages": _vm.productForm.error("sku"),
+                              dense: "",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.productForm.sku,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "sku", $$v)
+                              },
+                              expression: "productForm.sku"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", md: "5" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Title",
+                              placeholder: "Product title",
+                              "error-messages": _vm.productForm.error("title"),
+                              dense: "",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.productForm.title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "title", $$v)
+                              },
+                              expression: "productForm.title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              counter: 300,
+                              label: "Small Description",
+                              "error-messages": _vm.productForm.error(
+                                "small_description"
+                              ),
+                              dense: "",
+                              rows: "4",
+                              clearable: "",
+                              "clear-icon": "mdi-close-circle"
+                            },
+                            model: {
+                              value: _vm.productForm.small_description,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.productForm,
+                                  "small_description",
+                                  $$v
+                                )
+                              },
+                              expression: "productForm.small_description"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              counter: 300,
+                              label: "Description",
+                              "error-messages": _vm.productForm.error(
+                                "description"
+                              ),
+                              dense: "",
+                              rows: "8",
+                              clearable: "",
+                              "clear-icon": "mdi-close-circle"
+                            },
+                            model: {
+                              value: _vm.productForm.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "description", $$v)
+                              },
+                              expression: "productForm.description"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("SEO")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              counter: 60,
+                              label: "Slug",
+                              "error-messages": _vm.productForm.error("slug"),
+                              placeholder: "Puoduct unique slug",
+                              outlined: "",
+                              dense: "",
+                              required: ""
+                            },
+                            model: {
+                              value: _vm.productForm.slug,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "slug", $$v)
+                              },
+                              expression: "productForm.slug"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", sm: "6" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Meta Title",
+                              placeholder: "SEO Title",
+                              "error-messages": _vm.productForm.error(
+                                "meta_title"
+                              ),
+                              dense: "",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.productForm.meta_title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.productForm, "meta_title", $$v)
+                              },
+                              expression: "productForm.meta_title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("image-upload", {
+                        attrs: {
+                          labelprops: "Meta Image",
+                          errormessages: _vm.productForm.error("meta_image"),
+                          serverimage: this.product.meta_image
+                        },
+                        on: {
+                          imageevent: function(newimage) {
+                            _vm.productForm.meta_image = newimage
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              outlined: "",
+                              counter: 170,
+                              label: "Meta Description",
+                              "error-messages": _vm.productForm.error(
+                                "meta_description"
+                              ),
+                              dense: "",
+                              rows: "3",
+                              clearable: "",
+                              "clear-icon": "mdi-close-circle"
+                            },
+                            model: {
+                              value: _vm.productForm.meta_description,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.productForm,
+                                  "meta_description",
+                                  $$v
+                                )
+                              },
+                              expression: "productForm.meta_description"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "d-inline-flex align-center",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c("h3", [_vm._v("Price")]),
+                          _vm._v(" "),
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { depressed: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addNewPrice()
+                                }
+                              }
+                            },
+                            [_vm._v(" Add more prices ")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.productForm.prices.length > 0
+                    ? _vm._l(_vm.productForm.prices, function(price, index) {
+                        return _c(
+                          "v-row",
+                          { key: index },
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "3" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Qty",
+                                    placeholder: "Puoduct Quantity",
+                                    "error-messages": _vm.productForm.error(
+                                      "prices." + index + ".quantity"
+                                    ),
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: price.quantity,
+                                    callback: function($$v) {
+                                      _vm.$set(price, "quantity", $$v)
+                                    },
+                                    expression: "price.quantity"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Base Price",
+                                    placeholder: "Puoduct MRP",
+                                    "error-messages": _vm.productForm.error(
+                                      "prices." + index + ".base_price"
+                                    ),
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: price.base_price,
+                                    callback: function($$v) {
+                                      _vm.$set(price, "base_price", $$v)
+                                    },
+                                    expression: "price.base_price"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Offer Price",
+                                    placeholder: "Special Price",
+                                    "error-messages": _vm.productForm.error(
+                                      "prices." + index + ".special_price"
+                                    ),
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: price.special_price,
+                                    callback: function($$v) {
+                                      _vm.$set(price, "special_price", $$v)
+                                    },
+                                    expression: "price.special_price"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("date-picker", {
+                                  attrs: {
+                                    label: "Offer start date",
+                                    propdate: price.offer_start,
+                                    errormessages: _vm.productForm.error(
+                                      "prices." + index + ".offer_start"
+                                    )
+                                  },
+                                  on: {
+                                    dateevent: function(newdate) {
+                                      price.offer_start = newdate
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "2" } },
+                              [
+                                _c("date-picker", {
+                                  attrs: {
+                                    label: "Offer end date",
+                                    propdate: price.offer_end,
+                                    errormessages: _vm.productForm.error(
+                                      "prices." + index + ".offer_end"
+                                    )
+                                  },
+                                  on: {
+                                    dateevent: function(newdate) {
+                                      price.offer_end = newdate
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "1" } },
+                              [
+                                index != 0
+                                  ? _c(
+                                      "v-btn",
+                                      {
+                                        attrs: { icon: "", color: "primary" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.removePrice(index)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-icon", { attrs: { dark: "" } }, [
+                                          _vm._v(" mdi-close ")
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      })
+                    : _vm._e()
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "9" } }, [
+                        _c("h3", [_vm._v("Inventory")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "3" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              items: _vm.sources,
+                              "menu-props": { maxHeight: "250" },
+                              "item-text": "title",
+                              "item-value": "id",
+                              label: "Sources",
+                              multiple: "",
+                              dense: "",
+                              outlined: ""
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "selection",
+                                fn: function(ref) {
+                                  var index = ref.index
+                                  return [
+                                    index === 0
+                                      ? _c(
+                                          "span",
+                                          { staticClass: "grey--text caption" },
+                                          [
+                                            _vm._v(
+                                              "\n\t\t\t\t\t\t\t\t\t" +
+                                                _vm._s(
+                                                  _vm.selected_source.length
+                                                ) +
+                                                " Source selected\n\t\t\t\t\t\t\t\t"
+                                            )
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.selected_source,
+                              callback: function($$v) {
+                                _vm.selected_source = $$v
+                              },
+                              expression: "selected_source"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.productForm.inventories.length > 0
+                    ? _vm._l(_vm.productForm.inventories, function(
+                        inventory,
+                        index
+                      ) {
+                        return _c(
+                          "v-row",
+                          { key: index },
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", md: "6" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Source",
+                                    placeholder: "Inventory source",
+                                    readonly: "",
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: inventory.source_title,
+                                    callback: function($$v) {
+                                      _vm.$set(inventory, "source_title", $$v)
+                                    },
+                                    expression: "inventory.source_title"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "12", sm: "6" } },
+                              [
+                                _c("v-text-field", {
+                                  attrs: {
+                                    label: "Stock",
+                                    placeholder: "Puoduct Stock",
+                                    "error-messages": _vm.productForm.error(
+                                      "inventories." + index + ".quantity"
+                                    ),
+                                    type: "number",
+                                    min: "0",
+                                    outlined: "",
+                                    dense: "",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: inventory.quantity,
+                                    callback: function($$v) {
+                                      _vm.$set(inventory, "quantity", $$v)
+                                    },
+                                    expression: "inventory.quantity"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      })
+                    : _vm._e()
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("Images")])
+                      ]),
+                      _vm._v(" "),
+                      _vm.productForm.images.length > 0
+                        ? _vm._l(_vm.productForm.images, function(
+                            image,
+                            index
+                          ) {
+                            return _c("image-upload", {
+                              key: index,
+                              attrs: {
+                                mdprops: 4,
+                                lgprops: 4,
+                                xlprops: 4,
+                                errormessages: _vm.productForm.error(
+                                  "images." + index + ".image"
+                                ),
+                                serverimage: image.imageUrl,
+                                labelprops: _vm.imageLabel(image.type)
+                              },
+                              on: {
+                                imageevent: function(newimage) {
+                                  image.image = newimage
+                                }
+                              }
+                            })
+                          })
+                        : _vm._e()
+                    ],
+                    2
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-tab-item",
+                [
+                  _c(
+                    "v-row",
+                    [
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c("h3", [_vm._v("Product Categories")])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", md: "4" } },
+                        [
+                          _c("v-treeview", {
+                            attrs: {
+                              items: _vm.categories,
+                              "selection-type": "independent",
+                              "selected-color": "purple",
+                              selectable: "",
+                              "return-object": "",
+                              "open-all": ""
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "label",
+                                fn: function(ref) {
+                                  var item = ref.item
+                                  return [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t\t\t" +
+                                        _vm._s(item.title) +
+                                        "\n\t\t\t\t\t\t\t"
+                                    )
+                                  ]
+                                }
+                              }
+                            ]),
+                            model: {
+                              value: _vm.selected_categories,
+                              callback: function($$v) {
+                                _vm.selected_categories = $$v
+                              },
+                              expression: "selected_categories"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12", md: "8" } },
+                        [
+                          !_vm.selected_categories.length
+                            ? [
+                                _vm._v(
+                                  "\n\t\t\t\t\t\t\tNo nodes selected.\n\t\t\t\t\t\t"
+                                )
+                              ]
+                            : _vm._l(_vm.selected_categories, function(
+                                node,
+                                index
+                              ) {
+                                return _c("div", { key: index }, [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t" +
+                                      _vm._s(node.title) +
+                                      "\n\t\t\t\t\t\t\t"
+                                  )
+                                ])
+                              })
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
   )
 }
 var staticRenderFns = []
@@ -28420,6 +29474,14 @@ var render = function() {
               src: _vm.imagePreview
             }
           })
+        : _vm.serverimage
+        ? _c("v-img", {
+            attrs: {
+              "max-height": "350",
+              "max-width": "1200",
+              src: _vm.serverimage
+            }
+          })
         : _vm._e()
     ],
     1
@@ -28484,155 +29546,164 @@ var render = function() {
             _vm.options = $event
           }
         },
-        scopedSlots: _vm._u([
-          {
-            key: "top",
-            fn: function() {
-              return [
-                _c(
-                  "v-toolbar",
-                  { attrs: { flat: "" } },
-                  [
-                    _c("v-toolbar-title", [_vm._v("Products")]),
-                    _vm._v(" "),
-                    _c("v-divider", {
-                      staticClass: "mx-4",
-                      attrs: { inset: "", vertical: "" }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: { icon: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.massDelete()
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "top",
+              fn: function() {
+                return [
+                  _c(
+                    "v-toolbar",
+                    { attrs: { flat: "" } },
+                    [
+                      _c("v-toolbar-title", [_vm._v("Products")]),
+                      _vm._v(" "),
+                      _c("v-divider", {
+                        staticClass: "mx-4",
+                        attrs: { inset: "", vertical: "" }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { icon: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.massDelete()
+                            }
                           }
-                        }
-                      },
-                      [
-                        _c("v-icon", { attrs: { small: "" } }, [
-                          _vm._v(" mdi-delete ")
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-spacer"),
-                    _vm._v(" "),
-                    _c(
-                      "v-btn",
-                      {
-                        staticClass: "mb-2",
-                        attrs: { color: "primary", depressed: "", dark: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.createNewProduct()
+                        },
+                        [
+                          _c("v-icon", { attrs: { small: "" } }, [
+                            _vm._v(" mdi-delete ")
+                          ])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mb-2",
+                          attrs: { color: "primary", depressed: "", dark: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.createNewProduct()
+                            }
                           }
-                        }
-                      },
-                      [_vm._v("\n\t\t\t\t\t\tAdd New Item\n\t\t\t\t\t")]
-                    )
-                  ],
-                  1
-                )
-              ]
+                        },
+                        [_vm._v("\n\t\t\t\t\t\tAdd New Item\n\t\t\t\t\t")]
+                      )
+                    ],
+                    1
+                  )
+                ]
+              },
+              proxy: true
             },
-            proxy: true
-          },
-          {
-            key: "item.status",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                item.status == 1
-                  ? _c("v-chip", { attrs: { small: "", color: "primary" } }, [
-                      _vm._v(" Enable ")
-                    ])
-                  : _c("v-chip", { attrs: { small: "", color: "pink" } }, [
-                      _vm._v(" Disable ")
-                    ])
-              ]
-            }
-          },
-          {
-            key: "item.images",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _vm._l(item.images, function(image) {
-                  return [
-                    _c("v-img", {
-                      staticClass: "my-2",
-                      attrs: {
-                        "max-height": "70",
-                        "max-width": "60",
-                        src: image.image
-                      }
-                    })
-                  ]
-                })
-              ]
-            }
-          },
-          {
-            key: "item.prices",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _vm._l(item.prices, function(price) {
-                  return [
-                    price.quantity == 1
-                      ? _c("span", { staticStyle: { display: "block" } }, [
-                          _vm._v(
-                            " " +
-                              _vm._s(
-                                _vm._f("currencyFormat")(price.base_price)
-                              ) +
-                              " "
+            {
+              key: "item.status",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  item.status == 1
+                    ? _c("v-chip", { attrs: { small: "", color: "primary" } }, [
+                        _vm._v(" Enable ")
+                      ])
+                    : _c("v-chip", { attrs: { small: "", color: "pink" } }, [
+                        _vm._v(" Disable ")
+                      ])
+                ]
+              }
+            },
+            {
+              key: "item.images",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _vm._l(item.images, function(image, index) {
+                    return [
+                      _c("v-img", {
+                        key: index,
+                        staticClass: "my-2",
+                        attrs: {
+                          "max-height": "70",
+                          "max-width": "60",
+                          src: image.image
+                        }
+                      })
+                    ]
+                  })
+                ]
+              }
+            },
+            {
+              key: "item.prices",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _vm._l(item.prices, function(price, index) {
+                    return [
+                      price.quantity == 1
+                        ? _c(
+                            "span",
+                            { key: index, staticStyle: { display: "block" } },
+                            [
+                              _vm._v(
+                                " " +
+                                  _vm._s(
+                                    _vm._f("currencyFormat")(price.base_price)
+                                  ) +
+                                  " "
+                              )
+                            ]
                           )
-                        ])
-                      : _vm._e()
-                  ]
-                })
-              ]
-            }
-          },
-          {
-            key: "item.inventories",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _vm._v(
-                  "\n\t\t\t\t" +
-                    _vm._s(_vm.totalInventory(item.inventories)) +
-                    "\n\t    "
-                )
-              ]
-            }
-          },
-          {
-            key: "item.actions",
-            fn: function(ref) {
-              var item = ref.item
-              return [
-                _c(
-                  "v-icon",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { small: "" },
-                    on: {
-                      click: function($event) {
-                        return _vm.editProduct(item.id)
+                        : _vm._e()
+                    ]
+                  })
+                ]
+              }
+            },
+            {
+              key: "item.inventories",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _vm._v(
+                    "\n\t\t\t\t" +
+                      _vm._s(_vm.totalInventory(item.inventories)) +
+                      "\n\t    \t"
+                  )
+                ]
+              }
+            },
+            {
+              key: "item.actions",
+              fn: function(ref) {
+                var item = ref.item
+                return [
+                  _c(
+                    "v-icon",
+                    {
+                      staticClass: "mr-2",
+                      attrs: { small: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.editProduct(item.id)
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("\n\t\t\t    mdi-pencil\n\t\t\t  ")]
-                )
-              ]
+                    },
+                    [_vm._v("\n\t\t\t    mdi-pencil\n\t\t\t  ")]
+                  )
+                ]
+              }
             }
-          }
-        ]),
+          ],
+          null,
+          true
+        ),
         model: {
           value: _vm.selected,
           callback: function($$v) {

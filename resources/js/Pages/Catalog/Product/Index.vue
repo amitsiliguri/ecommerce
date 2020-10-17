@@ -5,21 +5,20 @@
 		<v-data-table
 			v-model="selected"
 			item-key="sku"
-    	show-select
-      :headers="headers"
-      :items="categories"
-      :options.sync="options"
-      :server-items-length="totalCategories"
-      :loading="loading"
-      class="elevation-1"
+			show-select
+			:headers="headers"
+			:items="categories"
+			:options.sync="options"
+			:server-items-length="totalCategories"
+			:loading="loading"
+			class="elevation-1"
 			height="440"
 			loader-height="2"
 			:footer-props="{
 				'items-per-page-options':itemsPerPageOptions
 			}"
 			:items-per-page="options.itemsPerPage"
-    >
-
+    	>
 			<template v-slot:top>
 				<v-toolbar flat >
 					<v-toolbar-title>Products</v-toolbar-title>
@@ -34,34 +33,33 @@
 				</v-toolbar>
 			</template>
 
-			<template v-slot:item.status="{ item }">
-	      <v-chip small color="primary" v-if="item.status == 1"> Enable </v-chip>
+			<template v-slot:[`item.status`]="{ item }">
+	      		<v-chip small color="primary" v-if="item.status == 1"> Enable </v-chip>
 				<v-chip small color="pink" v-else> Disable </v-chip>
-	    </template>
+	    	</template>
 
-			<template v-slot:item.images="{ item }">
-				<template v-for="image in item.images">
-					<v-img max-height="70" max-width="60" :src="image.image" class="my-2"></v-img>
+			<template v-slot:[`item.images`]="{ item }">
+				<template v-for="(image,index) in item.images">
+					<v-img max-height="70" max-width="60" :src="image.image" class="my-2" :key="index"></v-img>
 				</template>
-	    </template>
+	    	</template>
 
-			<template v-slot:item.prices="{ item }">
-				<template v-for="price in item.prices">
-					<span style="display:block" v-if="price.quantity == 1"> {{price.base_price | currencyFormat}} </span>
+			<template v-slot:[`item.prices`]="{ item }">
+				<template v-for="(price,index) in item.prices">
+					<span style="display:block" v-if="price.quantity == 1" :key="index"> {{price.base_price | currencyFormat}} </span>
 				</template>
-	    </template>
+	    	</template>
 
-			<template v-slot:item.inventories="{ item }">
+			<template v-slot:[`item.inventories`]="{ item }">
 				{{totalInventory(item.inventories)}}
-	    </template>
+	    	</template>
 
-			<template v-slot:item.actions="{ item }">
+			<template v-slot:[`item.actions`]="{ item }">
 			  <v-icon small class="mr-2" @click="editProduct(item.id)">
 			    mdi-pencil
 			  </v-icon>
 			</template>
 		</v-data-table>
-
 	</app-layout>
 </template>
 
@@ -108,7 +106,7 @@
 						url.searchParams.set('itemsPerPage', newVal.itemsPerPage)
 				    history.pushState(null, document.title, url.toString())
 						let query = '?page=' + newVal.page + '&itemsPerPage=' + newVal.itemsPerPage
-	          this.getCategories(query)
+	          this.getProducts(query)
 	        },
 	        deep: true,
 	      },
@@ -123,52 +121,51 @@
 				}
 	    },
 	    methods: {
-				async getCategories(query){
-					this.loading = true
-					let url = '/admin/catalog/product/paginated/data' + query
-					await axios.get(url)
-					.then(response => {
-						this.categories = response.data.data
-						this.totalCategories = response.data.total
+			async getProducts(query){
+				this.loading = true
+				let url = '/admin/catalog/product/paginated/data' + query
+				await axios.get(url)
+				.then(response => {
+					this.categories = response.data.data
+					this.totalCategories = response.data.total
+				})
+			.catch(error => {
+				console.log(error)
+			});
+				this.loading = false
+			},
+			setImage(image){
+				return '/image/product/small/' + image
+			},
+			totalInventory(inventories){
+				let total = 0
+				inventories.forEach(inventory => {
+					total += inventory.quantity
+				});
+				return total
+			},
+			createNewProduct(){
+				this.$inertia.replace('/admin/catalog/product/create');
+			},
+			editProduct(id){
+				this.$inertia.replace(`/admin/catalog/product/edit/${id}`);
+			},
+			massDelete(){
+				let items = this.selected.length
+				let ids = []
+				if (items > 0) {
+
+					this.selected.forEach(function(item) {
+						ids.push(item.id)
 					})
-			    .catch(error => {
-			      console.log(error)
-			    });
-					this.loading = false
-				},
-				setImage(image){
-					return '/image/product/small/' + image
-				},
-				totalInventory(inventories){
-					let total = 0
-					inventories.forEach(inventory => {
-						total += inventory.quantity
-					});
-					return total
-				},
-				createNewProduct(){
-					this.$inertia.replace('/admin/catalog/product/create');
-				},
-				editProduct(id){
-					this.$inertia.replace(`/admin/catalog/product/edit/${id}`);
-				},
-				massDelete(){
-					let items = this.selected.length
-					let ids = []
-					if (items > 0) {
-
-						this.selected.forEach(function(item) {
-							ids.push(item.id)
-						})
-						if (confirm('Are you sure you want to delete items?')) {
-							let deleteUrl = '/admin/catalog/product/delete/' + ids.toString()
-							this.$inertia.delete(deleteUrl)
-						}
-					} else {
-						alert("No item selcted!");
+					if (confirm('Are you sure you want to delete items?')) {
+						let deleteUrl = '/admin/catalog/product/delete/' + ids.toString()
+						this.$inertia.delete(deleteUrl)
 					}
-
+				} else {
+					alert("No item selcted!");
 				}
+			}
 	    },
     }
 </script>

@@ -54,79 +54,79 @@
     export default {
         components: {
             AppLayout,
-						categorytree
+			categorytree
         },
-				props: {
-			    category: Object,
-			  },
-				data() {
-					return {
-						panel: [0,1],
-						valid : false,
-						categoryForm: this.$inertia.form({
-								'_method': 'PUT',
-								status: this.category.status,
-								title: this.category.title,
-								slug: '',
-								description : this.category.description,
-								banner : null,
-								meta_title : this.category.meta_title,
-								meta_description : this.category.meta_description,
-								meta_image : null
-						}, {
-								bag: 'saveCategory',
-								resetOnSuccess: false,
-						}),
-						bannerPreview: null,
-						metaImagePreview: null,
-						bannerUrl: this.category.banner,
-						metaImageUrl: this.category.meta_image,
-						sluginput : this.category.slug,
-						titleRule: [
-							value => !!value || 'Required.',
-							value => (value || '').length <= 60 || 'Max 60 characters',
-						],
-						slugRule: [
-							value => !!value || 'Required.',
-							value => (value || '').length <= 60 || 'Max 60 characters',
-						],
-					}
-		    },
-				computed : {
-					statusLable: function () {
-					 return (this.categoryForm.status) ? "Enable" : "Disable"
-					},
-					savedSlug: function () {
-						return this.sluginput.trim().toLowerCase().split(/\s+/).join('-');
-					}
-				},
-				methods: {
+		props: {
+			category: Object,
+		},
+		data() {
+			return {
+				panel: [0,1],
+				valid : false,
+				categoryForm: this.$inertia.form({
+					'_method': 'PUT',
+					status: this.category.status,
+					title: this.category.title,
+					slug: '',
+					description : this.category.description,
+					banner : null,
+					meta_title : this.category.meta_title,
+					meta_description : this.category.meta_description,
+					meta_image : null
+				}, {
+					bag: 'saveCategory',
+					resetOnSuccess: false,
+				}),
+				bannerPreview: null,
+				metaImagePreview: null,
+				bannerUrl: this.category.banner,
+				metaImageUrl: this.category.meta_image,
+				sluginput : this.category.slug,
+				titleRule: [
+					value => !!value || 'Required.',
+					value => (value || '').length <= 60 || 'Max 60 characters',
+				],
+				slugRule: [
+					value => !!value || 'Required.',
+					value => (value || '').length <= 60 || 'Max 60 characters',
+				],
+			}
+		},
+		computed : {
+			statusLable: function () {
+				return (this.categoryForm.status) ? "Enable" : "Disable"
+			},
+			savedSlug: function () {
+				return this.sluginput.trim().toLowerCase().split(/\s+/).join('-');
+			}
+		},
+		methods: {
             editCategory() {
-								this.categoryForm.slug = this.savedSlug
-								let url = '/admin/catalog/category/update/' + this.category.id
+				this.categoryForm.slug = this.savedSlug
+				let url = '/admin/catalog/category/update/' + this.category.id
                 this.categoryForm.post(url, {
                     preserveScroll: true
                 }).then(() => {
-									this.$refs.editCategoryForm.resetValidation()
-									this.$refs.categoryTree.getTree()
+					this.$refs.editCategoryForm.resetValidation()
+					this.$refs.categoryTree.getTree()
                 })
             },
-						featuredImagePreview (){
-							if (this.categoryForm.banner != null) {
-								const file = this.categoryForm.banner
-	      				this.bannerPreview = URL.createObjectURL(file)
-							}else {
-								this.bannerPreview = null
-							}
-						},
-						categoryMetaImagePreview (){
-							if (this.categoryForm.meta_image != null) {
-								const file = this.categoryForm.meta_image
-	      				this.metaImagePreview = URL.createObjectURL(file)
-							}else {
-								this.metaImagePreview = null
-							}
-						}
+			featuredImagePreview (){
+				if (this.categoryForm.banner != null) {
+					const file = this.categoryForm.banner
+	      			this.bannerPreview = URL.createObjectURL(file)
+				}else {
+					this.bannerPreview = null
+				}
+			},
+			categoryMetaImagePreview (){
+				if (this.categoryForm.meta_image != null) {
+					const file = this.categoryForm.meta_image
+					this.metaImagePreview = URL.createObjectURL(file)
+				}else {
+					this.metaImagePreview = null
+				}
+			}
         },
     }
 </script>
