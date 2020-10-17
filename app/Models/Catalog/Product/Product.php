@@ -61,4 +61,20 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\Catalog\Product\Inventory', 'product_id', 'id');
     }
+
+    /**
+     * The categories that belong to the product.
+     */
+    public function categories()
+    {
+        return $this->belongsToMany('App\Models\Catalog\category','category_products', 'product_id', 'category_id');
+    }
+
+    /**
+     * The sources that belong to the product.
+     */
+    public function sources()
+    {
+        return $this->belongsToMany('App\Models\Catalog\Inventory\Source','Inventory', 'product_id', 'source_id')->withPivot('quantity');
+    }
 }

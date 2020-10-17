@@ -37,4 +37,13 @@ class category extends Model
         'parent_id',
         'sort_order'
     ];
+
+
+    /**
+     * The products that belong to the category.
+     */
+    public function products()
+    {
+        return $this->belongsToMany('App\Models\Catalog\Product\Product','category_products', 'category_id', 'product_id');
+    }
 }

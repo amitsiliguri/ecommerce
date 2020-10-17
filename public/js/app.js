@@ -3329,6 +3329,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       source: [],
       selected_source: [],
       categories: [],
+      selected_categories: [],
       //productForm
       productForm: this.$inertia.form({
         status: true,
@@ -3344,8 +3345,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           quantity: 1,
           base_price: 0,
           special_price: 0,
-          offer_start_date: '',
-          offer_end_date: ''
+          offer_start: '',
+          offer_end: ''
         }],
         inventories: [],
         images: [{
@@ -3447,8 +3448,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         quantity: 1,
         base_price: 0,
         special_price: 0,
-        offer_start_date: new Date().toISOString().substr(0, 10),
-        offer_end_date: new Date().toISOString().substr(0, 10)
+        offer_start: new Date().toISOString().substr(0, 10),
+        offer_end: new Date().toISOString().substr(0, 10)
       });
     },
     removePrice: function removePrice(index) {
@@ -3473,12 +3474,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     createProduct: function createProduct() {
+      //category ids
+      var ids = [];
+      this.selected_categories.forEach(function (item, i) {
+        ids.push(item.id);
+      });
+      this.productForm.categories = ids; // form submit
+
       this.productForm.post('/admin/catalog/product/store', {
         preserveScroll: true
-      }).then(function () {
-        console.log("hit");
       });
-      console.log(this.productForm);
     }
   }
 });
@@ -3522,6 +3527,10 @@ __webpack_require__.r(__webpack_exports__);
     label: {
       type: String,
       required: true
+    },
+    errormessages: {
+      type: String,
+      required: false
     }
   },
   watch: {
@@ -27746,11 +27755,14 @@ var render = function() {
                                     _c("date-picker", {
                                       attrs: {
                                         label: "Offer start date",
-                                        propdate: price.offer_start_date
+                                        propdate: price.offer_start,
+                                        errormessages: _vm.productForm.error(
+                                          "prices." + index + ".offer_start"
+                                        )
                                       },
                                       on: {
                                         dateevent: function(newdate) {
-                                          price.offer_start_date = newdate
+                                          price.offer_start = newdate
                                         }
                                       }
                                     })
@@ -27765,11 +27777,14 @@ var render = function() {
                                     _c("date-picker", {
                                       attrs: {
                                         label: "Offer end date",
-                                        propdate: price.offer_end_date
+                                        propdate: price.offer_end,
+                                        errormessages: _vm.productForm.error(
+                                          "prices." + index + ".offer_end"
+                                        )
                                       },
                                       on: {
                                         dateevent: function(newdate) {
-                                          price.offer_end_date = newdate
+                                          price.offer_end = newdate
                                         }
                                       }
                                     })
@@ -28044,11 +28059,11 @@ var render = function() {
                                   }
                                 ]),
                                 model: {
-                                  value: _vm.productForm.categories,
+                                  value: _vm.selected_categories,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.productForm, "categories", $$v)
+                                    _vm.selected_categories = $$v
                                   },
-                                  expression: "productForm.categories"
+                                  expression: "selected_categories"
                                 }
                               })
                             ],
@@ -28059,13 +28074,13 @@ var render = function() {
                             "v-col",
                             { attrs: { cols: "12", md: "8" } },
                             [
-                              !_vm.productForm.categories.length
+                              !_vm.selected_categories.length
                                 ? [
                                     _vm._v(
                                       "\n\t\t\t\t\t\t\t No nodes selected.\n\t\t\t\t\t\t "
                                     )
                                   ]
-                                : _vm._l(_vm.productForm.categories, function(
+                                : _vm._l(_vm.selected_categories, function(
                                     node,
                                     index
                                   ) {
@@ -28193,7 +28208,8 @@ var render = function() {
                         "prepend-icon": "mdi-calendar",
                         readonly: "",
                         outlined: "",
-                        dense: ""
+                        dense: "",
+                        "error-messages": _vm.errormessages
                       },
                       model: {
                         value: _vm.date,

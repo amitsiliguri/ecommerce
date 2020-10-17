@@ -54,15 +54,21 @@ class StoreController extends Controller
     }
     // save products
     $catalogProduct->save();
+    // add prices to product
     if (array_key_exists("prices",$inputs) && is_array($inputs['prices']) && sizeof($inputs['prices']) > 0) {
       $catalogProduct->prices()->createMany($inputs['prices']);
     }
+    // add inventories to product
     if (array_key_exists("inventories",$inputs) && is_array($inputs['inventories']) && sizeof($inputs['inventories']) > 0) {
       $catalogProduct->inventories()->createMany($inputs['inventories']);
     }
+    // add images to product
     if (array_key_exists("images",$inputs) && is_array($inputs['images']) && sizeof($inputs['images']) > 0) {
       $catalogProduct->images()->createMany($this->ProductImages($request));
     }
+    // add categories to product
+    $catalogProduct->categories()->sync($inputs['categories']);
+
     return redirect()->route('catalog.product.index')->with('success', 'New category created');
   }
 
@@ -110,6 +116,8 @@ class StoreController extends Controller
       'prices.*.quantity' => ['required'],
       'prices.*.base_price' => ['required'],
       'prices.*.special_price' => ['required'],
+      'prices.*.offer_end' => ['required'],
+      'prices.*.offer_start' => ['required'],
       'inventories.*.source_id' => ['required'],
       'inventories.*.quantity' => ['required'],
       'images.*.image' => ['required','image', 'mimes:jpeg,jpg,png','max:512'],

@@ -36,4 +36,12 @@ class Source extends Model
     {
         return $this->hasMany('App\Models\Catalog\Product\Inventory', 'source_id', 'id');
     }
+
+    /**
+     * The products that belong to the source.
+     */
+    public function products()
+    {
+        return $this->belongsToMany('App\Models\Catalog\Product\Product','Inventory', 'product_id', 'source_id')->withPivot('quantity');
+    }
 }

@@ -82,10 +82,10 @@
 								<v-text-field label="Offer Price" placeholder="Special Price" v-model="price.special_price" :error-messages="productForm.error('prices.' + index + '.special_price')" outlined dense required></v-text-field>
 							</v-col>
 							<v-col cols="12" sm="2">
-								<date-picker label="Offer start date" :propdate="price.offer_start_date" @dateevent="(newdate) => {price.offer_start_date = newdate}"/>
+								<date-picker label="Offer start date" :propdate="price.offer_start" @dateevent="(newdate) => {price.offer_start = newdate}" :errormessages="productForm.error('prices.' + index + '.offer_start')"/>
 							</v-col>
 							<v-col cols="12" sm="2">
-								<date-picker label="Offer end date" :propdate="price.offer_end_date" @dateevent="(newdate) => {price.offer_end_date = newdate}"/>
+								<date-picker label="Offer end date" :propdate="price.offer_end" @dateevent="(newdate) => {price.offer_end = newdate}"  :errormessages="productForm.error('prices.' + index + '.offer_end')"/>
 							</v-col>
 							<v-col cols="12" sm="1">
 								<v-btn icon color="primary" v-if="index != 0" @click="removePrice(index)">
@@ -143,18 +143,18 @@
 							 <h3>Product Categories</h3>
 						 </v-col>
 						 <v-col cols="12" md="4">
-							 <v-treeview v-model="productForm.categories" :items="categories" selection-type="independent" selected-color="purple" selectable return-object open-all>
+							 <v-treeview v-model="selected_categories" :items="categories" selection-type="independent" selected-color="purple" selectable return-object open-all>
 								 <template v-slot:label="{ item, open }">
 									 {{item.title}}
 								 </template>
 							 </v-treeview>
 						 </v-col>
 						 <v-col cols="12" md="8">
-							 <template v-if="!productForm.categories.length">
+							 <template v-if="!selected_categories.length">
 								 No nodes selected.
 							 </template>
 							 <template v-else>
-								 <div v-for="(node,index) in productForm.categories" :key="index">
+								 <div v-for="(node,index) in selected_categories" :key="index">
 									 {{ node.title }}
 								 </div>
 							 </template>
@@ -210,6 +210,7 @@
 					source : [],
 					selected_source :[],
 					categories: [],
+					selected_categories: [],
 					//productForm
 					productForm: this.$inertia.form({
 						status : true,
@@ -226,8 +227,8 @@
 								quantity : 1,
 								base_price : 0,
 								special_price : 0,
-								offer_start_date : '',
-								offer_end_date :'',
+								offer_start : '',
+								offer_end :'',
 							}
 						],
 						inventories : [],
@@ -283,8 +284,8 @@
 							quantity : 1,
 							base_price : 0,
 							special_price : 0,
-							offer_start_date : new Date().toISOString().substr(0, 10),
-							offer_end_date : new Date().toISOString().substr(0, 10),
+							offer_start : new Date().toISOString().substr(0, 10),
+							offer_end : new Date().toISOString().substr(0, 10),
 						}
 					);
 				},
@@ -307,12 +308,16 @@
 					}
 				},
 				createProduct(){
+					//category ids
+					let ids = []
+					this.selected_categories.forEach((item, i) => {
+						ids.push(item.id)
+					});
+					this.productForm.categories = ids
+					// form submit
 					this.productForm.post('/admin/catalog/product/store', {
 							preserveScroll: true
-					}).then(() => {
-						console.log("hit");
 					})
-					console.log(this.productForm);
 				}
 			}
     }

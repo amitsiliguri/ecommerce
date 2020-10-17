@@ -1,7 +1,7 @@
 <template>
 	<v-dialog ref="dialog" v-model="modal" :return-value.sync="date" persistent width="290px">
 		<template v-slot:activator="{ on, attrs }">
-			<v-text-field v-model="date" :label="label" prepend-icon="mdi-calendar"	readonly outlined dense v-bind="attrs" v-on="on"></v-text-field>
+			<v-text-field v-model="date" :label="label" prepend-icon="mdi-calendar"	readonly outlined dense v-bind="attrs" v-on="on" :error-messages="errormessages"></v-text-field>
 		</template>
 		<v-date-picker v-model="date" scrollable>
 			<v-spacer></v-spacer>
@@ -25,6 +25,10 @@
 				label: {
 					type: String,
 					required: true
+				},
+				errormessages: {
+					type: String,
+					required: false
 				}
     },
     watch: {
