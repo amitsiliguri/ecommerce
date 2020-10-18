@@ -3291,18 +3291,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3427,9 +3415,10 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.productForm.categories = ids; // form submit
 
-      this.productForm.post('/admin/catalog/product/store', {
-        preserveScroll: true
-      });
+      this.productForm.post('/admin/catalog/product/store');
+    },
+    back: function back() {
+      this.$inertia.replace('/admin/catalog/product');
     }
   }
 });
@@ -3448,20 +3437,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _Fields_ImageUpload__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Fields/ImageUpload */ "./resources/js/Pages/Catalog/Product/Fields/ImageUpload.vue");
 /* harmony import */ var _Fields_DatePicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Fields/DatePicker */ "./resources/js/Pages/Catalog/Product/Fields/DatePicker.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3776,6 +3751,9 @@ __webpack_require__.r(__webpack_exports__);
         default:
           return 'Extra Image';
       }
+    },
+    back: function back() {
+      this.$inertia.replace('/admin/catalog/product');
     }
   }
 });
@@ -27601,11 +27579,34 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12" } },
+                { staticClass: "pr-0", attrs: { cols: "2", sm: "1" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mt-1",
+                      attrs: { block: "", large: "", text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.back()
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-undo-variant")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "px-0", attrs: { cols: "8", sm: "10" } },
                 [
                   _c(
                     "v-tabs",
                     {
+                      attrs: { "show-arrows": "", grow: "" },
                       model: {
                         value: _vm.tab,
                         callback: function($$v) {
@@ -27625,10 +27626,32 @@ var render = function() {
                       _vm._v(" "),
                       _c("v-tab", [_vm._v("Image")]),
                       _vm._v(" "),
-                      _c("v-tab", [_vm._v("Category")]),
-                      _vm._v(" "),
-                      _c("v-tab", [_vm._v("Attributes")])
+                      _c("v-tab", [_vm._v("Category")])
                     ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "pl-0", attrs: { cols: "2", sm: "1" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mt-1",
+                      attrs: {
+                        block: "",
+                        text: "",
+                        type: "submit",
+                        color: "primary",
+                        large: "",
+                        disabled: _vm.productForm.processing
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-send")])],
                     1
                   )
                 ],
@@ -27978,7 +28001,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "v-col",
-                              { attrs: { cols: "12", sm: "2" } },
+                              { attrs: { cols: "6", sm: "2" } },
                               [
                                 _c("v-text-field", {
                                   attrs: {
@@ -28005,7 +28028,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "v-col",
-                              { attrs: { cols: "12", sm: "2" } },
+                              { attrs: { cols: "6", sm: "2" } },
                               [
                                 _c("v-text-field", {
                                   attrs: {
@@ -28032,7 +28055,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "v-col",
-                              { attrs: { cols: "12", sm: "2" } },
+                              { attrs: { cols: "6", sm: "2" } },
                               [
                                 _c("date-picker", {
                                   attrs: {
@@ -28054,7 +28077,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "v-col",
-                              { attrs: { cols: "12", sm: "2" } },
+                              { attrs: { cols: "6", sm: "2" } },
                               [
                                 _c("date-picker", {
                                   attrs: {
@@ -28115,13 +28138,13 @@ var render = function() {
                   _c(
                     "v-row",
                     [
-                      _c("v-col", { attrs: { cols: "9" } }, [
+                      _c("v-col", { attrs: { cols: "4", sm: "6", md: "9" } }, [
                         _c("h3", [_vm._v("Inventory")])
                       ]),
                       _vm._v(" "),
                       _c(
                         "v-col",
-                        { attrs: { cols: "3" } },
+                        { attrs: { cols: "8", sm: "6", md: "3" } },
                         [
                           _c("v-select", {
                             attrs: {
@@ -28186,7 +28209,7 @@ var render = function() {
                           [
                             _c(
                               "v-col",
-                              { attrs: { cols: "12", md: "6" } },
+                              { attrs: { cols: "6" } },
                               [
                                 _c("v-text-field", {
                                   attrs: {
@@ -28211,7 +28234,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "v-col",
-                              { attrs: { cols: "12", sm: "6" } },
+                              { attrs: { cols: "6" } },
                               [
                                 _c("v-text-field", {
                                   attrs: {
@@ -28368,52 +28391,6 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-tab-item",
-                [
-                  _c(
-                    "v-row",
-                    [
-                      _c("v-col", { attrs: { cols: "12" } }, [
-                        _c("h3", [_vm._v("Dynamic Attributes")])
-                      ]),
-                      _vm._v(" "),
-                      _c("v-col", { attrs: { cols: "12" } }, [
-                        _vm._v("\n\t\t\t\t\t\t\thello\n\t\t\t\t\t\t")
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-row",
-            [
-              _c(
-                "v-col",
-                { attrs: { cols: "12" } },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      staticClass: "mr-4",
-                      attrs: {
-                        color: "primary",
-                        type: "submit",
-                        disabled: _vm.productForm.processing
-                      }
-                    },
-                    [_vm._v(" Submit ")]
-                  )
-                ],
-                1
               )
             ],
             1
@@ -28487,11 +28464,34 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "10" } },
+                { staticClass: "pr-0", attrs: { cols: "2", sm: "1" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mt-1",
+                      attrs: { block: "", large: "", text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.back()
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("mdi-undo-variant")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "px-0", attrs: { cols: "8", sm: "10" } },
                 [
                   _c(
                     "v-tabs",
                     {
+                      attrs: { "show-arrows": "", grow: "" },
                       model: {
                         value: _vm.tab,
                         callback: function($$v) {
@@ -28521,20 +28521,23 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "2" } },
+                { staticClass: "pl-0", attrs: { cols: "2", sm: "1" } },
                 [
                   _c(
                     "v-btn",
                     {
-                      staticClass: "mr-4",
+                      staticClass: "mt-1",
                       attrs: {
-                        color: "primary",
-                        type: "submit",
                         block: "",
+                        text: "",
+                        type: "submit",
+                        color: "primary",
+                        large: "",
                         disabled: _vm.productForm.processing
                       }
                     },
-                    [_vm._v(" Submit ")]
+                    [_c("v-icon", [_vm._v("mdi-send")])],
+                    1
                   )
                 ],
                 1
@@ -29021,13 +29024,13 @@ var render = function() {
                   _c(
                     "v-row",
                     [
-                      _c("v-col", { attrs: { cols: "9" } }, [
+                      _c("v-col", { attrs: { cols: "4", sm: "6", md: "9" } }, [
                         _c("h3", [_vm._v("Inventory")])
                       ]),
                       _vm._v(" "),
                       _c(
                         "v-col",
-                        { attrs: { cols: "3" } },
+                        { attrs: { cols: "8", sm: "6", md: "3" } },
                         [
                           _c("v-select", {
                             attrs: {

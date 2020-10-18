@@ -2,9 +2,14 @@
 	<app-layout>
 		<template #header>{{product.title}}</template>
 		<v-form ref="productCreateForm" lazy-validation v-model="valid" @submit.prevent="createProduct">
-			<v-row>
-				<v-col cols="12" md="10">
-					<v-tabs v-model="tab">
+			<v-row >
+				<v-col cols="2" sm="1" class="pr-0"> 
+					<v-btn block large text class="mt-1" @click="back()">
+						<v-icon>mdi-undo-variant</v-icon>
+					</v-btn>
+				</v-col>
+				<v-col cols="8" sm="10" class="px-0">
+					<v-tabs v-model="tab" show-arrows grow>
 						<v-tab>General</v-tab>
 						<v-tab>SEO</v-tab>
 						<v-tab>Price</v-tab>
@@ -13,15 +18,14 @@
 						<v-tab>Category</v-tab>
 					</v-tabs>
 				</v-col>
-				<v-col cols="12" md="2">
-					<v-btn color="primary" class="mr-4" type="submit" block :disabled="productForm.processing"> Submit </v-btn>
+				<v-col cols="2" sm="1" class="pl-0">
+					<v-btn block text type="submit" color="primary" class="mt-1" large :disabled="productForm.processing">
+						<v-icon>mdi-send</v-icon>
+					</v-btn>
 				</v-col>
 			</v-row>
-
 			<v-tabs-items v-model="tab">
 				<v-tab-item>
-					
-					
 					<v-row>
 						<v-col cols="12">
 							<h3>General</h3>
@@ -43,8 +47,6 @@
 						</v-col>
 					</v-row>
 				</v-tab-item>
-
-
 				<v-tab-item>
 					<v-row>
 						<v-col cols="12">
@@ -62,8 +64,6 @@
 						</v-col>
 					</v-row>
 				</v-tab-item>
-
-
 				<v-tab-item>
 					<v-row>
 						<v-col cols="12" class="d-inline-flex align-center">
@@ -97,18 +97,12 @@
 						</v-row>
 					</template>
 				</v-tab-item>
-
-
-
-
-
-
 				<v-tab-item>
 					<v-row>
-						<v-col cols="9">
+						<v-col cols="4" sm="6" md="9">
 							<h3>Inventory</h3>
 						</v-col>
-						<v-col cols="3">
+						<v-col cols="8" sm="6" md="3">
 							<v-select v-model="selected_source" :items="sources" :menu-props="{ maxHeight: '250' }" item-text="title" item-value="id" label="Sources" multiple dense outlined>
 								<template v-slot:selection="{  index }">
 									<span v-if="index === 0" class="grey--text caption">
@@ -129,9 +123,6 @@
 						</v-row>
 					</template>
 				</v-tab-item>
-
-
-
 				<v-tab-item>
 					<v-row>
 						<v-col cols="12">
@@ -152,9 +143,6 @@
 						</template>
 					</v-row>
 				</v-tab-item>
-
-
-
 				<v-tab-item>
 					<v-row>
 						<v-col cols="12">
@@ -179,8 +167,6 @@
 						</v-col>
 					</v-row>
 				</v-tab-item>
-
-
 			</v-tabs-items>
 		</v-form>
 	</app-layout>
@@ -265,7 +251,6 @@
 		this.productForm.images = tempImage
 		// Product Categories
 		this.selected_categories = this.product.categories
-		
 	},
 	watch : {
 		selected_source: function (newVal, oldVal) {
@@ -317,7 +302,9 @@
 					return 'Extra Image'
 			}
 		},
-						
+		back(){
+			this.$inertia.replace('/admin/catalog/product');
+		}			
 	}
   }
 </script>

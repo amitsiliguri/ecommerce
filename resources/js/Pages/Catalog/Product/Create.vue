@@ -3,18 +3,26 @@
 		<template #header>Create New Products</template>
 
 		<v-form ref="productCreateForm" lazy-validation v-model="valid" @submit.prevent="createProduct">
-			
-				<v-row>
-					<v-col cols="12">
-						<v-tabs v-model="tab">
+				<v-row >
+					<v-col cols="2" sm="1" class="pr-0"> 
+						<v-btn block large text class="mt-1" @click="back()">
+							<v-icon>mdi-undo-variant</v-icon>
+						</v-btn>
+					</v-col>
+					<v-col cols="8" sm="10" class="px-0">
+						<v-tabs v-model="tab" show-arrows grow>
 							<v-tab>General</v-tab>
 							<v-tab>SEO</v-tab>
 							<v-tab>Price</v-tab>
 							<v-tab>Inventory</v-tab>
 							<v-tab>Image</v-tab>
 							<v-tab>Category</v-tab>
-							<v-tab>Attributes</v-tab>
-					  </v-tabs>
+						</v-tabs>
+					</v-col>
+					<v-col cols="2" sm="1" class="pl-0">
+						<v-btn block text type="submit" color="primary" class="mt-1" large :disabled="productForm.processing">
+							<v-icon>mdi-send</v-icon>
+						</v-btn>
 					</v-col>
 				</v-row>
 
@@ -60,7 +68,6 @@
 		        		</v-row>
 					</v-tab-item>
 
-
 					<v-tab-item>
 						<v-row>
 							<v-col cols="12" class="d-inline-flex align-center">
@@ -74,16 +81,16 @@
 								<v-col cols="12" sm="3">
 									<v-text-field label="Qty" placeholder="Puoduct Quantity" v-model="price.quantity" :error-messages="productForm.error('prices.' + index + '.quantity')" outlined dense required></v-text-field>
 								</v-col>
-								<v-col cols="12" sm="2">
+								<v-col cols="6" sm="2">
 									<v-text-field label="Base Price" placeholder="Puoduct MRP" v-model="price.base_price" :error-messages="productForm.error('prices.' + index + '.base_price')" outlined dense required></v-text-field>
 								</v-col>
-								<v-col cols="12" sm="2">
+								<v-col cols="6" sm="2">
 									<v-text-field label="Offer Price" placeholder="Special Price" v-model="price.special_price" :error-messages="productForm.error('prices.' + index + '.special_price')" outlined dense required></v-text-field>
 								</v-col>
-								<v-col cols="12" sm="2">
+								<v-col cols="6" sm="2">
 									<date-picker label="Offer start date" :propdate="price.offer_start" @dateevent="(newdate) => {price.offer_start = newdate}" :errormessages="productForm.error('prices.' + index + '.offer_start')"/>
 								</v-col>
-								<v-col cols="12" sm="2">
+								<v-col cols="6" sm="2">
 									<date-picker label="Offer end date" :propdate="price.offer_end" @dateevent="(newdate) => {price.offer_end = newdate}"  :errormessages="productForm.error('prices.' + index + '.offer_end')"/>
 								</v-col>
 								<v-col cols="12" sm="1">
@@ -95,13 +102,12 @@
 						</template>
 					</v-tab-item>
 
-
 					<v-tab-item>
 						<v-row>
-							<v-col cols="9">
+							<v-col cols="4" sm="6" md="9">
 								<h3>Inventory</h3>
 							</v-col>
-							<v-col cols="3">
+							<v-col cols="8" sm="6" md="3">
 								<v-select v-model="selected_source" :items="sources" :menu-props="{ maxHeight: '250' }" item-text="title" item-value="id" label="Sources" multiple dense outlined>
 									<template v-slot:selection="{ item, index }">
 										<span v-if="index === 0" class="grey--text caption">
@@ -113,17 +119,15 @@
 						</v-row>
 						<template v-if="productForm.inventories.length > 0">
 							<v-row v-for="(inventory,index) in productForm.inventories" :key="index">
-								<v-col cols="12" md="6">
+								<v-col cols="6">
 									<v-text-field label="Source" v-model="inventory.source_title" placeholder="Inventory source" readonly outlined dense required></v-text-field>
 								</v-col>
-								<v-col cols="12" sm="6">
+								<v-col cols="6">
 									<v-text-field label="Stock" placeholder="Puoduct Stock" v-model="inventory.quantity" :error-messages="productForm.error('inventories.' + index + '.quantity')" type="number" min="0" outlined dense required></v-text-field>
 								</v-col>
 							</v-row>
 						</template>
 					</v-tab-item>
-
-
 
 					<v-tab-item>
 						<v-row>
@@ -135,8 +139,6 @@
 							</template>
 						</v-row>
 					</v-tab-item>
-
-
 
 					<v-tab-item>
 						<v-row>
@@ -164,24 +166,10 @@
 					</v-tab-item>
 
 
-					<v-tab-item>
-						<v-row>
-							<v-col cols="12">
-								<h3>Dynamic Attributes</h3>
-							</v-col>
-							<v-col cols="12">
-								hello
-							</v-col>
-						</v-row>
-					</v-tab-item>
 		    	</v-tabs-items>
 
 
-				<v-row>
-					<v-col cols="12">
-						<v-btn color="primary" class="mr-4" type="submit" :disabled="productForm.processing"> Submit </v-btn>
-					</v-col>
-				</v-row>
+				
 			
 
 	  </v-form>
@@ -307,9 +295,10 @@
 					});
 					this.productForm.categories = ids
 					// form submit
-					this.productForm.post('/admin/catalog/product/store', {
-							preserveScroll: true
-					})
+					this.productForm.post('/admin/catalog/product/store')
+				},
+				back(){
+					this.$inertia.replace('/admin/catalog/product');
 				}
 			}
     }
