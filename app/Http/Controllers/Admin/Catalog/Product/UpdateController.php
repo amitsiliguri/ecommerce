@@ -32,7 +32,6 @@ class UpdateController extends Controller
         $inputs = $request->all();
         $this->_catalogProductCommonController->validation($inputs, $catalogProduct, 'updateCatalogProductForm');
 
-        return redirect()->route('catalog.product.index')->with('success', 'New category created');
+        return redirect()->route('catalog.product.index')->with('success', 'Category updated');
     }
-
 }

@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+//customer
+use App\Http\Controllers\Frontend\Customer\LoginController as CustomerLoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.welcome');
+})->name('welcome');
+
+
+
+Route::prefix('customer')->name('customer.')->group(function () {
+    Route::get('/login', [CustomerLoginController::class, 'create'])->middleware(['guest:customer'])->name('login');
+    Route::post('/authenticate', [CustomerLoginController::class, 'login'])->middleware(['guest:customer'])->name('authenticate');
+    Route::get('/logout', [CustomerLoginController::class, 'logout'])->middleware(['auth:customer'])->name('logout');
 });
