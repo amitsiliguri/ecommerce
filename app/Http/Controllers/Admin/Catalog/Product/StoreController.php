@@ -8,26 +8,20 @@ use Illuminate\Http\Request;
 use App\Models\Catalog\Product\Product;
 use App\Http\Controllers\ImageUploadController;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Admin\Catalog\Product\CommonController as CatalogProductCommonController;
 
 class StoreController extends Controller
 {
-
-  protected $productSmallImageStorePath = 'public/catalog/product/small';
-  protected $productSmallImageRetrivePath = '/storage/catalog/product/small/';
-
-  protected $productThumbnailmageStorePath = 'public/catalog/product/thumbnail';
-  protected $productThumbnailImageRetrivePath = '/storage/catalog/product/thumbnail/';
-
-  protected $productBaseImageStorePath = 'public/catalog/product/base';
-  protected $productBaseImageRetrivePath = '/storage/catalog/product/base/';
-
   protected $productMetaImageStorePath = 'public/catalog/product/meta';
   protected $productMetaImageRetrivePath = '/storage/catalog/product/meta/';
 
-
-  public function __construct(ImageUploadController $imageUploadController)
+  public function __construct(
+    ImageUploadController $imageUploadController,
+    CatalogProductCommonController $catalogProductCommonController 
+  )
   {
     $this->_imageUploadController = $imageUploadController;
+    $this->_catalogProductCommonController = $catalogProductCommonController;
   }
 
 
@@ -35,7 +29,7 @@ class StoreController extends Controller
   {
     //validation
     $inputs = $request->all();
-    $this->validation($inputs);
+    $this->_catalogProductCommonController->validation($inputs, null, 'createCatalogProductForm');
     $catalogProduct = new Product();
     // mandetory fields
     $catalogProduct->status = $inputs['status'];
@@ -64,7 +58,7 @@ class StoreController extends Controller
     }
     // add images to product
     if (array_key_exists("images",$inputs) && is_array($inputs['images']) && sizeof($inputs['images']) > 0) {
-      $catalogProduct->images()->createMany($this->ProductImages($request));
+      $catalogProduct->images()->createMany($this->_catalogProductCommonController->productImages($request));
     }
     // add categories to product
     $catalogProduct->categories()->sync($inputs['categories']);
@@ -99,28 +93,5 @@ class StoreController extends Controller
       $tempImageArray[$key]['image'] = $imagePath;
     }
     return $tempImageArray;
-  }
-
-  public function validation($inputs)
-  {
-    $validator = Validator::make($inputs, [
-      'status'  => ['required'],
-      'title'   => ['required','max:100'],
-      'slug'    => ['required', 'string', 'max:100', 'unique:products'],
-      'sku'    => ['required', 'string', 'max:100', 'unique:products'],
-      'small_description' => ['nullable'],
-      'description' => ['nullable'],
-      'meta_title' => ['nullable','string', 'max:100' ],
-      'meta_description' => ['nullable','string', 'max:170' ],
-      'meta_image'  => ['nullable','image ', 'mimes:jpeg,jpg,png','max:512'],
-      'prices.*.quantity' => ['required'],
-      'prices.*.base_price' => ['required'],
-      'prices.*.special_price' => ['required'],
-      'prices.*.offer_end' => ['required'],
-      'prices.*.offer_start' => ['required'],
-      'inventories.*.source_id' => ['required'],
-      'inventories.*.quantity' => ['required'],
-      'images.*.image' => ['required','image', 'mimes:jpeg,jpg,png','max:512'],
-    ])->validateWithBag('createCatalogProductForm');
   }
 }

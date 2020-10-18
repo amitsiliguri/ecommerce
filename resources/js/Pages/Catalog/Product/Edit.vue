@@ -1,7 +1,7 @@
 <template>
 	<app-layout>
 		<template #header>{{product.title}}</template>
-		<v-form ref="productCreateForm" lazy-validation v-model="valid" @submit.prevent="createProduct">
+		<v-form ref="productCreateForm" lazy-validation v-model="valid" @submit.prevent="editProduct">
 			<v-row >
 				<v-col cols="2" sm="1" class="pr-0"> 
 					<v-btn block large text class="mt-1" @click="back()">
@@ -304,7 +304,18 @@
 		},
 		back(){
 			this.$inertia.replace('/admin/catalog/product');
-		}			
+		},
+		editProduct(){
+			//category ids
+			let ids = []
+			this.selected_categories.forEach((item, i) => {
+				ids.push(item.id)
+			});
+			this.productForm.categories = ids
+			// form submit
+			this.productForm.post(`/admin/catalog/product/update/${this.product.id}`)
+			console.log(this.productForm);
+		}		
 	}
   }
 </script>

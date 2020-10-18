@@ -109,7 +109,7 @@
 							</v-col>
 							<v-col cols="8" sm="6" md="3">
 								<v-select v-model="selected_source" :items="sources" :menu-props="{ maxHeight: '250' }" item-text="title" item-value="id" label="Sources" multiple dense outlined>
-									<template v-slot:selection="{ item, index }">
+									<template v-slot:selection="{ index }">
 										<span v-if="index === 0" class="grey--text caption">
 											{{selected_source.length}} Source selected
 										</span>
@@ -147,7 +147,7 @@
 							</v-col>
 							<v-col cols="12" md="4">
 								<v-treeview v-model="selected_categories" :items="categories" selection-type="independent" selected-color="purple" selectable return-object open-all>
-									<template v-slot:label="{ item, open }">
+									<template v-slot:label="{ item }">
 										{{item.title}}
 									</template>
 								</v-treeview>

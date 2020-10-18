@@ -3754,6 +3754,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     back: function back() {
       this.$inertia.replace('/admin/catalog/product');
+    },
+    editProduct: function editProduct() {
+      //category ids
+      var ids = [];
+      this.selected_categories.forEach(function (item, i) {
+        ids.push(item.id);
+      });
+      this.productForm.categories = ids; // form submit
+
+      this.productForm.post("/admin/catalog/product/update/".concat(this.product.id));
+      console.log(this.productForm);
     }
   }
 });
@@ -4007,6 +4018,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'images'
       }, {
         text: 'SKU',
+        sortable: false,
         value: 'sku'
       }, {
         text: 'Title',
@@ -4014,6 +4026,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'title'
       }, {
         text: 'Status',
+        sortable: false,
         value: 'status'
       }, {
         text: 'Base Price (Default)',
@@ -28161,7 +28174,6 @@ var render = function() {
                               {
                                 key: "selection",
                                 fn: function(ref) {
-                                  var item = ref.item
                                   var index = ref.index
                                   return [
                                     index === 0
@@ -28338,7 +28350,6 @@ var render = function() {
                                 key: "label",
                                 fn: function(ref) {
                                   var item = ref.item
-                                  var open = ref.open
                                   return [
                                     _vm._v(
                                       "\n\t\t\t\t\t\t\t\t\t" +
@@ -28447,7 +28458,7 @@ var render = function() {
           on: {
             submit: function($event) {
               $event.preventDefault()
-              return _vm.createProduct($event)
+              return _vm.editProduct($event)
             }
           },
           model: {
