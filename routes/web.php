@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 //customer
-use App\Http\Controllers\Frontend\Customer\LoginController as CustomerLoginController;
+use App\Http\Controllers\Frontend\Customer\Account\Auth\LoginController as CustomerAccountLoginController;
+use App\Http\Controllers\Frontend\Customer\Account\DashboardController as CustomerAccountDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +22,17 @@ Route::get('/', function () {
 
 
 Route::prefix('customer')->name('customer.')->group(function () {
-    Route::get('/login', [CustomerLoginController::class, 'create'])->middleware(['guest:customer'])->name('login');
-    Route::post('/authenticate', [CustomerLoginController::class, 'login'])->middleware(['guest:customer'])->name('authenticate');
-    Route::get('/logout', [CustomerLoginController::class, 'logout'])->middleware(['auth:customer'])->name('logout');
+    //account
+    Route::prefix('account')->name('account.')->group(function () {
+        //authentication route start
+        Route::get('/login', [CustomerAccountLoginController::class, 'create'])->middleware(['guest:customer'])->name('login');
+        Route::post('/authenticate', [CustomerAccountLoginController::class, 'login'])->middleware(['guest:customer'])->name('authenticate');
+        Route::get('/logout', [CustomerAccountLoginController::class, 'logout'])->middleware(['auth:customer'])->name('logout');
+        //authentication route end
+        Route::get('/dashboard', [CustomerAccountDashboardController::class, 'index'])->middleware(['auth:customer'])->name('dashboard');
+    });
+
 });
+
+
+

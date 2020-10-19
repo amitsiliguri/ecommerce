@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 switch ($guard) {
                     case 'customer':
-                        return redirect()->route('welcome');
+                        return redirect(RouteServiceProvider::ACCOUNT);
                         break;
                     default:
                         return redirect(RouteServiceProvider::HOME);

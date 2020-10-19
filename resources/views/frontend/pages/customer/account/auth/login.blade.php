@@ -12,7 +12,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('customer.authenticate') }}">
+        <form method="POST" action="{{ route('customer.account.authenticate') }}">
             @csrf
 
             <div>
