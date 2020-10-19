@@ -23,9 +23,17 @@ class EditController extends Controller
 
   public function edit($id)
   {
-    $catalogProduct = Product::with('prices')
-                      ->with('inventories')
-                      ->with('images')
+    $catalogProduct = Product::with(
+                            array('prices'=>function($query){
+                              $query->select('id','quantity','base_price','special_price','offer_start','offer_end','product_id');
+                            }))
+                      ->with(
+                            array('inventories'=>function($query){
+                              $query->select('id','quantity','product_id','source_id');
+                            }))
+                      ->with(array('images'=>function($query){
+                              $query->select('id','image','type','product_id');
+                            }))
                       ->with(array('categories'=>function($query){
                               $query->select('id','title');
                             }))

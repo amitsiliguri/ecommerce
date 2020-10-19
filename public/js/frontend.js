@@ -21279,7 +21279,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\resources\js\frontend.js */"./resources/js/frontend.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\ecommerce\resources\js\frontend.js */"./resources/js/frontend.js");
 
 
 /***/ })

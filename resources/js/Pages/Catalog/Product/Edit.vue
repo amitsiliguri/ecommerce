@@ -245,7 +245,8 @@
 			tempImage.push({
 				type : image.type,
 				image : null,
-				imageUrl : image.image
+				imageUrl : image.image,
+				id : image.id
 			})
 		});
 		this.productForm.images = tempImage

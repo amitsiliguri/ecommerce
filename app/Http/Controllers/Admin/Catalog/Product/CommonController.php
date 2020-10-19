@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Admin\Catalog\Product;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ImageUploadController;
 
@@ -20,6 +20,9 @@ class CommonController extends Controller
 
     protected $productBaseImageStorePath = 'public/catalog/product/base';
     protected $productBaseImageRetrivePath = '/storage/catalog/product/base/';
+
+    protected $productMetaImageStorePath = 'public/catalog/product/meta';
+    protected $productMetaImageRetrivePath = '/storage/catalog/product/meta/';
 
     public function __construct( ImageUploadController $imageUploadController )
     {
@@ -60,14 +63,14 @@ class CommonController extends Controller
         foreach ($request->images as $key => $value) {
             $path = $this->paths((int) $value['type']);
             $keyImage = 'images.'. $key .'.image';
-            $imagePath = $this->upload($request, $keyImage, $path['store'], $path['retrive'], (int) $value['type']);
+            $imagePath = $this->upload($request, $keyImage, $path['store'], $path['retrive'], $path['type']);
             $tempImageArray[$key]['type'] = $value['type'];
             $tempImageArray[$key]['image'] = $imagePath;
         }
         return $tempImageArray;
     }
 
-    public function upload(Request $request, string $keyImage, string $store, string $retrive, int $type) : string
+    public function upload(Request $request, string $keyImage, string $store, string $retrive, string $type) : string
     {
         if ($request->hasFile($keyImage)) {
             return $this->_imageUploadController->upload($request->file($keyImage), $store, $retrive);
@@ -76,6 +79,14 @@ class CommonController extends Controller
         }
     }
 
+    public function updateImage(UploadedFile $image, int $type) : string
+    {
+        $path = $this->paths($type);
+        return $this->_imageUploadController->upload($image, $path['store'], $path['retrive']);
+    }
+
+
+
     public function paths(int $type) : array
     {
         $path = [];
@@ -83,14 +94,22 @@ class CommonController extends Controller
             case 0:
                 $path['store'] = $this->productSmallImageStorePath;
                 $path['retrive'] = $this->productSmallImageRetrivePath;
+                $path['type'] = 'small';
                 break;
             case 1:
                 $path['store'] = $this->productThumbnailmageStorePath;
                 $path['retrive'] = $this->productThumbnailImageRetrivePath;
+                $path['type'] = 'thumbnail';
                 break;
-            default:
+            case 1:
                 $path['store'] = $this->productBaseImageStorePath;
                 $path['retrive'] = $this->productBaseImageRetrivePath;
+                $path['type'] = 'base';
+                break;
+            default:
+                $path['store'] = $this->productMetaImageStorePath;
+                $path['retrive'] = $this->productMetaImageRetrivePath;
+                $path['type'] = 'meta';
                 break;
         }
         return $path;

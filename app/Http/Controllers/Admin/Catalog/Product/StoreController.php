@@ -41,11 +41,16 @@ class StoreController extends Controller
     $catalogProduct->meta_title = $inputs['meta_title'];
     $catalogProduct->meta_description = $inputs['meta_description'];
     // meta image save conditions
-    if (array_key_exists("meta_image",$inputs) && $request->hasFile('meta_image')) {
-      $catalogProduct->meta_image = $this->_imageUploadController->upload($request->file('meta_image'), $this->productMetaImageStorePath, $this->productMetaImageRetrivePath);
-    }else {
-      $catalogProduct->meta_image = '/asset/catalog/product/meta/noImage.png';
-    }
+    
+      $catalogProduct->meta_image = $this->_imageUploadController->upload(
+                                                                $request, 
+                                                                'meta_image', 
+                                                                $this->productMetaImageStorePath, 
+                                                                $this->productMetaImageRetrivePath,
+                                                                'meta',
+                                                                true
+                                                            );
+   
     // save products
     $catalogProduct->save();
     // add prices to product
@@ -58,40 +63,11 @@ class StoreController extends Controller
     }
     // add images to product
     if (array_key_exists("images",$inputs) && is_array($inputs['images']) && sizeof($inputs['images']) > 0) {
-      $catalogProduct->images()->createMany($this->_catalogProductCommonController->productImages($request));
+      $catalogProduct->images()->createMany($this->_catalogProductCommonController->productImages($request,true));
     }
     // add categories to product
     $catalogProduct->categories()->sync($inputs['categories']);
-
     return redirect()->route('catalog.product.index')->with('success', 'New category created');
   }
 
-  public function ProductImages($request)
-  {
-    $tempImageArray = [];
-    foreach ($request->images as $key => $value) {
-      switch ($value['type']) {
-        case 0:
-          $store = $this->productSmallImageStorePath;
-          $retrive = $this->productSmallImageRetrivePath;
-          break;
-        case 1:
-          $store = $this->productThumbnailmageStorePath;
-          $retrive = $this->productThumbnailImageRetrivePath;
-          break;
-        default:
-          $store = $this->productBaseImageStorePath;
-          $retrive = $this->productBaseImageRetrivePath;
-          break;
-      }
-      if (array_key_exists("image",$value)  && $request->hasFile('images.'. $key .'.image')) {
-        $imagePath = $this->_imageUploadController->upload($request->file('images.'. $key .'.image'), $store, $retrive);
-      }else {
-        $imagePath = '/asset/catalog/product/'.$value['type'].'/noImage.png';
-      }
-      $tempImageArray[$key]['type'] = $value['type'];
-      $tempImageArray[$key]['image'] = $imagePath;
-    }
-    return $tempImageArray;
-  }
 }

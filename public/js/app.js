@@ -3688,7 +3688,8 @@ __webpack_require__.r(__webpack_exports__);
       tempImage.push({
         type: image.type,
         image: null,
-        imageUrl: image.image
+        imageUrl: image.image,
+        id: image.id
       });
     });
     this.productForm.images = tempImage; // Product Categories
@@ -90980,10 +90981,10 @@ var opts = {};
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\resources\sass\admin.scss */"./resources/sass/admin.scss");
-__webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\resources\sass\frontend.scss */"./resources/sass/frontend.scss");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\resources\css\app.css */"./resources/css/app.css");
+__webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\ecommerce\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\ecommerce\resources\sass\admin.scss */"./resources/sass/admin.scss");
+__webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\ecommerce\resources\sass\frontend.scss */"./resources/sass/frontend.scss");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\projects\ecommerce\ecommerce\resources\css\app.css */"./resources/css/app.css");
 
 
 /***/ })
