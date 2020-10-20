@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 //customer
 use App\Http\Controllers\Frontend\Customer\Account\Auth\LoginController as CustomerAccountLoginController;
 use App\Http\Controllers\Frontend\Customer\Account\DashboardController as CustomerAccountDashboardController;
+use App\Http\Controllers\Frontend\DynamicRouteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,3 +37,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 
 
+
+
+
+//dynamic route
+
+Route::get('/{any}', [DynamicRouteController::class, 'route'])->where('any', '.*');

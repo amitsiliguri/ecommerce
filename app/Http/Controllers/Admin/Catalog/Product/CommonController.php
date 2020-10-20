@@ -85,8 +85,6 @@ class CommonController extends Controller
         return $this->_imageUploadController->upload($image, $path['store'], $path['retrive']);
     }
 
-
-
     public function paths(int $type) : array
     {
         $path = [];
