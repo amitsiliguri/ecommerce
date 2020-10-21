@@ -4,7 +4,7 @@ namespace App\View\Components\Frontend\Layouts\Components;
 
 use Illuminate\View\Component;
 
-class Footer extends Component
+class AccountDropdown extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class Footer extends Component
      */
     public function render()
     {
-        return view('frontend.layouts.components.footer');
+        return view('frontend.components.account-dropdown');
     }
 }

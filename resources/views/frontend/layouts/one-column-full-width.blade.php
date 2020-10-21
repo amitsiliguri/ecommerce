@@ -16,5 +16,7 @@
         <x-Frontend.Layouts.Components.header/>
         <x-Frontend.Layouts.Components.menu/>
         {{ $slot }}
+        <x-Frontend.Layouts.Components.footer-widget/>
+        <x-Frontend.Layouts.Components.footer/>
     </body>
 </html>
