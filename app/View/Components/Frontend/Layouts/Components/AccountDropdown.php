@@ -23,6 +23,6 @@ class AccountDropdown extends Component
      */
     public function render()
     {
-        return view('frontend.components.account-dropdown');
+        return view('frontend.layouts.components.account-dropdown');
     }
 }

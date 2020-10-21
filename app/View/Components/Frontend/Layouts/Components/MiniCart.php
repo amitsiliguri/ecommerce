@@ -23,6 +23,6 @@ class MiniCart extends Component
      */
     public function render()
     {
-        return view('frontend.components.mini-cart');
+        return view('frontend.layouts.components.mini-cart');
     }
 }

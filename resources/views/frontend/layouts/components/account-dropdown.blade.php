@@ -1,6 +1,6 @@
-<x-jet-dropdown align="right" width="64">
+<x-jet-dropdown align="right" width="48">
     <x-slot name="trigger">
-        <span class="mdi mdi-cart-outline text-teal-500 text-2xl cursor-pointer"></span>
+        <span class="mdi mdi-account text-teal-500 text-3xl md:text-2xl cursor-pointer"></span>
     </x-slot>
     <x-slot name="content">
         @auth('customer')
