@@ -5,7 +5,7 @@
                 <a href="/{{$parent['slug']}}" class="flex-grow">{{$parent['title']}}</a> 
                 <span class="mdi mdi-chevron-down pl-3 cursor-pointer" @click="expandMenuItem = !expandMenuItem"></span>
             </div>
-            <ul x-show="expandMenuItem" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="transform opacity-0 md:scale-95" x-transition:enter-end="transform opacity-100 md:scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 md:scale-100" x-transition:leave-end="transform opacity-0 md:scale-95" class="md:absolute py-1 md:z-50 md:mt-2 md:rounded-md md:shadow-lg md:w-48 bg-white">
+            <ul x-show="expandMenuItem" style="display: none;" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="transform opacity-0 md:scale-95" x-transition:enter-end="transform opacity-100 md:scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 md:scale-100" x-transition:leave-end="transform opacity-0 md:scale-95" class="md:absolute py-1 md:z-50 md:mt-2 md:rounded-md md:shadow-lg md:w-48 bg-white">
                 @include('frontend.layouts.components.submenu', ['data' => $data, 'parents' => $data[$parent[ 'id' ]],'level' => $level + 1, ])
             </ul>
         </li>

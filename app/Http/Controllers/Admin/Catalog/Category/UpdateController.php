@@ -38,7 +38,7 @@ class UpdateController extends Controller
 
     // featured image save conditions
     if (array_key_exists("banner",$inputs) && $request->hasFile('banner')) {
-      $catalogCategory->banner = $this->featuredImageRetrivePath . $this->_imageUploadController->upload($request->file('banner'), $this->featuredImageStorePath, $this->featuredImageRetrivePath);
+      $catalogCategory->banner = $this->_imageUploadController->upload($request->file('banner'), $this->featuredImageStorePath, $this->featuredImageRetrivePath);
     }
 
     //optional inputs | meta_title
@@ -58,7 +58,7 @@ class UpdateController extends Controller
 
     // meta image save conditions
     if (array_key_exists("meta_image",$inputs) && $request->hasFile('meta_image')) {
-      $catalogCategory->meta_image = $this->metaImageRetrivePath . $this->_imageUploadController->upload($request->file('meta_image'), $this->metaImageStorePath, $this->metaImageRetrivePath);
+      $catalogCategory->meta_image = $this->_imageUploadController->upload($request->file('meta_image'), $this->metaImageStorePath, $this->metaImageRetrivePath);
     }
 
     $catalogCategory->save();
