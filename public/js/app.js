@@ -25966,7 +25966,7 @@ var render = function() {
       _c(
         "v-navigation-drawer",
         {
-          attrs: { right: "", clipped: "", temporary: "", fixed: "" },
+          attrs: { clipped: "", temporary: "", fixed: "" },
           model: {
             value: _vm.drawer,
             callback: function($$v) {

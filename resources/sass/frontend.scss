@@ -1,5 +1,9 @@
 @import '~@mdi/font/scss/materialdesignicons.scss';
 
+body{
+    overflow-y: scroll;
+}
+
 .right-slide-open{
     right : 0;
     box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12);
@@ -12,3 +16,57 @@
     transition-duration: .2s;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
 }
+
+.main-menu-cover {
+    .w-full{
+        .main-menu{
+            li{
+                ul{
+                    li{
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// main menu for mobile
+@media only screen and (max-width: 767px) {
+    .main-menu-open{
+        left : 0;
+        background-color: #ffffff;
+        box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12);
+    }
+    .main-menu-close{
+        left: -16rem;
+    }
+    .main-menu-cover {
+        transition-duration: .2s;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+    }
+}
+
+
+@media only screen and (min-width: 767px) {
+    .main-menu-cover {
+       .w-full{
+           .main-menu{
+               li{
+                    position: relative;
+                    display: inline-block;
+                    ul {
+                        li {
+                            ul {
+                                left: 12rem;
+                                top: -20px;
+                            }
+                        } 
+                    }
+                }
+            }
+        }
+    }
+}
+
+

@@ -40,7 +40,7 @@
     	</v-menu>
     </v-app-bar>
 
-		<v-navigation-drawer v-model="drawer" right clipped temporary fixed>
+		<v-navigation-drawer v-model="drawer" clipped temporary fixed>
 			<v-list dense nav>
 				<!-- dashboard -->
 				<inertia-link href="/admin/dashboard">
