@@ -18,11 +18,11 @@ body{
 }
 
 .main-menu-cover {
-    .w-full{
-        .main-menu{
-            li{
-                ul{
-                    li{
+    .w-full {
+        .main-menu {
+            li {
+                ul {
+                    li {
                         display: block;
                     }
                 }
@@ -33,12 +33,12 @@ body{
 
 // main menu for mobile
 @media only screen and (max-width: 767px) {
-    .main-menu-open{
+    .main-menu-open {
         left : 0;
         background-color: #ffffff;
         box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12);
     }
-    .main-menu-close{
+    .main-menu-close {
         left: -16rem;
     }
     .main-menu-cover {
@@ -50,16 +50,16 @@ body{
 
 @media only screen and (min-width: 767px) {
     .main-menu-cover {
-       .w-full{
-           .main-menu{
-               li{
+       .w-full {
+           .main-menu {
+               li {
                     position: relative;
                     display: inline-block;
                     ul {
                         li {
                             ul {
                                 left: 12rem;
-                                top: -20px;
+                                top: -12px;
                             }
                         } 
                     }

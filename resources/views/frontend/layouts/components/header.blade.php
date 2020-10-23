@@ -4,7 +4,11 @@
         <span class="mdi mdi-menu text-teal-500 text-3xl cursor-pointer" @click="$dispatch('mainmenutoggle')"></span>
     </div>
 
-    <div class="flex-grow px-2 xl:px-0">logo</div>
+    <div class="flex-grow px-2 xl:px-0">
+        <a href="/">
+            <img src="/asset/settings/logo.png" alt="" srcset="">
+        </a>
+    </div>
 
     <div class="px-3 md:hidden flex-grow-0">
         <span class="mdi mdi-magnify text-teal-500 text-3xl cursor-pointer" @click="isSearchClose = !isSearchClose"></span>

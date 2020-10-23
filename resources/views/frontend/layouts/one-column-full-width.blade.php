@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="{{ mix('css/frontend.css') }}">
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <!-- Scripts -->
-        <script src="{{ mix('js/frontend.js') }}" defer></script>
+        <script src="{{ mix('js/alpine.js') }}" defer></script>
     </head>
     <body>
         <x-Frontend.Layouts.Components.top-bar/>
