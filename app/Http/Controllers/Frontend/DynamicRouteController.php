@@ -12,26 +12,41 @@ use App\Models\Catalog\Product\Product;
 
 class DynamicRouteController extends Controller
 {
+    protected $categoryProductsItemPerPage = 2;
     public function route(String $any) : Object
     {
-        $itemPerPage = 2;
+        
         if ($catalogCategory = Category::where('slug', $any)->first()) {
-
-            $catalogProducts = $catalogCategory->products()->with(array('images'=>function($query){
-                    $query->select('image','type','product_id')->where('type', 1);
-                }))
-                ->orderBy('id', 'desc')
-                ->paginate($itemPerPage);
-
-            return  view('frontend.pages.catalog.category')
+            return  view('frontend.pages.catalog.category.index')
                     ->with( 
                         [
                             'category' => $catalogCategory, 
-                            'products' => $catalogProducts
+                            'products' => $this->categoryProducts($catalogCategory->id, $this->categoryProductsItemPerPage)
                         ]
                     );
         } else {
             return abort(404);
         }
+    }
+
+    public function categoryProductsAjax(Request $request, int $categoryId) : string 
+    {
+        if($request->ajax()){
+            return $this->categoryProducts($categoryId, $this->categoryProductsItemPerPage);
+        } else {
+            return abort(404);
+        }
+    }
+
+
+
+    protected function categoryProducts(int $categoryId, int $itemPerPage) : string 
+    {
+        return Category::find($categoryId)->products()->with(array('images'=>function($query){
+            $query->select('image','type','product_id')->where('type', 1);
+        }))
+        ->with('prices')
+        ->orderBy('id', 'desc')
+        ->paginate($itemPerPage)->toJson();
     }
 }

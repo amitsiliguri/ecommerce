@@ -39,6 +39,11 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 
 
+Route::prefix('category')->name('category.')->group(function () {
+    //category products
+    Route::get('/product/list/{id}', [DynamicRouteController::class, 'categoryProductsAjax'])->name('product.list');
+});
+
 
 //dynamic route
 

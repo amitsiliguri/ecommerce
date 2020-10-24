@@ -67,51 +67,51 @@
 
 <script>
     import AppLayout from './../../../Layouts/AppLayout'
-		import Currency from './../../../Mixins/Currency'
-		import ClosestInArray from './../../../Mixins/ClosestInArray'
+	import Currency from './../../../Mixins/Currency'
+	import ClosestInArray from './../../../Mixins/ClosestInArray'
     export default {
 			mixins: [Currency, ClosestInArray],
-      components: {
-        AppLayout
-      },
+      		components: {
+        		AppLayout
+      		},
 			data () {
-	      return {
+	      		return {
 					selected: [],
 					totalCategories: 0,
-	        categories: [],
-	        loading: true,
-	        options: {
-					  page: 1,
-					  itemsPerPage: 5,
-					  multiSort: false,
-					  mustSort: false
+	        		categories: [],
+	        		loading: true,
+	        		options: {
+					  	page: 1,
+					  	itemsPerPage: 5,
+					  	multiSort: false,
+					  	mustSort: false
 					},
 					itemsPerPageOptions:[5, 10, 20, 30, 50, 100],
-	        headers: [
-				{ text: 'Image', sortable: false, value: 'images' },
-	          	{ text: 'SKU', sortable: false, value: 'sku' },
-	          	{ text: 'Title', sortable: false, value: 'title' },
-	          	{ text: 'Status', sortable: false, value: 'status' },
-	          	{ text: 'Base Price (Default)', sortable: false, value: 'prices' },
-	          	{ text: 'Inventory (Total)', sortable: false, value: 'inventories' },
-				{ text: 'Actions', value: 'actions', sortable: false },
-	        ],
-	      }
-    	},
+	        		headers: [
+						{ text: 'Image', sortable: false, value: 'images' },
+	          			{ text: 'SKU', sortable: false, value: 'sku' },
+	          			{ text: 'Title', sortable: false, value: 'title' },
+	          			{ text: 'Status', sortable: false, value: 'status' },
+	          			{ text: 'Base Price (Default)', sortable: false, value: 'prices' },
+	          			{ text: 'Inventory (Total)', sortable: false, value: 'inventories' },
+						{ text: 'Actions', value: 'actions', sortable: false },
+	        		],
+	      		}
+    		},
 			watch: {
-	      options: {
-	        handler: function (newVal, oldVal) {
+	      		options: {
+	        		handler: function (newVal, oldVal) {
 						let url = new URL(window.location.href)
-				    url.searchParams.set('page', newVal.page)
+				    	url.searchParams.set('page', newVal.page)
 						url.searchParams.set('itemsPerPage', newVal.itemsPerPage)
-				    history.pushState(null, document.title, url.toString())
+				    	history.pushState(null, document.title, url.toString())
 						let query = '?page=' + newVal.page + '&itemsPerPage=' + newVal.itemsPerPage
-	          this.getProducts(query)
-	        },
-	        deep: true,
-	      },
-	    },
-	    mounted () {
+	          			this.getProducts(query)
+	        		},
+	        		deep: true,
+	      		},
+	    	},
+	    	mounted () {
 				let url = new URL(window.location.href)
 				if (url.searchParams.get('page')) {
 					this.options.page = url.searchParams.get('page')
@@ -119,8 +119,8 @@
 				if (url.searchParams.get('itemsPerPage')) {
 					this.options.itemsPerPage = this.findClosest( this.itemsPerPageOptions , url.searchParams.get('itemsPerPage') )  // ClosestInArray mixin
 				}
-	    },
-	    methods: {
+	    	},
+	    	methods: {
 			async getProducts(query){
 				this.loading = true
 				let url = '/admin/catalog/product/paginated/data' + query

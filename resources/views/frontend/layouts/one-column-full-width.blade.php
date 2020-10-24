@@ -18,5 +18,6 @@
         {{ $slot }}
         <x-Frontend.Layouts.Components.footer-widget/>
         <x-Frontend.Layouts.Components.footer/>
+        {{$jsscript ?? ''}}
     </body>
 </html>
