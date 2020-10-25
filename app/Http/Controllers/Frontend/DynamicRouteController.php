@@ -17,16 +17,21 @@ class DynamicRouteController extends Controller
     {
         
         if ($catalogCategory = Category::where('slug', $any)->first()) {
-            return  view('frontend.pages.catalog.category.index')
+            return view('frontend.pages.catalog.category')
                     ->with( 
                         [
                             'category' => $catalogCategory, 
                             'products' => $this->categoryProducts($catalogCategory->id, $this->categoryProductsItemPerPage)
                         ]
                     );
+        } elseif ( $catalogProduct = Product::where('slug', $any)->first() ) {
+            return view('frontend.pages.catalog.product')->with(['product' => $catalogProduct]);
         } else {
             return abort(404);
         }
+
+        
+        
     }
 
     public function categoryProductsAjax(Request $request, int $categoryId) : string 

@@ -1,3 +1,15 @@
-<x-Frontend.Layouts.one-column>
+<x-Frontend.Layouts.one-column-full-width>
    front
-</x-Frontend.Layouts.one-column>
+   
+   <x-slot name="jsscript">
+      <script>
+          function page() {
+              return {
+                  pageInit (){
+                      return null;
+                  }
+              }
+          }
+      </script>
+  </x-slot>
+</x-Frontend.Layouts.one-column-full-width>

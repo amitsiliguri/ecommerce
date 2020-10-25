@@ -1,4 +1,4 @@
-<div class="flex flex-row flex-wrap max-w-screen-xl mx-auto items-center" x-data="{ isSearchClose: true }">
+<div class="flex flex-row flex-wrap max-w-screen-xl mx-auto items-center border-b md:border-b-0" x-data="{ isSearchClose: true }">
     
     <div class="px-2 md:hidden flex-grow-0 xl:px-0">
         <span class="mdi mdi-menu text-teal-500 text-3xl cursor-pointer" @click="$dispatch('mainmenutoggle')"></span>

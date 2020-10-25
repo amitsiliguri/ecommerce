@@ -22930,5 +22930,13 @@ body {
     left: 12rem;
     top: -12px;
   }
+
+  .tab .active-button {
+    border-bottom: 2px solid #ffffff;
+  }
+
+  .tab .margin-top--1 {
+    margin-top: -1px;
+  }
 }
 
