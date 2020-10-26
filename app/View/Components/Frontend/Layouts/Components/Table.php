@@ -8,20 +8,26 @@ class Table extends Component
 {
     public $_headers;
     public $_tableData;
-    public $_actionColumn;
     public $_encoded_headers;  // for mock
+    public $_table_name;
+    public $_template_path;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(array $headers, array $tableData, array $actionColumn)
+    public function __construct(
+        string $templatePath, 
+        string $tableName, 
+        array $headers, 
+        array $tableData
+    )
     {
         $this->_headers = $headers;
         $this->_tableData = json_encode($tableData);
         $this->_encoded_headers = json_encode($headers);
-        $this->_actionColumn = json_encode($actionColumn);
-
+        $this->_table_name = $tableName;
+        $this->_template_path = $templatePath;
     }
 
     /**

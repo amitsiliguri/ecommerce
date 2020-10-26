@@ -1,0 +1,1 @@
+<a :href="row['{{$item['key']}}']">Invoice</a>
