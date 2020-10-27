@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 //customer
 use App\Http\Controllers\Frontend\Customer\Account\Auth\LoginController as CustomerAccountLoginController;
 use App\Http\Controllers\Frontend\Customer\Account\DashboardController as CustomerAccountDashboardController;
+use App\Http\Controllers\Frontend\Customer\Account\ProfileController as CustomerProfileController;
+use App\Http\Controllers\Frontend\Customer\Account\OrderHistory\IndexController as CustomerOrderHistoryList;
 use App\Http\Controllers\Frontend\DynamicRouteController;
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,9 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/logout', [CustomerAccountLoginController::class, 'logout'])->middleware(['auth:customer'])->name('logout');
         //authentication route end
         Route::get('/dashboard', [CustomerAccountDashboardController::class, 'index'])->middleware(['auth:customer'])->name('dashboard');
+        Route::get('/profile', [CustomerProfileController::class, 'index'])->middleware(['auth:customer'])->name('profile');
+        Route::get('/order-history', [CustomerOrderHistoryList::class, 'index'])->middleware(['auth:customer'])->name('order.history');
+        
     });
 
 });

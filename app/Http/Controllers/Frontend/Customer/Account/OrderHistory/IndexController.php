@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types = 1);
-
-namespace App\Http\Controllers\Frontend\Customer\Account;
+namespace App\Http\Controllers\Frontend\Customer\Account\OrderHistory;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class IndexController extends Controller
 {
     public function index() : object
     {
@@ -90,7 +88,7 @@ class DashboardController extends Controller
                 "pdf" => "#",
             )
         );
-        return view('frontend.pages.customer.account.dashboard')->with(
+        return view('frontend.pages.customer.account.order-history')->with(
             [
                 'headers' => $headers,
                 'tableData' => $tableData,

@@ -39,18 +39,12 @@
                             <span class="mdi mdi-heart-outline cursor-pointer"></span>
                         </button>
 
-                        <input type="number" min="1" class="text-center w-1/4 px-1 py-2 border-none focus:outline-none" value="1">   
+                        <input type="number" min="1" class="text-center w-2/4 px-1 py-2 border-none focus:outline-none" value="1">   
                         
-                        <button class="bg-gray-100 hover:bg-gray-200 py-2 flex-grow-1 w-1/4 focus:outline-none">
+                        <button class="bg-gray-100 hover:bg-gray-200 py-2 flex-grow-1 rounded-r w-1/4 focus:outline-none">
                             <span class="mdi mdi-cart-outline cursor-pointer"></span>
                         </button>
-
-                        <a class="w-1/4 flex-grow-1 bg-gray-100 hover:bg-gray-200 py-2 rounded-r text-center" :href="productUrl(product.slug)">
-                            <span class="mdi mdi-magnify cursor-pointer"></span>
-                        </a>
-
                     </div>
-
                 </div>
             </div>
         </template>

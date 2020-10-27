@@ -5,13 +5,22 @@
     <x-slot name="content">
         @auth('customer')
             <x-jet-dropdown-link href="{{  route('customer.account.dashboard') }}">
-                {{ __('Account') }}
+                {{ __('Dashboard') }}
             </x-jet-dropdown-link>
-            <x-jet-dropdown-link href="#">
+            <x-jet-dropdown-link href="{{  route('customer.account.profile') }}">
+                {{ __('Profile') }}
+            </x-jet-dropdown-link>
+            <x-jet-dropdown-link href="{{  route('customer.account.order.history') }}">
                 {{ __('Order history') }}
             </x-jet-dropdown-link>
             <x-jet-dropdown-link href="#">
                 {{ __('Wishlist') }}
+            </x-jet-dropdown-link>
+            <x-jet-dropdown-link href="#">
+                {{ __('My Addresses') }}
+            </x-jet-dropdown-link>
+            <x-jet-dropdown-link href="#">
+                {{ __('My Reviews') }}
             </x-jet-dropdown-link>
             <div class="border-t border-gray-100"></div>
             <x-jet-dropdown-link href="{{ route('customer.account.logout') }}">

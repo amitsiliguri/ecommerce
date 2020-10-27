@@ -17,7 +17,7 @@ class Table extends Component
      * @return void
      */
     public function __construct(
-        string $templatePath, 
+        string $templatePath = null, 
         string $tableName, 
         array $headers, 
         array $tableData

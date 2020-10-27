@@ -1,9 +1,9 @@
 @if (count($_headers) > 0)  
-    <div class="rounded overflow-hidden shadow-sm border border-gray-100">
-        <div class="py-2 px-2 md:px-3 overflow-y-auto">
-            <h1 class="text-3xl">{{$_table_name}}</h1>
+    <div class="rounded overflow-hidden shadow-sm border border-gray-100 mb-4">
+        <div class="py-2 px-2 md:px-3 overflow-y-auto border-b border-gray-100">
+            <h3 class="text-2xl">{{$_table_name}}</h3>
         </div>
-        <div class="overflow-x-hidden overflow-y-auto" style="max-height:400px">
+        <div class="overflow-x-hidden overflow-y-auto">
             {{-- table start --}}
             <div class="flex flex-col w-full md:table md:text-center">
                 {{$col_group ?? ''}}
@@ -17,13 +17,13 @@
                 <div class="md:table-row-group text-sm" x-data="tableData()">
                     <template x-if="data_list.length > 0">
                         <template x-for="row in data_list">
-                            <div class="md:table-row odd:bg-gray-200">
+                            <div class="md:table-row odd:bg-gray-100">
                                 @foreach ($_headers as $item)
                                     <div class="flex flex-row justify-between w-full px-2 py-2 md:table-cell md:w-auto">
                                         <span class="md:hidden">{{$item['name']}}</span>
                                         @if ($item['type'] == 'data')
                                             <span x-text="row['{{$item['key']}}']"></span>
-                                        @elseif($item['type'] == 'html')
+                                        @elseif($item['type'] == 'html' && $_template_path != null)
                                             @php $template = $_template_path . '.' . $item['key']; @endphp
                                             @include($template, ['item' => $item])
                                         @endif

@@ -1,1 +1,1 @@
-<span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm text-gray-700" x-text="row['{{$item['key']}}']"></span>
+<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-gray-700" x-text="row['{{$item['key']}}']"></span>

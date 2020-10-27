@@ -16,10 +16,10 @@
         <x-Frontend.Layouts.Components.top-bar/>
         <x-Frontend.Layouts.Components.header/>
         <x-Frontend.Layouts.Components.menu/>
-        <div class="flex flex-col lg:flex-row max-w-screen-xl xl:mx-auto px-2 mt-4">
-            <div class="w-full lg:w-2/12">{{ $sidebarMain ?? '' }}</div>
+        <div class="flex flex-col lg:flex-row max-w-screen-xl xl:mx-auto mt-4 px-2 xl:px-0">
+            <div class="w-full lg:w-2/12 md:mr-2">{{ $sidebarMain ?? '' }}</div>
             <div class="w-full lg:w-8/12">{{ $slot }}</div>
-            <div class="w-full lg:w-2/12">{{ $sidebarAdditional ?? '' }}</div>
+            <div class="w-full lg:w-2/12 md:ml-2">{{ $sidebarAdditional ?? '' }}</div>
         </div>
         <x-Frontend.Layouts.Components.footer-widget/>
         <x-Frontend.Layouts.Components.footer/>
