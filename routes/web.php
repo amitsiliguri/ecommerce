@@ -6,6 +6,13 @@ use App\Http\Controllers\Frontend\Customer\Account\Auth\LoginController as Custo
 use App\Http\Controllers\Frontend\Customer\Account\DashboardController as CustomerAccountDashboardController;
 use App\Http\Controllers\Frontend\Customer\Account\ProfileController as CustomerProfileController;
 use App\Http\Controllers\Frontend\Customer\Account\OrderHistory\IndexController as CustomerOrderHistoryList;
+use App\Http\Controllers\Frontend\Customer\Account\WishlistController as CustomerAccountWishlist;
+use App\Http\Controllers\Frontend\Customer\Account\Address\IndexController as CustomerAccountAddress;
+//checkout
+use App\Http\Controllers\Frontend\Checkout\AccountController as CheckoutAccount;
+use App\Http\Controllers\Frontend\Checkout\IndexController as CheckoutIndex;
+// use App\Http\Controllers\Frontend\Checkout\Cart\IndexController as CheckoutCartIndex;
+
 use App\Http\Controllers\Frontend\DynamicRouteController;
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +42,19 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/dashboard', [CustomerAccountDashboardController::class, 'index'])->middleware(['auth:customer'])->name('dashboard');
         Route::get('/profile', [CustomerProfileController::class, 'index'])->middleware(['auth:customer'])->name('profile');
         Route::get('/order-history', [CustomerOrderHistoryList::class, 'index'])->middleware(['auth:customer'])->name('order.history');
+        Route::get('/wishlist', [CustomerAccountWishlist::class, 'index'])->middleware(['auth:customer'])->name('wishlist');
+        Route::get('/address', [CustomerAccountAddress::class, 'index'])->middleware(['auth:customer'])->name('address.index');
         
     });
+});
 
+
+
+Route::prefix('checkout')->name('checkout.')->group(function () {
+    //account
+    Route::get('/account', [CheckoutAccount::class, 'index'])->name('account');
+    // index
+    Route::get('/', [CheckoutIndex::class, 'index'])->name('index');
 });
 
 

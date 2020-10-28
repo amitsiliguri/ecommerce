@@ -13,10 +13,10 @@
             <x-jet-dropdown-link href="{{  route('customer.account.order.history') }}">
                 {{ __('Order history') }}
             </x-jet-dropdown-link>
-            <x-jet-dropdown-link href="#">
+            <x-jet-dropdown-link href="{{  route('customer.account.wishlist') }}">
                 {{ __('Wishlist') }}
             </x-jet-dropdown-link>
-            <x-jet-dropdown-link href="#">
+            <x-jet-dropdown-link href="{{  route('customer.account.address.index') }}">
                 {{ __('My Addresses') }}
             </x-jet-dropdown-link>
             <x-jet-dropdown-link href="#">

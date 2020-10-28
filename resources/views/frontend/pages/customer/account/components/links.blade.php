@@ -15,11 +15,19 @@
         </li>
         <li class="bg-gray-100 px-4 py-2">
             <a href="{{  route('customer.account.order.history') }}">
-                {{ __('Order history') }}
+                {{ __('Order History') }}
             </a>
         </li>
-        <li class="px-4 py-2"><a href="#">Wishlist</a></li>
-        <li class="bg-gray-100 px-4 py-2"><a href="#">My Addresses</a></li>
+        <li class="px-4 py-2">
+            <a href="{{  route('customer.account.wishlist') }}">
+                {{ __('Wishlist') }}
+            </a>
+        </li>
+        <li class="bg-gray-100 px-4 py-2">
+            <a href="{{  route('customer.account.address.index') }}">
+                {{ __('My Addresses') }}
+            </a>
+        </li>
         <li class="px-4 py-2"><a href="#">My reviews</a></li>
     </ul>
 

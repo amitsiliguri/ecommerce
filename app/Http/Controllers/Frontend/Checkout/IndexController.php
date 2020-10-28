@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Frontend\Customer\Account\Address;
+namespace App\Http\Controllers\Frontend\Checkout;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,6 +9,6 @@ class IndexController extends Controller
 {
     public function index() : object
     {
-        return view('frontend.pages.customer.account.address.index');
+        return view('frontend.pages.checkout.index');
     }
 }

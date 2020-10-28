@@ -13,12 +13,14 @@
         <script src="{{ mix('js/alpine.js') }}" defer></script>
     </head>
     <body>
-        <x-Frontend.Layouts.Components.top-bar/>
-        <x-Frontend.Layouts.Components.header/>
-        <x-Frontend.Layouts.Components.menu/>
-        {{ $slot }}
-        <x-Frontend.Layouts.Components.footer-widget/>
+        @include('frontend.pages.checkout.components.header')
+        <div class="flex flex-col md:flex-row max-w-screen-xl xl:mx-auto md:mx-2">
+            <div class="w-full md:w-8/12 py-2 px-2 xl:px-0">{{ $slot }}</div>
+            <div class="w-full md:w-4/12 py-2 px-2 xl:px-0">
+                {{ $checkoutSideBar ?? '' }}
+            </div>
+        </div>
         <x-Frontend.Layouts.Components.footer/>
-        {{$jsscript}}
+        {{$jsscript ?? ''}}
     </body>
 </html>

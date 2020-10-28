@@ -20,7 +20,7 @@
             <div class="w-full md:w-9/12 py-2 px-2 xl:px-0">{{ $slot }}</div>
             <div class="w-full md:w-3/12 py-2 px-2 xl:px-0">
                 {{ $sidebarMain ?? '' }}
-                <hr>
+                <hr class="my-4">
                 {{ $sidebarAdditional ?? '' }}
             </div>
         </div>
