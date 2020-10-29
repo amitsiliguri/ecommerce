@@ -10,9 +10,9 @@
     @endif
     <div x-data="categoryList()" x-init="categoryListInit()">
         @php $url = '/category/product/list/' . $category->id @endphp
-        @include('frontend.pages.catalog.components..pagination')
+        @include('frontend.pages.catalog.components.pagination')
         @include('frontend.pages.catalog.components.product-list', ['products' => $products, 'url' => $url])
-        @include('frontend.pages.catalog.components..pagination')
+        @include('frontend.pages.catalog.components.pagination')
     </div>
     <x-slot name="sidebarMain">
         side bar main slot

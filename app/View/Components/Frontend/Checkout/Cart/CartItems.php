@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components\Frontend\Layouts\Components;
+namespace App\View\Components\Frontend\Checkout\Cart;
 
 use Illuminate\View\Component;
 
-class MiniCart extends Component
+class CartItems extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class MiniCart extends Component
      */
     public function render()
     {
-        return view('frontend.layouts.components.mini-cart');
+        return view('frontend.pages.checkout.components.cart-items');
     }
 }

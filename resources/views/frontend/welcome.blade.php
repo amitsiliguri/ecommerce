@@ -1,5 +1,4 @@
 <x-Frontend.Layouts.one-column-full-width>
-   front
    
    <x-slot name="jsscript">
       <script>

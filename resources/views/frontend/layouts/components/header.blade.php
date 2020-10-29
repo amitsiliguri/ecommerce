@@ -1,27 +1,21 @@
 <div class="flex flex-row flex-wrap max-w-screen-xl mx-auto items-center border-b md:border-b-0" x-data="{ isSearchClose: true }">
-    
     <div class="px-2 md:hidden flex-grow-0 xl:px-0">
         <span class="mdi mdi-menu text-teal-500 text-3xl cursor-pointer" @click="$dispatch('mainmenutoggle')"></span>
     </div>
-
     <div class="flex-grow px-2 xl:px-0">
         <a href="/">
             <img src="/asset/settings/logo.png" alt="" srcset="">
         </a>
     </div>
-
     <div class="px-3 md:hidden flex-grow-0">
         <span class="mdi mdi-magnify text-teal-500 text-3xl cursor-pointer" @click="isSearchClose = !isSearchClose"></span>
     </div>
-
     <div class="md:order-4 px-3 flex-grow-0">
-        <x-Frontend.Layouts.Components.mini-cart/>
+        @include('frontend.pages.checkout.components.mini-cart')
     </div>
-
     <div class="md:order-5 px-3 flex-grow-0">
         <x-Frontend.Layouts.Components.account-dropdown/>
     </div>
-
     <div class="w-full md:w-4/12 lg:w-3/12 md:order-3 px-2 py-2 md:flex" x-bind:class="{'hidden' : isSearchClose}">
         <form class="w-full">
             <div class="flex items-center border border-teal-400 rounded">
