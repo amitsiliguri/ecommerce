@@ -6,7 +6,7 @@
             <tbody>
                 <tr class="bg-gray-100">
                     <td class="py-2 pl-1">Shipping Location Zip Code</td>
-                    <td class="py-2 pr-1"><input class="w-full focus:outline-none" type="number" min="0" max="6" name="mini_cart_shipping_zip" id="mini_cart_shipping_zip"></td>
+                    <td class="py-2 pr-1"><input class="w-full focus:outline-none px-1" type="number" min="0" max="6" name="mini_cart_shipping_zip" id="mini_cart_shipping_zip" placeholder="Zip"></td>
                 </tr>
                 <tr class="py-2">
                     <td class="py-2 pl-1">Estimated Tax</td>

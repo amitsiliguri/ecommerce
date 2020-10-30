@@ -15,6 +15,7 @@
                         <h4>Product Title</h4>
                         <span class="text-sm">₹ 333</span>
                         <span class="text-sm cursor-pointer" @click="isOptionOpen = !isOptionOpen">Option</span>
+                        
                         <p class="text-sm" x-show="isOptionOpen">
                             <span class="attribute_key">Color</span> : <span class="attribute_value">White</span>, 
                             <span class="attribute_key">Size</span> : <span class="attribute_value">XL</span>
