@@ -57,10 +57,13 @@
         }'
         x-init="() => { 
             getInitializeData()
-            $watch('selected_shipping_address', value => {
+            $watch('selected_shipping_address_id', value => {
+                console.log('shipping')
                 console.log(value)
+                updateBillingAddress(is_shipping_billing_same)
             })
-            $watch('selected_billing_address', value => {
+            $watch('selected_billing_address_id', value => {
+                console.log('billing')
                 console.log(value)
             }) 
             $watch('is_shipping_billing_same', value => updateBillingAddress(value))
