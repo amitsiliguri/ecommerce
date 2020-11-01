@@ -23,6 +23,6 @@
         </div>
         <x-Frontend.Layouts.Components.footer-widget/>
         <x-Frontend.Layouts.Components.footer/>
-        {{$jsscript}}
+        {{$jsscript ?? ''}}
     </body>
 </html>
