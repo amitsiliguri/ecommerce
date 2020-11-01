@@ -14,13 +14,12 @@
     </head>
     <body>
         @include('frontend.pages.checkout.components.header')
-        <div class="flex flex-col md:flex-row max-w-screen-xl xl:mx-auto md:mx-2">
-            <div class="w-full md:w-8/12 py-2 px-2 xl:px-0">{{ $slot }}</div>
-            <div class="w-full md:w-4/12 py-2 px-2 xl:px-0">
+        <div class="flex flex-col lg:flex-row max-w-screen-xl xl:mx-auto md:mx-2 my-4">
+            <div class="w-full lg:w-8/12 py-2 px-2 xl:pr-1">{{ $slot }}</div>
+            <div class="w-full lg:w-4/12 py-2 px-2 xl:pl-1">
                 {{ $checkoutSideBar ?? '' }}
             </div>
         </div>
         <x-Frontend.Layouts.Components.footer/>
-        {{$jsscript ?? ''}}
     </body>
 </html>

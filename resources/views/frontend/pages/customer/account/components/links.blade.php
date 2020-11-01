@@ -9,18 +9,18 @@
             </a>
         </li>
         <li class="px-4 py-2">
-            <a href="{{  route('customer.account.profile') }}">
-                {{ __('Profile') }}
-            </a>
-        </li>
-        <li class="bg-gray-100 px-4 py-2">
             <a href="{{  route('customer.account.order.history') }}">
                 {{ __('Order History') }}
             </a>
         </li>
-        <li class="px-4 py-2">
+        <li class="bg-gray-100 px-4 py-2">
             <a href="{{  route('customer.account.wishlist') }}">
                 {{ __('Wishlist') }}
+            </a>
+        </li>
+        <li class="px-4 py-2">
+            <a href="{{  route('customer.account.profile') }}">
+                {{ __('Profile') }}
             </a>
         </li>
         <li class="bg-gray-100 px-4 py-2">
@@ -28,7 +28,21 @@
                 {{ __('My Addresses') }}
             </a>
         </li>
-        <li class="px-4 py-2"><a href="#">My reviews</a></li>
+        <li class="px-4 py-2">
+            <a href="{{  route('customer.account.address.index') }}">
+                {{ __('My reviews') }}
+            </a>
+        </li>
+        <li class="bg-gray-100 px-4 py-2">
+            <a href="{{  route('customer.account.address.index') }}">
+                {{ __('Return Request') }}
+            </a>
+        </li>
+        <li class="px-4 py-2">
+            <a href="{{  route('customer.account.address.index') }}">
+                {{ __('Wallet') }}
+            </a>
+        </li>
     </ul>
 
 </div>
