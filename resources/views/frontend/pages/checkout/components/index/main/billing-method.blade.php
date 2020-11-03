@@ -26,7 +26,7 @@
                     <input type="radio" name="checkout_billing_method" id="checkout_billing_method_purchase_order">
                 </td>
                 <td class="px-2 py-2">
-                    <label for="checkout_billing_method_purchase_order">Purchase Order</label>
+                    <label for="checkout_billing_method_purchase_order">Account Credit</label>
                 </td>
                 <td class="px-2 py-2"></td>
             </tr>
