@@ -12,7 +12,7 @@ use App\Http\Controllers\Frontend\Customer\Account\Address\IndexController as Cu
 use App\Http\Controllers\Frontend\Checkout\AccountController as CheckoutAccount;
 use App\Http\Controllers\Frontend\Checkout\IndexController as CheckoutIndex;
 // use App\Http\Controllers\Frontend\Checkout\Cart\IndexController as CheckoutCartIndex;
-
+use App\Http\Controllers\Frontend\Checkout\ShippingMethodsController  as CheckoutShippingMethods;
 use App\Http\Controllers\Frontend\DynamicRouteController;
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +55,7 @@ Route::prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/account', [CheckoutAccount::class, 'index'])->name('account');
     // index
     Route::get('/', [CheckoutIndex::class, 'index'])->name('index');
+    Route::post('/shipping/methods', [CheckoutShippingMethods::class, 'getAvailableMethods'])->name('shipping.methods');
 });
 
 

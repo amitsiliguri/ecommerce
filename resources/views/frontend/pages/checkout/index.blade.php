@@ -44,16 +44,24 @@
             return {
                 addresses : {!! $addresses !!},
 
+                is_shipping_billing_same : true,
+
                 selected_billing_address_id : null,
                 selected_shipping_address_id : null,
-                is_shipping_billing_same : true,
 
                 default_shipping_address : null,
                 default_billing_address : null,
+
                 selected_shipping_address : null,
                 selected_billing_address : null,
 
+                available_shipping_methods : null,
+                selected_shipping_method : null,
 
+                available_pickup_location : null,
+
+                available_billing_methods : {!! $available_billing_methods !!},
+                selected_billing_method : null,
 
                 addressText(address, type = null){
                     if(address){
@@ -75,9 +83,6 @@
                         return ""
                     }
                 },
-
-
-
 
                 getInitializeData(){
                     let shipping_billing_address = _.find(this.addresses, { "type" : 0 })
@@ -105,10 +110,8 @@
                     }
                     this.selected_shipping_address_id = this.selected_shipping_address.id
                     this.selected_billing_address_id = this.selected_billing_address.id
+                    this.loadAvailableShippingMethods()
                 },
-
-
-
 
                 updateBillingAddressOnShippingAddressChange(flag, is_checkbox_clicked = false) {
                     if(flag) {
@@ -120,15 +123,9 @@
                     }
                 },
 
-
-
-
                 updateBillingAddressOnCheckBoxChange(value) {
                     this.updateBillingAddressOnShippingAddressChange(value , true)
                 },
-
-
-
 
                 updateBillingAddressOnSelect(flag) {
                     if (!flag) {
@@ -137,16 +134,35 @@
                     }
                 },
 
-
-
-
                 updateShippingAddressOnSelect() {
                     let id = parseInt(this.selected_shipping_address_id)
                     this.selected_shipping_address = _.find(this.addresses, { "id" : id })
                     this.updateBillingAddressOnShippingAddressChange(this.is_shipping_billing_same)
+                    this.loadAvailableShippingMethods()
                 },
 
+                loadAvailableShippingMethods() {
+                    let self = this
+                    if (self.selected_shipping_address != null) {
+                        let $url = '/checkout/shipping/methods'
+                        axios.post($url, self.selected_shipping_address)
+                        .then(res => {
+                            self.available_shipping_methods = res.data.available_methods
+                            self.available_pickup_location = res.data.pickup_locations
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        });
+                    }
+                },
 
+                getSelectedShippingMethod(radio_selected_shipping_method) {
+                    this.selected_shipping_method = radio_selected_shipping_method
+                },
+
+                getSelectedBillingMethod(radio_selected_billing_method) {
+                    this.selected_billing_method = radio_selected_billing_method
+                },
 
             }
         }

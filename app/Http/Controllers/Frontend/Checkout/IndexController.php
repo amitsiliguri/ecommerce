@@ -111,9 +111,31 @@ class IndexController extends Controller
             ]
         ]);
 
+
+        $availableBillingMethods = collect([
+            [
+                'id' => 1,
+                'code' => 'cod',
+                'label' => 'Cash on Delivery'
+            ],
+            [
+                'id' => 1,
+                'code' => 'account_credit',
+                'label' => 'Credit Account',
+            ],
+            [
+                'id' => 1,
+                'code' => 'account_balance',
+                'label' => 'Account Balance'
+            ],
+        ]);
+
         return view('frontend.pages.checkout.index')->with(
             [
-                'addresses' => $addresses
+                'addresses' => $addresses,
+                'available_billing_methods' => $availableBillingMethods,
+                'credit_limit' => 10000,
+                'account_balamce_amount' => 2000
             ]
         );
     }
