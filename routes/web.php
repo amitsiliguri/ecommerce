@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-//customer
+// Customer
 use App\Http\Controllers\Frontend\Customer\Account\Auth\LoginController as CustomerAccountLoginController;
 use App\Http\Controllers\Frontend\Customer\Account\DashboardController as CustomerAccountDashboardController;
 use App\Http\Controllers\Frontend\Customer\Account\ProfileController as CustomerProfileController;
 use App\Http\Controllers\Frontend\Customer\Account\OrderHistory\IndexController as CustomerOrderHistoryList;
 use App\Http\Controllers\Frontend\Customer\Account\WishlistController as CustomerAccountWishlist;
 use App\Http\Controllers\Frontend\Customer\Account\Address\IndexController as CustomerAccountAddress;
-//checkout
-use App\Http\Controllers\Frontend\Checkout\AccountController as CheckoutAccount;
-use App\Http\Controllers\Frontend\Checkout\IndexController as CheckoutIndex;
-// use App\Http\Controllers\Frontend\Checkout\Cart\IndexController as CheckoutCartIndex;
-use App\Http\Controllers\Frontend\Checkout\ShippingMethodsController  as CheckoutShippingMethods;
+// Checkout
+use App\Http\Controllers\Frontend\Checkout\Index\AccountController as CheckoutAccount;
+use App\Http\Controllers\Frontend\Checkout\Index\IndexController as CheckoutIndex;
+use App\Http\Controllers\Frontend\Checkout\Index\ShippingMethodsController  as CheckoutShippingMethods;
+use App\Http\Controllers\Frontend\Checkout\Index\BillingMethodsController  as CheckoutBillingMethods;
+// Dynamic
 use App\Http\Controllers\Frontend\DynamicRouteController;
 /*
 |--------------------------------------------------------------------------
@@ -50,12 +51,13 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
 
 
-Route::prefix('checkout')->name('checkout.')->group(function () {
+Route::prefix('checkout')->middleware(['auth:customer'])->name('checkout.')->group(function () {
     //account
     Route::get('/account', [CheckoutAccount::class, 'index'])->name('account');
     // index
     Route::get('/', [CheckoutIndex::class, 'index'])->name('index');
-    Route::post('/shipping/methods', [CheckoutShippingMethods::class, 'getAvailableMethods'])->name('shipping.methods');
+    Route::post('/shipping/methods', [CheckoutShippingMethods::class, 'getAvailableShippingMethods'])->name('shipping.methods');
+    Route::post('/billing/methods', [CheckoutBillingMethods::class, 'getAvailableBillingMethods'])->name('billing.methods');
 });
 
 

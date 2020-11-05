@@ -16,15 +16,15 @@
         <div class="w-full lg:w-8/12 py-2 px-2 xl:pr-1">
             <div class="border rounded">
                 @include('frontend.pages.checkout.components.index.main.shipping-address')
-                @include('frontend.pages.checkout.components.index.main.shipping-method')
                 @include('frontend.pages.checkout.components.index.main.billing-address')
+                @include('frontend.pages.checkout.components.index.main.shipping-method')
                 @include('frontend.pages.checkout.components.index.main.billing-method')
             </div>
         </div>
         <div class="w-full lg:w-4/12 py-2 px-2 xl:pl-1">
             <div class="border rounded">
-                @include('frontend.pages.checkout.components.index.sidebar.items')
                 @include('frontend.pages.checkout.components.index.sidebar.coupon')
+                @include('frontend.pages.checkout.components.index.sidebar.items')
                 @include('frontend.pages.checkout.components.index.sidebar.shipping-address')
                 @include('frontend.pages.checkout.components.index.sidebar.shipping-method')
                 @include('frontend.pages.checkout.components.index.sidebar.billing-address')
@@ -60,8 +60,11 @@
 
                 available_pickup_location : null,
 
-                available_billing_methods : {!! $available_billing_methods !!},
+                available_billing_methods : [],
                 selected_billing_method : null,
+
+                available_credit_limit : 0,
+                available_account_balance : 0,
 
                 addressText(address, type = null){
                     if(address){
@@ -158,7 +161,35 @@
 
                 getSelectedShippingMethod(radio_selected_shipping_method) {
                     this.selected_shipping_method = radio_selected_shipping_method
+                    this.loadAvailableBillingMethods()
                 },
+
+
+                loadAvailableBillingMethods() {
+                    let self = this
+                    if (
+                        self.selected_shipping_address != null &&
+                        self.selected_shipping_method != null &&
+                        self.selected_billing_address != null
+                    ) 
+                    {
+                        let $url = '/checkout/billing/methods'
+                        axios.post($url, {
+                            'selected_shipping_address' : self.selected_shipping_address,
+                            'selected_shipping_method' : self.selected_shipping_method,
+                            'selected_billing_address' : self.selected_billing_address,
+                        })
+                        .then(res => {
+                            self.available_billing_methods = res.data.payment_method
+                            self.available_credit_limit = res.data.credit_limit
+                            self.available_account_balance = res.data.account_balamce_amount
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        });
+                    }
+                },
+
 
                 getSelectedBillingMethod(radio_selected_billing_method) {
                     this.selected_billing_method = radio_selected_billing_method

@@ -2,7 +2,7 @@
     <h3 class="text-lg">Order Items</h3>
 </div>
 
-<div class="h-64 overflow-y-auto">
+<div class="lg:h-64 lg:overflow-y-auto">
     <table>
         <tbody>
             <template x-for="i in 4">

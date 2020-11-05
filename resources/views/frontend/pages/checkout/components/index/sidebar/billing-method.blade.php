@@ -8,10 +8,10 @@
         <span x-text="selected_billing_method.label"></span>
         <div>
             <template x-if="selected_billing_method.code == 'account_credit'">
-                <p>Available credit limit : {{$credit_limit}}</p>
+                <p>Available credit limit : </p>
             </template>
             <template x-if="selected_billing_method.code == 'account_balance'">
-                <p>Available account balance : {{$account_balamce_amount}}</p>
+                <p>Available account balance : </p>
             </template>
         </div>
     </template>

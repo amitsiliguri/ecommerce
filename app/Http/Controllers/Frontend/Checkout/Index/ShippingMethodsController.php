@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Frontend\Checkout;
+namespace App\Http\Controllers\Frontend\Checkout\Index;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class ShippingMethodsController extends Controller
 {
-    public function getAvailableMethods(Request $request) : array
+    public function getAvailableShippingMethods(Request $request) : array
     {
 
 

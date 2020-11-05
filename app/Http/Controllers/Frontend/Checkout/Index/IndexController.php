@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Frontend\Checkout;
+namespace App\Http\Controllers\Frontend\Checkout\Index;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -133,9 +133,7 @@ class IndexController extends Controller
         return view('frontend.pages.checkout.index')->with(
             [
                 'addresses' => $addresses,
-                'available_billing_methods' => $availableBillingMethods,
-                'credit_limit' => 10000,
-                'account_balamce_amount' => 2000
+                'available_billing_methods' => $availableBillingMethods
             ]
         );
     }
